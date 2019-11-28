@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>project.service</name>
+    </assembly>
+    <members>
+        <member name="T:project.service.ApiModel.LoginedRequest">
+            <summary>
+            登录用户请求的基类
+            </summary>
+        </member>
+        <member name="T:project.service.ApiModel.HelloRequest">
+            <summary>
+            打招呼请求
+            </summary>
+        </member>
+        <member name="P:project.service.ApiModel.HelloRequest.ToUser">
+            <summary>
+            给谁打招呼
+            </summary>
+        </member>
+        <member name="P:project.service.ApiModel.HelloResponse.Msg">
+            <summary>
+            打招呼的消息
+            </summary>
+        </member>
+        <member name="P:project.service.ApiModel.LoginRequest.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:project.service.ApiModel.LoginRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:project.service.ApiModel.LoginResponse.Jwt">
+            <summary>
+            json web token
+            </summary>
+        </member>
+        <member name="M:project.service.UserService.Login(project.service.ApiModel.LoginRequest)">
+            <summary>
+            登录，获取jwt
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.service.UserService.Hello(project.service.ApiModel.HelloRequest)">
+            <summary>
+            打招呼
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
