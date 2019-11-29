@@ -28,19 +28,19 @@ namespace project.api.Controllers
         /// <param name="formFile"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResultObject<UploadFileResponse> Uploadfile([FromForm]IFormFile formFile)
+        public ResultObject<UploadFileResponse> Uploadfile()
         {
-            return uploadService.Uploadfile(formFile);
+            return uploadService.Uploadfile(Request.Form.Files.FirstOrDefault());
         }
         /// <summary>
         /// 分块上传
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResultObject<UploadFileResponse> ChunkUploadfile([FromForm]IFormFile formFile, int chunkNumber, int chunkSize, long totalSize,
+        public ResultObject<UploadFileResponse> ChunkUploadfile(int chunkNumber, int chunkSize, long totalSize,
             string identifier, int totalChunks)
         {
-            return uploadService.ChunkUploadfile(formFile, chunkNumber, chunkSize, totalSize, identifier, totalChunks);
+            return uploadService.ChunkUploadfile(Request.Form.Files.FirstOrDefault(), chunkNumber, chunkSize, totalSize, identifier, totalChunks);
         }
 
     }

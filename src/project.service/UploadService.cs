@@ -53,7 +53,7 @@ namespace project.service
                 fileStream.Flush(true);
             }
 
-            var fileUrl = $"{appSetting.RootUrl}{appSetting.Upload.RequestPath}/{yy}{mm}/{dd}/{fileName}";
+            var fileUrl = $"{appSetting.RootUrl}{appSetting.Upload.RequestPath}/{yy}/{mm}/{dd}/{fileName}";
             var response = new UploadFileResponse { Url = fileUrl };
             return new ResultObject<UploadFileResponse>(response);
         }
@@ -170,7 +170,7 @@ namespace project.service
                         break;
                     }
                 }
-                var fileUrl = $"{appSetting.RootUrl}{appSetting.Upload.RequestPath}/{yy}{mm}/{dd}/{fileName}";
+                var fileUrl = $"{appSetting.RootUrl}{appSetting.Upload.RequestPath}/{yy}/{mm}/{dd}/{fileName}";
                 var response = new UploadFileResponse { Url = fileUrl };
                 return new ResultObject<UploadFileResponse>(response);
             }
