@@ -39,6 +39,25 @@
             json web token
             </summary>
         </member>
+        <member name="M:project.service.UploadService.Uploadfile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="formFile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.service.UploadService.ChunkUploadfile(Microsoft.AspNetCore.Http.IFormFile,System.Int32,System.Int32,System.Int64,System.String,System.Int32)">
+            <summary>
+            分片上传
+            </summary>
+            <param name="formFile"></param>
+            <param name="chunkNumber"></param>
+            <param name="chunkSize"></param>
+            <param name="totalSize"></param>
+            <param name="identifier"></param>
+            <param name="totalChunks"></param>
+            <returns></returns>
+        </member>
         <member name="M:project.service.UserService.Login(project.service.ApiModel.LoginRequest)">
             <summary>
             登录，获取jwt

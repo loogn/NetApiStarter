@@ -4,24 +4,6 @@
         <name>project.api</name>
     </assembly>
     <members>
-        <member name="T:project.api.Controllers.UploadController">
-            <summary>
-            上传相关
-            </summary>
-        </member>
-        <member name="M:project.api.Controllers.UploadController.Uploadfile(Microsoft.AspNetCore.Http.IFormFile)">
-            <summary>
-            上传文件
-            </summary>
-            <param name="formFile"></param>
-            <returns></returns>
-        </member>
-        <member name="M:project.api.Controllers.UploadController.ChunkUploadfile(Microsoft.AspNetCore.Http.IFormFile,System.Int32,System.Int32,System.Int64,System.String,System.Int32)">
-            <summary>
-            分块上传
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:project.api.Controllers.UserController">
             <summary>
             用户相关服务

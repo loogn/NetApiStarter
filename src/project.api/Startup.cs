@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -84,6 +86,16 @@ namespace project.api
             //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
+            //上传的文件访问配置，可根据自己项目的文件类型添加
+            var fileExtProvider = new FileExtensionContentTypeProvider();
+            //fileExtProvider.Mappings[".htm3"] = "text/html";
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(settings.Value.Upload.UploadPath),
+                RequestPath = settings.Value.Upload.RequestPath,
+                ContentTypeProvider = fileExtProvider
+            });
 
             app.UseAuthentication(); //开启验证
 

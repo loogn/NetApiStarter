@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.dao", "src\project.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.service", "src\project.service\project.service.csproj", "{EC91F1AF-1883-4DCA-A072-139D9F73C212}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.api", "project.api\project.api.csproj", "{F0D8D927-E357-481F-AF0D-A943C5D3291B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.api", "src\project.api\project.api.csproj", "{F0D8D927-E357-481F-AF0D-A943C5D3291B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
