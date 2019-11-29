@@ -107,15 +107,10 @@ namespace project.service
                 return new ResultObject<UploadFileResponse>("参数错误3");
             }
 
-            if (totalChunks > 1 && chunkNumber == totalChunks &&
-                formFile.Length != ((totalSize % chunkSize) + chunkSize))
-            {
-                return new ResultObject<UploadFileResponse>("参数错误4");
-            }
-
+        
             if (totalChunks == 1 && formFile.Length != totalSize)
             {
-                return new ResultObject<UploadFileResponse>("参数错误5");
+                return new ResultObject<UploadFileResponse>("参数错误4");
             }
             #endregion
 
