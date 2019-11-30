@@ -16,16 +16,11 @@ namespace project.service
         public int ChunkNumber { get; set; }
         public int ChunkSize { get; set; }
         public string FilePath { get; set; }
-
     }
-
-
 
     public class UploadChunkWriter
     {
-
         public static UploadChunkWriter Instance = new UploadChunkWriter();
-
         private BlockingCollection<UploadChunkItem> _queue;
         private int _writeWorkerCount = 3;
         private Thread _writeThread;
@@ -39,6 +34,7 @@ namespace project.service
         {
             while (true)
             {
+                //单线程写入
                 //var item = _queue.Take();
                 //using (var fileStream = File.Open(item.FilePath, FileMode.Open, FileAccess.Write, FileShare.ReadWrite))
                 //{
@@ -47,6 +43,7 @@ namespace project.service
                 //    item.Data = null;
                 //}
 
+                //多线程写入
                 Task[] tasks = new Task[_writeWorkerCount];
                 for (int i = 0; i < _writeWorkerCount; i++)
                 {

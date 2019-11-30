@@ -23,7 +23,6 @@ namespace CoreHelper
                 signingCredentials: creds);
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-
             return jwt;
         }
 

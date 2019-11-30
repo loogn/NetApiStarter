@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using project.api.Filters;
+using project.service;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace project.api
@@ -50,8 +51,6 @@ namespace project.api
                 });
             services.AddAppServices();
 
-            services.BuildServiceProvider(new ServiceProviderOptions { });
-
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<MyActionFilterAttribute>();
@@ -65,6 +64,8 @@ namespace project.api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<AppSettings> settings)
         {
+            UploadChunkWriter.Instance.Start();
+
             AppSettings.Instance = settings.Value;
             AppSettings.Instance.Environment = env;
 
@@ -101,10 +102,10 @@ namespace project.api
 
             app.UseAuthentication(); //¿ªÆôÑéÖ¤
 
-            app.UseRouting();
 
             app.UseAuthorization();
 
+            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
