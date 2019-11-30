@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,9 +91,10 @@ namespace project.api
             //上传的文件访问配置，可根据自己项目的文件类型添加
             var fileExtProvider = new FileExtensionContentTypeProvider();
             //fileExtProvider.Mappings[".htm3"] = "text/html";
+            var uploadFullPath = Path.GetFullPath(AppSettings.Instance.Upload.UploadPath);
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(settings.Value.Upload.UploadPath),
+                FileProvider = new PhysicalFileProvider(uploadFullPath),
                 RequestPath = settings.Value.Upload.RequestPath,
                 ContentTypeProvider = fileExtProvider
             });

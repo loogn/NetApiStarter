@@ -1,4 +1,5 @@
 ﻿using CoreHelper;
+using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Http;
 using project.service.ApiModel;
 using System;
@@ -9,6 +10,7 @@ using System.Threading;
 
 namespace project.service
 {
+    [AppService]
     public class UploadService
     {
         private static object lockObj = new object();
@@ -21,7 +23,7 @@ namespace project.service
         public ResultObject<UploadFileResponse> Uploadfile(IFormFile formFile)
         {
             var appSetting = AppSettings.Instance;
-            if (formFile == null && formFile.Length == 0)
+            if (formFile == null || formFile.Length == 0)
             {
                 return new ResultObject<UploadFileResponse>("文件不能为空");
             }
@@ -107,7 +109,6 @@ namespace project.service
                 return new ResultObject<UploadFileResponse>("参数错误3");
             }
 
-        
             if (totalChunks == 1 && formFile.Length != totalSize)
             {
                 return new ResultObject<UploadFileResponse>("参数错误4");
@@ -158,11 +159,16 @@ namespace project.service
                 {
                     if (i >= 20)
                     {
-                        break;
+                        return new ResultObject<UploadFileResponse>
+                        {
+                            Success = false,
+                            Msg = $"上传失败，总大小：{totalSize},实际大小：{new FileInfo(filePath).Length}",
+                            Result = new UploadFileResponse { Url = "" }
+                        };
                     }
                     if (new FileInfo(filePath).Length != totalSize)
                     {
-                        Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                        Thread.Sleep(TimeSpan.FromMilliseconds(1000));
                         i++;
                     }
                     else
@@ -178,7 +184,7 @@ namespace project.service
             {
                 return new ResultObject<UploadFileResponse>
                 {
-                    Success = false,
+                    Success = true,
                     Msg = "uploading...",
                     Result = new UploadFileResponse { Url = "" }
                 };
