@@ -144,16 +144,17 @@ namespace project.service
                 int i = 0;
                 while (true)
                 {
+                    var fileInfo = new FileInfo(filePath);
                     if (i >= 50)
                     {
                         return new ResultObject<UploadFileResponse>
                         {
                             Success = false,
-                            Msg = $"上传失败，总大小：{totalSize},实际大小：{new FileInfo(filePath).Length}",
+                            Msg = $"上传失败，总大小：{totalSize},实际大小：{(fileInfo.Exists ? fileInfo.Length : 0)}",
                             Result = new UploadFileResponse { Url = "" }
                         };
                     }
-                    if (new FileInfo(filePath).Length != totalSize)
+                    if (!fileInfo.Exists || fileInfo.Length != totalSize)
                     {
                         Thread.Sleep(TimeSpan.FromMilliseconds(500));
                         i++;
