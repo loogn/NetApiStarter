@@ -123,24 +123,8 @@ namespace project.service
             var dd = now.ToString("dd");
 
             var fileName = EncryptHelper.MD5Encrypt(identifier) + ext;
-            var folder = Path.Combine(appSetting.Upload.UploadPath, yy, mm, dd);
-            var filePath = Path.Combine(folder, fileName);
-            //线程安全的创建文件
-            if (!File.Exists(filePath))
-            {
-                lock (lockObj)
-                {
-                    if (!File.Exists(filePath))
-                    {
-                        if (!Directory.Exists(folder))
-                        {
-                            Directory.CreateDirectory(folder);
-                        }
-                        File.Create(filePath).Dispose();
-                    }
-                }
-            }
-
+            var filePath = Path.Combine(appSetting.Upload.UploadPath, yy, mm, dd, fileName);
+            
             var chunkFilePath = GetChunkFilePath(identifier, chunkNumber);
             using (var chunkStream = new FileStream(chunkFilePath, FileMode.Create, FileAccess.Write))
             {
@@ -160,7 +144,7 @@ namespace project.service
                 int i = 0;
                 while (true)
                 {
-                    if (i >= 20)
+                    if (i >= 50)
                     {
                         return new ResultObject<UploadFileResponse>
                         {
@@ -171,7 +155,7 @@ namespace project.service
                     }
                     if (new FileInfo(filePath).Length != totalSize)
                     {
-                        Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+                        Thread.Sleep(TimeSpan.FromMilliseconds(500));
                         i++;
                     }
                     else
