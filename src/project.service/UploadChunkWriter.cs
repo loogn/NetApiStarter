@@ -12,15 +12,20 @@ namespace project.service
 
     public class UploadChunkItem
     {
-        public byte[] Data { get; set; }
+        //public byte[] Data { get; set; }
         public int ChunkNumber { get; set; }
         public int ChunkSize { get; set; }
         public string FilePath { get; set; }
+        public string ChunkPath { get; set; }
     }
+
 
     public class UploadChunkWriter
     {
         public static UploadChunkWriter Instance = new UploadChunkWriter();
+
+        private object lockObj = new object();
+
         private BlockingCollection<UploadChunkItem> _queue;
         private int _writeWorkerCount = 3;
         private Thread _writeThread;
@@ -50,11 +55,29 @@ namespace project.service
                     var item = _queue.Take();
                     tasks[i] = Task.Run(() =>
                      {
+                         //线程安全的创建文件
+                         if (!File.Exists(item.FilePath))
+                         {
+                             lock (lockObj)
+                             {
+                                 if (!File.Exists(item.FilePath))
+                                 {
+                                     var folder = Path.GetDirectoryName(item.FilePath);
+                                     if (!Directory.Exists(folder))
+                                     {
+                                         Directory.CreateDirectory(folder);
+                                     }
+                                     File.Create(item.FilePath).Dispose();
+                                 }
+                             }
+                         }
+
                          using (var fileStream = File.Open(item.FilePath, FileMode.Open, FileAccess.Write, FileShare.ReadWrite))
                          {
+                             var data = File.ReadAllBytes(item.ChunkPath);
                              fileStream.Position = (item.ChunkNumber - 1) * item.ChunkSize;
-                             fileStream.Write(item.Data, 0, item.Data.Length);
-                             item.Data = null;
+                             fileStream.Write(data, 0, data.Length);
+                             data = null;
                          }
                      });
                 }

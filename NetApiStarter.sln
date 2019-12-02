@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreHelper", "src\CoreHelper\CoreHelper.csproj", "{2345EF0D-B358-45D1-AA56-E5BA4FA9FFD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreHelper", "src\CoreHelper\CoreHelper.csproj", "{2345EF0D-B358-45D1-AA56-E5BA4FA9FFD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.dao", "src\project.dao\project.dao.csproj", "{08953F6C-9E4C-403C-8E21-156A1BE86199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.dao", "src\project.dao\project.dao.csproj", "{08953F6C-9E4C-403C-8E21-156A1BE86199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.service", "src\project.service\project.service.csproj", "{EC91F1AF-1883-4DCA-A072-139D9F73C212}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.service", "src\project.service\project.service.csproj", "{EC91F1AF-1883-4DCA-A072-139D9F73C212}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.api", "src\project.api\project.api.csproj", "{F0D8D927-E357-481F-AF0D-A943C5D3291B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.api", "src\project.api\project.api.csproj", "{F0D8D927-E357-481F-AF0D-A943C5D3291B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

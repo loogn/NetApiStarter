@@ -25,7 +25,6 @@ namespace project.api.Controllers
         /// <summary>
         /// 上传文件
         /// </summary>
-        /// <param name="formFile"></param>
         /// <returns></returns>
         [HttpPost]
         public ResultObject<UploadFileResponse> Uploadfile()
@@ -43,5 +42,16 @@ namespace project.api.Controllers
             return uploadService.ChunkUploadfile(Request.Form.Files.FirstOrDefault(), chunkNumber, chunkSize, totalSize, identifier, totalChunks);
         }
 
+        /// <summary>
+        /// 检测分块是否存在
+        /// </summary>
+        /// <param name="chunkNumber"></param>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public string ChunkUploadfile(int chunkNumber, string identifier)
+        {
+            return uploadService.CheckChunkfile(identifier, chunkNumber);
+        }
     }
 }

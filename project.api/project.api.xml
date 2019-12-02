@@ -13,13 +13,20 @@
             <summary>
             上传文件
             </summary>
-            <param name="formFile"></param>
             <returns></returns>
         </member>
         <member name="M:project.api.Controllers.UploadController.ChunkUploadfile(System.Int32,System.Int32,System.Int64,System.String,System.Int32)">
             <summary>
             分块上传
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Controllers.UploadController.ChunkUploadfile(System.Int32,System.String)">
+            <summary>
+            检测分块是否存在
+            </summary>
+            <param name="chunkNumber"></param>
+            <param name="identifier"></param>
             <returns></returns>
         </member>
         <member name="T:project.api.Controllers.UserController">

@@ -58,6 +58,14 @@
             <param name="totalChunks"></param>
             <returns></returns>
         </member>
+        <member name="M:project.service.UploadService.CheckChunkfile(System.String,System.Int32)">
+            <summary>
+            检测分块是否存在，用于断点续传
+            </summary>
+            <param name="identifier"></param>
+            <param name="chunkNumber"></param>
+            <returns></returns>
+        </member>
         <member name="M:project.service.UserService.Login(project.service.ApiModel.LoginRequest)">
             <summary>
             登录，获取jwt

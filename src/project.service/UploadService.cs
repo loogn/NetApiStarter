@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace project.service
@@ -88,7 +89,7 @@ namespace project.service
             {
                 return new ResultObject<UploadFileResponse>("文件类型不允许");
             }
-
+            identifier = TrimIdentifier(identifier);
             if (chunkNumber == 0 || chunkSize == 0 || totalSize == 0 || identifier.Length == 0 || totalChunks == 0)
             {
                 return new ResultObject<UploadFileResponse>("参数错误0");
@@ -125,30 +126,17 @@ namespace project.service
             var folder = Path.Combine(appSetting.Upload.UploadPath, yy, mm, dd);
             var filePath = Path.Combine(folder, fileName);
 
-            //线程安全的创建文件
-            if (!File.Exists(filePath))
+            var chunkFilePath = GetChunkFilePath(identifier, chunkNumber);
+            using (var chunkStream = new FileStream(chunkFilePath, FileMode.Create, FileAccess.Write))
             {
-                lock (lockObj)
-                {
-                    if (!File.Exists(filePath))
-                    {
-                        if (!Directory.Exists(folder))
-                        {
-                            Directory.CreateDirectory(folder);
-                        }
-                        File.Create(filePath).Dispose();
-                    }
-                }
+                formFile.OpenReadStream().CopyTo(chunkStream);
             }
-
-            var data = new byte[formFile.Length];
-            formFile.OpenReadStream().Read(data, 0, data.Length);
 
             UploadChunkWriter.Instance.Add(new UploadChunkItem
             {
                 ChunkNumber = chunkNumber,
                 ChunkSize = chunkSize,
-                Data = data,
+                ChunkPath = chunkFilePath,
                 FilePath = filePath
             });
             if (chunkNumber == totalChunks)
@@ -189,6 +177,46 @@ namespace project.service
                     Result = new UploadFileResponse { Url = "" }
                 };
             }
+        }
+
+        /// <summary>
+        /// 检测分块是否存在，用于断点续传
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <param name="chunkNumber"></param>
+        /// <returns></returns>
+        public string CheckChunkfile(string identifier, int chunkNumber)
+        {
+            var chunkPath = GetChunkFilePath(identifier, chunkNumber);
+            if (File.Exists(chunkPath))
+            {
+                return "1";
+            }
+            else
+            {
+                return "0";
+            }
+
+        }
+
+        private string TrimIdentifier(string identifier)
+        {
+            if (!string.IsNullOrWhiteSpace(identifier))
+            {
+                identifier = Regex.Replace(identifier, "[^0-9A-Za-z_-]", "", RegexOptions.Multiline);
+            }
+            return identifier;
+        }
+
+        private string GetChunkFilePath(string identifier, int chunkNumber)
+        {
+            var appSetting = AppSettings.Instance;
+            var folder = Path.Combine(appSetting.Upload.UploadPath, "temp");
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+            return Path.Combine(folder, identifier + "." + chunkNumber);
         }
     }
 }
