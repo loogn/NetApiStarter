@@ -55,23 +55,6 @@ namespace project.service
                     var item = _queue.Take();
                     tasks[i] = Task.Run(() =>
                      {
-                         //线程安全的创建文件
-                         if (!File.Exists(item.FilePath))
-                         {
-                             lock (lockObj)
-                             {
-                                 if (!File.Exists(item.FilePath))
-                                 {
-                                     var folder = Path.GetDirectoryName(item.FilePath);
-                                     if (!Directory.Exists(folder))
-                                     {
-                                         Directory.CreateDirectory(folder);
-                                     }
-                                     File.Create(item.FilePath).Dispose();
-                                 }
-                             }
-                         }
-
                          using (var fileStream = File.Open(item.FilePath, FileMode.Open, FileAccess.Write, FileShare.ReadWrite))
                          {
                              var data = File.ReadAllBytes(item.ChunkPath);

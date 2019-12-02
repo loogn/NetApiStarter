@@ -125,6 +125,21 @@ namespace project.service
             var fileName = EncryptHelper.MD5Encrypt(identifier) + ext;
             var folder = Path.Combine(appSetting.Upload.UploadPath, yy, mm, dd);
             var filePath = Path.Combine(folder, fileName);
+            //线程安全的创建文件
+            if (!File.Exists(filePath))
+            {
+                lock (lockObj)
+                {
+                    if (!File.Exists(filePath))
+                    {
+                        if (!Directory.Exists(folder))
+                        {
+                            Directory.CreateDirectory(folder);
+                        }
+                        File.Create(filePath).Dispose();
+                    }
+                }
+            }
 
             var chunkFilePath = GetChunkFilePath(identifier, chunkNumber);
             using (var chunkStream = new FileStream(chunkFilePath, FileMode.Create, FileAccess.Write))
