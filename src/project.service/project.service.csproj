@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\Repos\NetApiStarter\src\project.service\project.service.xml</DocumentationFile>
+    <DocumentationFile>project.service.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
