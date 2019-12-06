@@ -103,9 +103,8 @@ namespace project.api
             app.UseAuthentication(); //¿ªÆôÑéÖ¤
 
 
-            app.UseAuthorization();
-
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
