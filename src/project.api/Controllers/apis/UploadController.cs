@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using project.service;
 using project.service.ApiModel;
 
-namespace project.api.Controllers
+namespace project.api.Controllers.apis
 {
     /// <summary>
     /// 上传相关

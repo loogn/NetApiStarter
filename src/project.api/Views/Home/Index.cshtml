@@ -1,15 +1,57 @@
-﻿@{
+﻿
+@using PagedList.Core.Mvc;
+
+@{
     ViewData["Title"] = "NetApiStarter";
+    var claimList = ViewBag.claimList as List<string>;
+
+    var pagedList = ViewBag.pagedList as StaticPagedList<int>;
 }
 
 
-<p> 运行环境：@ViewBag.Environment</p>
+<div class="container">
+    <p> 运行环境：@ViewBag.Environment</p>
 
-<p>
-    <a target="_blank" href="/swagger">文档</a>
-</p>
 
-<p>
-    验证方式：<br />
-    Authorization: Bearer {jwt}
-</p>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">api部分</h5>
+            <p class="card-text">
+            <p>
+                <a target="_blank" href="/swagger">文档</a>
+            </p>
+
+            <p>
+                验证方式：<br />
+                Authorization: Bearer {jwt}
+            </p>
+            </p>
+        </div>
+    </div>
+
+    <br />
+
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">网页部分</h5>
+            <p class="card-text">
+                <a href="@Url.Action("Logout","account")">退出</a>
+                <br />
+
+                Cookie登录之后的claims
+                <br />
+
+                @foreach (var item in claimList)
+                {
+                    <span>@item</span>
+                    <br />
+                }
+                <my-pager list="pagedList" options="@PagedListRenderOptions.Bootstrap4Full"></my-pager>
+            </p>
+        </div>
+    </div>
+
+
+
+</div>

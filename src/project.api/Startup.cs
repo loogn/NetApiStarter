@@ -5,10 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoreHelper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,30 +39,43 @@ namespace project.api
         public void ConfigureServices(IServiceCollection services)
         {
             var jwtSection = Configuration.GetSection("Jwt");
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+
+            services.AddAuthentication(options =>
+            {
+                options.RequireAuthenticatedSignIn = false;
+            })
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidAudience = jwtSection["Audience"],
-                        ValidIssuer = jwtSection["Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["SigningKey"]))
-                    };
-                });
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidAudience = jwtSection["Audience"],
+                    ValidIssuer = jwtSection["Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["SigningKey"]))
+                };
+            }).
+            AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, cookieOptions =>
+            {
+                cookieOptions.LoginPath = new PathString("/account/login");
+                cookieOptions.LogoutPath = new PathString("/account/logout");
+                cookieOptions.SlidingExpiration = true;
+                cookieOptions.ExpireTimeSpan = TimeSpan.FromHours(1);
+            });
             services.AddAppServices();
 
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<MyActionFilterAttribute>();
                 options.Filters.Add<MyExceptionFilterAttribute>();
-            });
+            }).AddNewtonsoftJson();
             services.AddSwagger();
 
             services.Configure<AppSettings>(Configuration);
+            //services.AddHttpContextAccessor();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,10 +117,9 @@ namespace project.api
                 ContentTypeProvider = fileExtProvider
             });
 
-            app.UseAuthentication(); //开启验证
-
-
             app.UseRouting();
+            app.UseCookiePolicy();
+            app.UseAuthentication(); //开启验证
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
