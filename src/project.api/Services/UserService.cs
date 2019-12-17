@@ -1,12 +1,12 @@
 ﻿using CoreHelper;
 using CoreHelper.Ioc;
+using project.api.Models;
 using project.dao;
 using project.dao.DataModel;
-using project.service.ApiModel;
 using System;
 using System.Collections.Generic;
 
-namespace project.service
+namespace project.api.Services
 {
     [AppService]
     public class UserService

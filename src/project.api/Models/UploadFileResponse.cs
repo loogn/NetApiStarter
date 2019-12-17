@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace project.service.ApiModel
+namespace project.api.Models
 {
     public class UploadFileResponse
     {

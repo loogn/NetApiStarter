@@ -1,6 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Hosting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,11 +22,7 @@ namespace CoreHelper
         /// 网站根目录
         /// </summary>
         public string RootUrl { get; set; }
-        /// <summary>
-        /// 运行环境
-        /// </summary>
-        public IWebHostEnvironment Environment { get; set; }
-
+        
     }
 
 

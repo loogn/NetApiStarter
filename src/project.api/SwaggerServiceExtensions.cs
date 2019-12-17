@@ -27,7 +27,7 @@ namespace project.api
                 c.IgnoreObsoleteProperties();
 
 
-                c.DocumentFilter<SwaggerDocumentFilter>();
+                //c.DocumentFilter<SwaggerDocumentFilter>();
 
                 //自定义类型映射
                 c.MapType<byte>(() => new OpenApiSchema { Type = "byte", Example = new OpenApiByte(0) });

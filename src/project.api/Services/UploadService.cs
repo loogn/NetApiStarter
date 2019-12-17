@@ -1,7 +1,7 @@
 ﻿using CoreHelper;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Http;
-using project.service.ApiModel;
+using project.api.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace project.service
+namespace project.api.Services
 {
     [AppService]
     public class UploadService

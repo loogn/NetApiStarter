@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreHelper", "src\CoreHelpe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.dao", "src\project.dao\project.dao.csproj", "{08953F6C-9E4C-403C-8E21-156A1BE86199}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.service", "src\project.service\project.service.csproj", "{EC91F1AF-1883-4DCA-A072-139D9F73C212}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.api", "src\project.api\project.api.csproj", "{F0D8D927-E357-481F-AF0D-A943C5D3291B}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{08953F6C-9E4C-403C-8E21-156A1BE86199}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08953F6C-9E4C-403C-8E21-156A1BE86199}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08953F6C-9E4C-403C-8E21-156A1BE86199}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC91F1AF-1883-4DCA-A072-139D9F73C212}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC91F1AF-1883-4DCA-A072-139D9F73C212}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC91F1AF-1883-4DCA-A072-139D9F73C212}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC91F1AF-1883-4DCA-A072-139D9F73C212}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F0D8D927-E357-481F-AF0D-A943C5D3291B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0D8D927-E357-481F-AF0D-A943C5D3291B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0D8D927-E357-481F-AF0D-A943C5D3291B}.Release|Any CPU.ActiveCfg = Release|Any CPU

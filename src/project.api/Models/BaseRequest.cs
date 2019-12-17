@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace project.service.ApiModel
+namespace project.api.Models
 {
     /// <summary>
     /// 登录用户请求的基类

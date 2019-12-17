@@ -21,7 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using project.api.Filters;
-using project.service;
+using project.api.Services;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace project.api
@@ -84,7 +84,6 @@ namespace project.api
             UploadChunkWriter.Instance.Start();
 
             AppSettings.Instance = settings.Value;
-            AppSettings.Instance.Environment = env;
 
             if (env.IsDevelopment())
             {

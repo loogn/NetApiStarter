@@ -34,14 +34,14 @@
             用户相关服务
             </summary>
         </member>
-        <member name="M:project.api.Controllers.apis.UserController.Login(project.service.ApiModel.LoginRequest)">
+        <member name="M:project.api.Controllers.apis.UserController.Login(project.api.Models.LoginRequest)">
             <summary>
             登录，获取jwt
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:project.api.Controllers.apis.UserController.Hello(project.service.ApiModel.HelloRequest)">
+        <member name="M:project.api.Controllers.apis.UserController.Hello(project.api.Models.HelloRequest)">
             <summary>
             打招呼
             </summary>
@@ -52,6 +52,82 @@
             <summary>
             是否验证参数有效性
             </summary>
+        </member>
+        <member name="T:project.api.Models.LoginedRequest">
+            <summary>
+            登录用户请求的基类
+            </summary>
+        </member>
+        <member name="T:project.api.Models.HelloRequest">
+            <summary>
+            打招呼请求
+            </summary>
+        </member>
+        <member name="P:project.api.Models.HelloRequest.ToUser">
+            <summary>
+            给谁打招呼
+            </summary>
+        </member>
+        <member name="P:project.api.Models.HelloResponse.Msg">
+            <summary>
+            打招呼的消息
+            </summary>
+        </member>
+        <member name="P:project.api.Models.LoginRequest.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:project.api.Models.LoginRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:project.api.Models.LoginResponse.Jwt">
+            <summary>
+            json web token
+            </summary>
+        </member>
+        <member name="M:project.api.Services.UploadService.Uploadfile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="formFile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.UploadService.ChunkUploadfile(Microsoft.AspNetCore.Http.IFormFile,System.Int32,System.Int32,System.Int64,System.String,System.Int32)">
+            <summary>
+            分片上传
+            </summary>
+            <param name="formFile"></param>
+            <param name="chunkNumber"></param>
+            <param name="chunkSize"></param>
+            <param name="totalSize"></param>
+            <param name="identifier"></param>
+            <param name="totalChunks"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.UploadService.CheckChunkfile(System.String,System.Int32)">
+            <summary>
+            检测分块是否存在，用于断点续传
+            </summary>
+            <param name="identifier"></param>
+            <param name="chunkNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.UserService.Login(project.api.Models.LoginRequest)">
+            <summary>
+            登录，获取jwt
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.UserService.Hello(project.api.Models.HelloRequest)">
+            <summary>
+            打招呼
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
         </member>
         <member name="T:project.api.SwaggerServiceExtensions.SwaggerDocumentFilter">
             <summary>

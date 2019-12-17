@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace project.service
+namespace project.api.Services
 {
 
     public class UploadChunkItem

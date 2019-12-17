@@ -6,8 +6,9 @@ using CoreHelper;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using project.service;
-using project.service.ApiModel;
+using project.api.Models;
+using project.api.Services;
+
 
 namespace project.api.Controllers.apis
 {

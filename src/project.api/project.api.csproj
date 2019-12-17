@@ -27,17 +27,19 @@
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0-rc8" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\project.service\project.service.csproj" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.0.0-rc5" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="logs\" />
     <Folder Include="up\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreHelper\CoreHelper.csproj" />
+    <ProjectReference Include="..\project.dao\project.dao.csproj" />
   </ItemGroup>
 
 </Project>
