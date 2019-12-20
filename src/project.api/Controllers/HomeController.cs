@@ -12,7 +12,7 @@ using PagedList.Core;
 
 namespace project.api.Controllers
 {
-    public class HomeController : MvcController
+    public class HomeController : Controller
     {
         [Autowired]
         private ILogger<HomeController> _logger;

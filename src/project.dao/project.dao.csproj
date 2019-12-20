@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Loogn.OrmLite" Version="3.0.8" />
+    <PackageReference Include="Loogn.OrmLite.MySql" Version="3.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CoreHelper\CoreHelper.csproj" />
   </ItemGroup>
 

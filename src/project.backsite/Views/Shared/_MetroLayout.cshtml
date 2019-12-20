@@ -1,0 +1,63 @@
+﻿@inject project.backsite.Services.SystemResService systemResBusiness;
+@{
+    Layout = "_Layout";
+    var list = systemResBusiness.GetEmployeeResource(0).Where(x => x.Type == 1);
+}
+
+@section Styles{
+
+    @RenderSection("Styles", required: false)
+}
+
+<div class="page-top">
+    <a href="#" class="sitename">asp.net core后台管理系统</a>
+    <a asp-action="logout" asp-controller="account" class="place-right fg-white mt-2 mr-5">退出系统</a>
+</div>
+<div class="page-nav fg-white">
+    <ul id="mtree" class="ztree"></ul>
+</div>
+
+<div class="page-container">
+    @RenderBody()
+</div>
+
+@section Scripts{
+
+    <script>
+        (function() {
+            var zNodes = [];
+            @foreach (var item in list.OrderBy(x=>x.ParentId).ThenBy(x=>x.OrderNum))
+            {
+                if (string.IsNullOrEmpty(item.Target))
+                {
+                    item.Target = "frm";
+                }
+                @:zNodes.push({ id: @item.Id, pId: @item.ParentId, name: '@Html.Raw(item.Name)', url: '@item.Url',target:'@item.Target'});
+            }
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                view: {
+                    showIcon: false,
+                    showLine: false,
+                    dblClickExpand: false
+                },
+                callback: {
+                    onClick: zTreeonNodeClick,
+                }
+            };
+            
+            function zTreeonNodeClick(e, treeId, treeNode) {
+                mtree.expandNode(treeNode, undefined, undefined, undefined,true);
+            }
+
+            var mtree = $.fn.zTree.init($("#mtree"), setting, zNodes);
+            mtree.expandAll(true);
+        })();
+    </script>
+
+    @RenderSection("Scripts", required: false)
+}

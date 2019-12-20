@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "编辑资源";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var roleId = long.Parse(Context.Request.Query["roleId"]);
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/lib/ztree/css/zTreeStyle/zTreeStyle.css"/>
+    <style>
+        #tree {
+            font-size: 16px;
+            max-height: 200px;
+        }
+    </style>
+}
+
+<div class="layui-fluid">
+
+    <ul id="tree" class="ztree"></ul>
+    <br/>
+    <input type="button" class="layui-btn" value="保存" onclick="saveResource()"/>
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/ztree/jquery.ztree.all.min.js"></script>
+    <script>
+        var roleId = @roleId;
+        var zTreeObj;
+
+        $.post("@Url.Action("treeNodes", "systemRes")",
+            function(list) {
+                var setting = {
+                    check: {
+                        enable: true,
+                        chkboxType: { "Y": "p", "N": "ps" }
+                    }
+                };
+                zTreeObj = $.fn.zTree.init($("#tree"), setting, list);
+                $.post('@Url.Action("getResourceIds")',
+                    { roleId: roleId },
+                    function(ids) {
+
+                        for (var i = 0; i < ids.length; i++) {
+                            var id = ids[i];
+                            var node = zTreeObj.getNodeByParam("id", id);
+                            zTreeObj.checkNode(node, true, false);
+                        }
+                    });
+                zTreeObj.expandAll(true);
+            });
+
+        function saveResource() {
+            var nodes = zTreeObj.getCheckedNodes(true);
+            var data = { roleId: roleId, resourceIds: [] };
+            for (var i = 0; i < nodes.length; i++) {
+                var node = nodes[i];
+                data.resourceIds.push(node.id);
+            }
+            $.post('@Url.Action("saveResourceIds")',
+                data,
+                function(ro) {
+                    layer.msg(ro.msg,
+                        { time: 1000 },
+                        function() {
+                            if (ro.success) {
+                                closeXWindow(true);
+                            }
+                        });
+                });
+        }
+    </script>
+}

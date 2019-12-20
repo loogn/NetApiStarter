@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "编辑资源";
+    var m = ViewBag.m as SystemRes;
+    var plist = ViewBag.plist as List<SystemRes>;
+}
+
+<div class="layui-fluid">
+    <form class="layui-form" style="margin-right: 50px;">
+        <input type="hidden" name="id" value="@m.Id"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>
+                父菜单：
+            </label>
+            <div class="layui-input-block">
+                <select name="parentId">
+                    <option value="0">作为一级</option>
+                    @if (m.ParentId != 0 || m.Id == 0)
+                    {
+                        foreach (var p in plist)
+                        {
+                            if (p.Id == m.ParentId)
+                            {
+                                <option value="@p.Id" selected>@p.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@p.Id">@p.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>
+                名称：
+            </label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="name" value="@m.Name" lay-verify="required" required/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                地址：
+            </label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="url" value="@m.Url"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                目标：
+            </label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="target" value="@m.Target"/>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"> <span class="x-red">*</span>类型：</label>
+            <div class="layui-input-block">
+                <input type="radio" asp-for="@m.Type" name="Type" value="1" title="菜单">
+                <input type="radio" asp-for="@m.Type" name="Type" value="2" title="资源">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> <span class="x-red">*</span>状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" asp-for="@m.Status" name="Status" value="1" title="正常">
+                <input type="radio" asp-for="@m.Status" name="Status" value="2" title="禁用">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                排序号：
+            </label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="OrderNum" value="@m.OrderNum"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                图标：
+            </label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="icon" value="@m.Icon"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                备注：
+            </label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" name="Remark" >@m.Remark</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+
+            </label>
+
+            <button class="layui-btn" lay-submit lay-filter="save">保存</button>
+
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/lib/ztree/jquery.ztree.all.min.js"></script>
+    <script>
+        layui.form.on('submit(save)',
+            function(data) {
+                $.post("@Url.Action("doedit")",
+                    data.field,
+                    function(ro) {
+                        layer.msg(ro.msg,
+                            { time: 1000 },
+                            function() {
+                                if (ro.success) {
+                                    closeXWindow();
+                                }
+                            });
+                    });
+                return false;
+            });
+
+    </script>
+}

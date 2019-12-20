@@ -32,26 +32,6 @@
     <br />
 
 
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">网页部分</h5>
-            <p class="card-text">
-                <a href="@Url.Action("Logout","account")">退出</a>
-                <br />
-
-                Cookie登录之后的claims
-                <br />
-
-                @foreach (var item in claimList)
-                {
-                    <span>@item</span>
-                    <br />
-                }
-                <my-pager list="pagedList" options="@PagedListRenderOptions.Bootstrap4Full"></my-pager>
-            </p>
-        </div>
-    </div>
-
 
 
 </div>

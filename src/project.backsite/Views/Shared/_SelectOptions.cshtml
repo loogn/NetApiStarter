@@ -1,0 +1,18 @@
+﻿@{
+    var options = ViewBag.options as List<SelectListItem>;
+}
+
+<option value="@ViewBag.defValue">@ViewBag.defText</option>
+@foreach (var item in options)
+{
+    if (item.Selected)
+    {
+        <option selected value="@item.Value">@item.Text</option>
+    }
+    else
+    {
+        <option value="@item.Value">@item.Text</option>
+    }
+}
+
+

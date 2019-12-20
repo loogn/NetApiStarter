@@ -4,6 +4,36 @@
         <name>project.api</name>
     </assembly>
     <members>
+        <member name="T:project.api.AppSettings">
+            <summary>
+            对应appsettings.json
+            </summary>
+        </member>
+        <member name="P:project.api.AppSettings.Instance">
+            <summary>
+            注入的AppSettings
+            </summary>
+        </member>
+        <member name="P:project.api.AppSettings.RootUrl">
+            <summary>
+            网站根目录
+            </summary>
+        </member>
+        <member name="P:project.api.UploadSection.LimitSize">
+            <summary>
+            单文件大小，分片大小限制，默认4M
+            </summary>
+        </member>
+        <member name="P:project.api.UploadSection.TotalLimitSize">
+            <summary>
+            分片上传总大小，默认2G
+            </summary>
+        </member>
+        <member name="P:project.api.UploadSection.AllowExts">
+            <summary>
+            允许上传的后缀
+            </summary>
+        </member>
         <member name="T:project.api.Controllers.apis.UploadController">
             <summary>
             上传相关

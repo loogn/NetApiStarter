@@ -56,13 +56,6 @@ namespace project.api
                     ValidIssuer = jwtSection["Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["SigningKey"]))
                 };
-            }).
-            AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, cookieOptions =>
-            {
-                cookieOptions.LoginPath = new PathString("/account/login");
-                cookieOptions.LogoutPath = new PathString("/account/logout");
-                cookieOptions.SlidingExpiration = true;
-                cookieOptions.ExpireTimeSpan = TimeSpan.FromHours(1);
             });
             services.AddAppServices();
 
@@ -117,7 +110,6 @@ namespace project.api
             });
 
             app.UseRouting();
-            app.UseCookiePolicy();
             app.UseAuthentication(); //¿ªÆôÑéÖ¤
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

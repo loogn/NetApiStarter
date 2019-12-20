@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "编辑角色员工";
+    var roleId = int.Parse(Context.Request.Query["roleId"]);
+    var pList = ViewBag.pList as StaticPagedList<SystemUser>;
+    var empIdSet = ViewBag.empIdSet as HashSet<long>;
+}
+
+@section Styles{
+
+}
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <form method="get" class="layui-form">
+                <input type="hidden" name="roleId" value="@roleId"/>
+
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="nickname" id="nickname" value="@Context.Request.Query["nickname"]" placeholder="名称"/>
+                </div>
+                <div class="layui-input-inline">
+                    <button class="layui-btn">
+                        <i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <div class="layui-card-body">
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in pList)
+                {
+                    <tr>
+                        <td>
+                            @if (empIdSet.Contains(item.Id))
+                            {
+                                <input type="checkbox" checked="checked" lay-filter="ckSync" class="ckSync" value="@item.Id" lay-skin="primary">
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="ckSync" lay-filter="ckSync" value="@item.Id" lay-skin="primary">
+                            }
+                        </td>
+                        <td>@item.Username</td>
+                        <td>@item.Nickname</td>
+                        <td>@item.GetGender()</td>
+                        <td>@item.GetStatus()</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-card-body">
+            <div class="page">
+                <my-pager list="pList"></my-pager>
+            </div>
+            <button type="button" class="layui-btn" onclick="trimEmployee()">保存</button>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+
+        var roleId = @roleId;
+
+        var addEmployeeIds = [];
+        var removeEmployeeIds = [];
+
+        layui.form.on('checkbox(ckSync)',
+            function(data) {
+                var val = data.value;
+                var index;
+                if (data.elem.checked) {
+                    addEmployeeIds.push(val);
+                    index = $.inArray(val, removeEmployeeIds);
+                    if (index > -1) {
+                        removeEmployeeIds.splice(index, 1);
+                    }
+                } else {
+                    removeEmployeeIds.push(val);
+                    index = $.inArray(val, addEmployeeIds);
+                    if (index > -1) {
+                        addEmployeeIds.splice(index, 1);
+                    }
+                }
+            });
+
+        function trimEmployee() {
+            var data = { roleId: roleId, addEmployeeIds: addEmployeeIds, removeEmployeeIds: removeEmployeeIds };
+
+            $.post('@Url.Action("trimEmployeeIds")',
+                data,
+                function(ro) {
+                    layer.msg(ro.msg,
+                        { time: 1000 },
+                        function() {
+                            if (ro.success) {
+                                closeXWindow(true);
+                            }
+                        });
+
+                });
+        }
+
+    </script>
+}

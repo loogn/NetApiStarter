@@ -1,0 +1,55 @@
+@{
+    ViewBag.Title = "角色设置";
+    var roleIds = ViewBag.roleIds as List<long>;
+    var roleList = ViewBag.roleList as List<SystemRole>;
+}
+
+<div class="layui-fluid">
+    <div id="roles">
+
+    </div>
+    
+    <br/>
+    <button class="layui-btn" onclick="save()">保存</button>
+
+</div>
+
+@section Scripts
+{
+    <script>
+        layui.transfer.render({
+            elem: "#roles",
+            id: "roles",
+            title: ["角色列表", "用户角色"],
+            height: 450,
+            data: [
+                @foreach (var role in roleList)
+                {
+                    <text>{ "value": "@role.Id", "title": "@role.Name" },</text>
+                }
+            ],
+            value: [@(string.Join(",", roleIds))]
+        });
+
+        function save() {
+            var data = layui.transfer.getData('roles');
+            var roleIds = [];
+            for (var i = 0; i < data.length; i++) {
+                roleIds.push(data[i].value);
+            }
+            $.post("@Url.Action("SaveRoles")",
+                { employeeId: '@ViewBag.employeeId', roleIds: roleIds },
+                function(ro) {
+                    layer.msg(ro.msg,
+                        { time: 1000 },
+                        function() {
+                            if (ro.success) {
+                                closeXWindow();
+                            }
+                        });
+                });
+        }
+
+
+    </script>
+}

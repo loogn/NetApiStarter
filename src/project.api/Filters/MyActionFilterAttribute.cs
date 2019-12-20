@@ -59,8 +59,8 @@ namespace project.api.Filters
                 //如果有必要，可以每次都获取数据库中的用户
                 if (!string.IsNullOrEmpty(userid))
                 {
-                    var user = ((UserService)context.HttpContext.RequestServices.GetService(typeof(UserService))).SingleById(long.Parse(userid));
-                    requestParams.SetUser(user);
+                    //var user = ((UserService)context.HttpContext.RequestServices.GetService(typeof(UserService))).SingleById(long.Parse(userid));
+                    //requestParams.SetUser(user);
                 }
             }
 

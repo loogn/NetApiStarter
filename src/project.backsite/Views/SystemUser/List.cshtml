@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "用户管理";
+
+    var plist = ViewBag.plist as StaticPagedList<SystemUser>;
+}
+
+<partial name="breadcrumb"/>
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form">
+                <div class="layui-inline">
+                    <input class="layui-input" name="nickname" placeholder="姓名" id="nickname" value="@Context.Request.Query["nickname"]" class="ml-0"/>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                        <i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-header layui-btn-group">
+            <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加用户', '@Url.Action("Edit")', 800, 600)">
+                <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+            </button>
+        </div>
+        <div class="layui-card-body">
+
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>用户名</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>状态</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in plist)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Username</td>
+                        <td>@item.Nickname</td>
+                        <td>@item.GetGender()</td>
+                        <td>@item.GetStatus()</td>
+                        <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <button class="layui-btn  layui-btn-sm" onclick="xadmin.open('编辑用户', '@Url.Action("Edit", new {id = item.Id})', 800, 600)">编辑</button>
+                                <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xadmin.open('@(item.Nickname)-权限设置', '@Url.Action("EditResource", new {employeeId = item.Id})', 500, 600)">权限</button>
+                                <button class="layui-btn layui-btn-normal layui-bg-cyan" onclick="xadmin.open('@(item.Nickname)-角色设置', '@Url.Action("editRole", new {employeeId = item.Id})',530, 600)">角色</button>
+                                <button class="layui-btn layui-btn-danger layui-btn-sm" onclick="del_user(@item.Id)">删除</button>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+        <div class="layui-card-body">
+            <div class="page">
+                <my-pager list="plist"></my-pager>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+
+        function del_user(id) {
+
+            layer.confirm("确定要删除用户吗？",
+                function() {
+                    $.post("@Url.Action("del")",
+                        { id: id },
+                        function(ro) {
+                            layer.msg(ro.msg,
+                                { time: 1000 },
+                                function() {
+                                    if (ro.success) {
+                                        location.reload();
+                                    }
+                                });
+                        });
+                });
+        }
+    </script>
+}

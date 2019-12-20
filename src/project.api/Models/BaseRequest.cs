@@ -1,4 +1,4 @@
-﻿using project.dao.DataModel;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -32,15 +32,16 @@ namespace project.api.Models
 
         #region 数据库相关用户 （如果有必要的话）
         //不用属性是因为swagger中会显示出来
-        private User _user;
-        public User GetUser()
-        {
-            return _user;
-        }
-        public void SetUser(User user)
-        {
-            _user = user;
-        }
+
+        //private User _user;
+        //public User GetUser()
+        //{
+        //    return _user;
+        //}
+        //public void SetUser(User user)
+        //{
+        //    _user = user;
+        //}
         #endregion
     }
 

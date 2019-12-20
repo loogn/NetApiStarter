@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "角色列表";
+
+    var list = ViewBag.list as List<SystemRole>;
+}
+
+<partial name="breadcrumb"/>
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form">
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="name" id="name" value="@Context.Request.Query["name"]" placeholder="名称"/>
+                </div>
+                <div class="layui-input-inline">
+                    <button class="layui-btn">
+                        <i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+       
+        <div class="layui-card-header layui-btn-group">
+
+            <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加角色', '@Url.Action("Edit")', 400, 200)">
+                <i class="layui-icon"></i>添加
+            </button>
+        </div>
+        <div class="layui-card-body">
+
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in list)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <button class="layui-btn" onclick="xadmin.open('编辑角色', '@Url.Action("Edit", new {id = item.Id})', 400, 200)">编辑</button>
+                                <button class="layui-btn layui-btn-warm" onclick="xadmin.open('@(item.Name)-权限设置', '@Url.Action("EditResource", new {roleId = item.Id})', 500, 600)">权限</button>
+                                <button class="layui-btn layui-btn-normal layui-bg-cyan" onclick="xadmin.open('@(item.Name)-员工设置', '@Url.Action("editEmployee", new {roleId = item.Id})', 800, 600)">员工</button>
+                                <button class="layui-btn layui-btn-danger" onclick="del_role(@item.Id)">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        function del_role(id) {
+            layer.confirm("确定要删除角色吗？",
+                function() {
+                    $.post("@Url.Action("del")",
+                        { id: id },
+                        function(ro) {
+                            layer.msg(ro.msg,
+                                {time: 1000 },
+                                function() {
+                                    if (ro.success) {
+                                        location.reload();
+                                    }
+                                });
+                        });
+                });
+        }
+    </script>
+}

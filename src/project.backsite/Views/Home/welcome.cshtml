@@ -1,0 +1,89 @@
+﻿@{
+
+    ViewBag.Title = "后台管理系统";
+}
+
+@section styles{
+
+}
+
+<div class="layui-fluid">
+
+
+    <div class="layui-card">
+        <div class="layui-card-header">
+            富文本编辑器
+        </div>
+        <div class="layui-card-body">
+            <div style="width: 800px;">
+                <textarea id="txtBody">hello world
+        </textarea>
+            </div>
+        </div>
+        <hr class="layui-bg-gray">
+        <div class="layui-card-header">
+            图片上传
+        </div>
+
+        <div class="layui-card-body">
+            <img src="" id="imgUrl_show" class="edit-img layui-hide"/>
+            <button type="button" class="layui-btn" id="test1">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+
+        </div>
+    </div>
+    <form class="layui-form">
+        <select id="province" lay-ignore name="province"></select>
+        <select id="city" lay-ignore name="city"></select>
+        <select id="county" lay-ignore name="county"></select>
+    </form>
+
+</div>
+
+@section scripts{
+    <script src="~/lib/kindeditor/kindeditor-all-min.js"></script>
+    <script src="~/js/ajaxfileupload.js"></script>
+    <script src="~/js/site.js"></script>
+    <script>
+        //富文本编辑器
+        var bodyEditor = null;
+        KindEditor.ready(function(K) {
+            bodyEditor = K.create('#txtBody',
+                {
+                    resizeType: 1,
+                    height: '400px;',
+                    width: '100%',
+                    uploadJson: '/upload/upload_json',
+                    fileManagerJson: '/upload/file_manager_json',
+                    allowFileManager: true,
+                    themeType: 'simple',
+                    items: editorAllItems,
+                });
+        });
+        //单个上传按钮
+//        bindUpload("imgUrl");
+
+        //执行实例
+        var uploadInst = layui.upload.render({
+            elem: '#test1',
+            url: '/upload/ajaxfileupload',
+            done: function(data) {
+                //上传完毕回调
+                $("#imgUrl_show").removeClass("layui-hide").attr('src', data.result.fileUrl);
+            },
+            error: function() {
+                //请求异常回调
+            }
+        });
+
+
+    </script>
+    <script src="~/js/selectArea.js"></script>
+    <script>
+
+        new selectArea($("#province"), $("#city"), $("#county")).init();
+        
+
+    </script>
+}

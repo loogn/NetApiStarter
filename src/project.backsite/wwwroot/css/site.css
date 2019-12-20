@@ -1,0 +1,114 @@
+﻿html, body {
+    height: 100%;
+}
+
+.page-nav {
+    width: 220px;
+    height: 100%;
+    z-index: 998;
+    position: fixed;
+    background-color: #353535;
+}
+
+.page-container {
+    padding: 50px 12px 12px 228px;
+    height: 100%;
+}
+
+.page-top {
+    background-color: #08ccb7;
+    position: fixed;
+    height: 50px;
+    width: 100%;
+    z-index: 999;
+    top: 0;
+}
+
+    .page-top .sitename {
+        color: #ffffff;
+        font-size: 20px;
+        padding: 0 7px;
+        margin-left: 13px;
+        height: 100%;
+        line-height: 50px;
+        text-decoration: none;
+    }
+
+.page-nav {
+    margin-top: 50px;
+    padding-top: 5px;
+    border-right: 3px solid #eee;
+}
+
+#mtree .curSelectedNode {
+    background-color: initial;
+    border: none;
+}
+
+#mtree a {
+    height: 25px;
+    line-height: 25px;
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+}
+
+    #mtree a:hover, #mtree a.curSelectedNode {
+        color: #1d1d1d;
+        background-color: #eeeeee;
+    }
+
+#mtree .node_name {
+    font-size: 14px;
+}
+
+.page-title {
+    padding-bottom: 0.2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e4e4e4;
+    font-size: 22px;
+    line-height: 40px;
+    clear: both;
+}
+
+.pagination .page-item a {
+    display: block;
+    position: relative;
+    padding: .5rem .75rem;
+    line-height: 1;
+    font-size: 1rem;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+}
+
+.upload-button {
+    margin-top: 2px;
+    padding: 4px 10px;
+    height: 36px;
+    line-height: 36px;
+    position: relative;
+    border: 1px solid #999;
+    text-decoration: none;
+    color: #666;
+    background-color: #fff;
+}
+
+    .upload-button input {
+        position: absolute;
+        overflow: hidden;
+        right: 0;
+        top: 0;
+        -ms-filter: 'alpha(opacity=0)';
+        opacity: 0;
+    }
+
+.list-img {
+    max-width: 100px;
+    max-height: 50px;
+}
+
+.edit-img {
+    width: 100px;
+    height: 100px;
+}

@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "资源管理";
+    var plist = ViewBag.plist as StaticPagedList<SystemRes>
+        ;
+}
+
+<partial name="breadcrumb"/>
+
+<div class="layui-fluid">
+
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form">
+                <div class="layui-input-inline layui-show-xs-block">
+                    <input class="layui-input" placeholder="名称" value="@(Context.Request.Query["name"])" name="name" id="name">
+                </div>
+                <div class="layui-input-inline layui-show-xs-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                        <i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-header layui-btn-group">
+            <button class="layui-btn layui-btn-normal" onclick="xadmin.open('添加资源', '@Url.Action("Edit")', 800, 600)">
+                <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+            </button>
+        </div>
+        <div class="layui-card-body">
+
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>地址</th>
+                    <th>类型</th>
+                    <th>排序号</th>
+                    <th>状态</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in plist)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Url</td>
+                        <td>@item.Type</td>
+                        <td>@item.OrderNum</td>
+                        <td>@item.Status</td>
+                        <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td class="td-manage">
+                            <div class="layui-btn-group">
+                                <button type="button" class="layui-btn" title="编辑" onclick="xadmin.open('编辑资源', '@Url.Action("edit", new {id = item.Id})', 800, 600)" href="javascript:;">
+                                    编辑
+                                </button>
+                                <button type="button" class="layui-btn layui-btn-danger" onclick="del_res(@item.Id)">删除</button>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="layui-card-body">
+            <div class="page">
+                <my-pager list="plist"></my-pager>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        function del_res(id) {
+            layer.confirm('确定要删除资源吗？',
+                function() {
+                    $.post("@Url.Action("del")",
+                        { id: id },
+                        function(ro) {
+                            layer.msg(ro.msg,
+                                { time: 1000 },
+                                function() {
+                                    if (ro.success) {
+                                        location.reload();
+                                    }
+                                });
+                        });
+                });
+        }
+    </script>
+}
