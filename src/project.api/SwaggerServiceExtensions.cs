@@ -17,6 +17,17 @@ namespace project.api
             //https://github.com/domaindrivendev/Swashbuckle.AspNetCore#change-the-path-for-swagger-json-endpoints
             services.AddSwaggerGen(c =>
             {
+                //Authorization的设置
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "请输入验证的jwt。示例：Bearer {jwt}",
+                    Name = "Authorization",
+
+                    Type = SecuritySchemeType.ApiKey,
+                });
+
+
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "My Api",
@@ -41,17 +52,9 @@ namespace project.api
                     c.IncludeXmlComments(file);
                 }
 
-                //Authorization的设置
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "请输入验证的jwt。示例：Bearer {jwt}",
-                    Name = "Authorization",
-
-                    Type = SecuritySchemeType.ApiKey,
-                });
 
             });
+            services.AddSwaggerGenNewtonsoftSupport();
             return services;
         }
 
