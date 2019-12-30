@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.dao", "src\project.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.api", "src\project.api\project.api.csproj", "{F0D8D927-E357-481F-AF0D-A943C5D3291B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project.backsite", "src\project.backsite\project.backsite.csproj", "{C87063EC-8AE0-4216-9A91-0CD88858BB84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.backsite", "src\project.backsite\project.backsite.csproj", "{C87063EC-8AE0-4216-9A91-0CD88858BB84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

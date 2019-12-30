@@ -39,7 +39,6 @@ namespace project.api.Controllers
             var claimList = HttpContext.User.Claims.Select(x => x.Type + ":" + x.Value).ToList();
             ViewBag.claimList = claimList;
 
-            _logger.LogError("访问了index");
             ViewBag.Environment = env.EnvironmentName;
             return View();
         }

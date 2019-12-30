@@ -69,6 +69,8 @@ namespace project.api
             services.Configure<AppSettings>(Configuration);
             //services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            services.AddSingleton<LogRequestBodyMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,10 +110,13 @@ namespace project.api
                 RequestPath = settings.Value.Upload.RequestPath,
                 ContentTypeProvider = fileExtProvider
             });
-
+          
             app.UseRouting();
+           
             app.UseAuthentication(); //¿ªÆôÑéÖ¤
             app.UseAuthorization();
+
+            app.UseLogRequestBody();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
