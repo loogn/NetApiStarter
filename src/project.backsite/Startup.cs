@@ -69,8 +69,7 @@ namespace project.backsite
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-
+            
             //ÉÏ´«µØÖ·
             var uploadFullPath = Path.GetFullPath(AppSettings.Instance.Upload.UploadPath);
             app.UseStaticFiles(new StaticFileOptions

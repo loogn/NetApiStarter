@@ -47,7 +47,8 @@ namespace project.api
                     In = ParameterLocation.Header,
                     Description = "请输入验证的jwt。示例：Bearer {jwt}",
                     Name = "Authorization",
-
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer",
                     Type = SecuritySchemeType.ApiKey,
                 });
 
