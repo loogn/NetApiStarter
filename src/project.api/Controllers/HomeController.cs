@@ -15,8 +15,6 @@ namespace project.api.Controllers
     public class HomeController : Controller
     {
         [Autowired]
-        private ILogger<HomeController> _logger;
-        [Autowired]
         private IWebHostEnvironment env;
         public HomeController(AutowiredService autowiredService)
         {
