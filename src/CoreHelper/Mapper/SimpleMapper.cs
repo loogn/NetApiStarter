@@ -28,7 +28,7 @@ namespace CoreHelper.Mapper
         }
 
         /// <summary>
-        /// 映射对象，可以是嵌套类，数组，IList<>，IDictionary<,>
+        /// 映射对象（属性和字段），可以是嵌套类，数组，IList<>，IDictionary<,>
         /// </summary>
         /// <param name="targetType">目标类型</param>
         /// <param name="input">输入对象</param>
@@ -54,6 +54,18 @@ namespace CoreHelper.Mapper
                 if (inputType == typeof(string))
                 {
                     return DateTime.Parse(input.ToString());
+                }
+                return default;
+            }
+            if (targetType == typeof(TimeSpan))
+            {
+                if (inputType == typeof(TimeSpan))
+                {
+                    return input;
+                }
+                if (inputType == typeof(string))
+                {
+                    return TimeSpan.Parse(input.ToString());
                 }
                 return default;
             }
