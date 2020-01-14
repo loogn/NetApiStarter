@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="project.api.xml" />
+    <None Remove="up\EmptyTextFile.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="logs\" />
-    <Folder Include="up\" />
   </ItemGroup>
 
   <ItemGroup>

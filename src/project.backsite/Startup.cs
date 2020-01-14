@@ -30,7 +30,8 @@ namespace project.backsite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews(options=> {
+            services.AddControllersWithViews(options =>
+            {
                 options.Filters.Add<MyActionFilterAttribute>();
                 options.Filters.Add<MyExceptionFilterAttribute>();
             });
@@ -71,7 +72,7 @@ namespace project.backsite
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            //ÉÏ´«µØÖ·
+            //ä¸Šä¼ è·¯å¾„
             var uploadFullPath = Path.GetFullPath(AppSettings.Instance.Upload.UploadPath);
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -79,10 +80,12 @@ namespace project.backsite
                 RequestPath = settings.Value.Upload.RequestPath,
             });
 
+            app.UseCookiePolicy();
+
             app.UseRouting();
 
-            app.UseCookiePolicy();
-            app.UseAuthentication(); //¿ªÆôÑéÖ¤
+
+            app.UseAuthentication(); //å¼€å¯éªŒè¯
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
