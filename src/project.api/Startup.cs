@@ -31,6 +31,7 @@ namespace project.api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -57,7 +58,7 @@ namespace project.api
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["SigningKey"]))
                 };
             });
-            services.AddAppServices();
+            services.AddAppServices(Configuration);
 
             services.AddControllersWithViews(options =>
             {
@@ -100,7 +101,7 @@ namespace project.api
 
             app.UseStaticFiles();
 
-            //ÉÏ´«µÄÎÄ¼þ·ÃÎÊÅäÖÃ£¬¿É¸ù¾Ý×Ô¼ºÏîÄ¿µÄÎÄ¼þÀàÐÍÌí¼Ó
+            //ï¿½Ï´ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½É¸ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             var fileExtProvider = new FileExtensionContentTypeProvider();
             //fileExtProvider.Mappings[".htm3"] = "text/html";
             var uploadFullPath = Path.GetFullPath(AppSettings.Instance.Upload.UploadPath);
@@ -113,7 +114,7 @@ namespace project.api
           
             app.UseRouting();
            
-            app.UseAuthentication(); //¿ªÆôÑéÖ¤
+            app.UseAuthentication(); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤
             app.UseAuthorization();
 
             app.UseLogRequestBody();
