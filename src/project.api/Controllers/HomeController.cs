@@ -16,6 +16,10 @@ namespace project.api.Controllers
     {
         [Autowired]
         private IWebHostEnvironment env;
+
+        [Autowired] private UploadSection uploadConfig;
+        [Autowired] private JwtSection jwt;
+        [Autowired] private AppSettings _appSettings;
         public HomeController(AutowiredService autowiredService)
         {
             autowiredService.Autowired(this);
@@ -24,6 +28,7 @@ namespace project.api.Controllers
 
         public IActionResult Index(int page = 1)
         {
+            return Content(uploadConfig.RequestPath + jwt.SigningKey + _appSettings.Jwt.Issuer);
 
             var listdata = new List<int>();
             for (var i = 0; i < 100; i++)

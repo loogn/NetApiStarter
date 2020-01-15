@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CoreHelper.Ioc;
 
 namespace project.api
 {
+    
     /// <summary>
     /// 对应appsettings.json
     /// </summary>
@@ -23,8 +25,7 @@ namespace project.api
         public string RootUrl { get; set; }
         
     }
-
-
+    
     public class UploadSection
     {
         public string UploadPath { get; set; }
@@ -46,7 +47,7 @@ namespace project.api
         /// </summary>
         public HashSet<string> AllowExts { get; set; }
     }
-
+    
     public class JwtSection
     {
         public string SigningKey { get; set; }

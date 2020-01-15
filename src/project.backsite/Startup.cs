@@ -43,7 +43,7 @@ namespace project.backsite
                    cookieOptions.SlidingExpiration = true;
                    cookieOptions.ExpireTimeSpan = TimeSpan.FromHours(1);
                });
-            services.AddAppServices();
+            services.AddAppServices(Configuration);
             services.AddHttpClient();
             services.Configure<AppSettings>(Configuration);
             services.Configure<ConnectionStringsSection>(Configuration.GetSection("ConnectionStrings"));

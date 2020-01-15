@@ -4,11 +4,6 @@
         <name>project.api</name>
     </assembly>
     <members>
-        <member name="T:project.api.AppSettings">
-            <summary>
-            对应appsettings.json
-            </summary>
-        </member>
         <member name="P:project.api.AppSettings.Instance">
             <summary>
             注入的AppSettings
