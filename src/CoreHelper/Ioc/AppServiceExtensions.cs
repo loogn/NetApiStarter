@@ -22,19 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var assemblies = files.Select(x => Assembly.LoadFrom(x));
             AddAppServices(services, configuration, assemblies);
         }
-
-
-        public static void AddAppOptions(this IServiceCollection services, IConfiguration configuration,
-            IEnumerable<Assembly> assemblies)
-        {
-            foreach (var assembly in assemblies)
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                }
-            }
-        }
-
+        
         public static void AddAppServices(this IServiceCollection services, IConfiguration configuration,
             IEnumerable<Assembly> assemblies)
         {
