@@ -72,5 +72,6 @@ namespace project.dal
                 return db.ColumnDistinctFmt<long>(sql, systemUserId);
             }
         }
+
     }
 }

@@ -29,5 +29,6 @@ namespace project.dal
         {
             return DeleteWhere("SystemResId", systemResId);
         }
+
     }
 }

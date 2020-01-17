@@ -6,16 +6,13 @@ using CoreHelper.Ioc;
 namespace project.api
 {
     
+    
     /// <summary>
-    /// 对应appsettings.json
+    /// 对应 appsettings.json
     /// </summary>
+    [AppSetting]
     public class AppSettings
     {
-        /// <summary>
-        /// 注入的AppSettings
-        /// </summary>
-        public static AppSettings Instance { get; set; }
-
         public UploadSection Upload { get; set; }
 
         public JwtSection Jwt { get; set; }

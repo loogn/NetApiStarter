@@ -35,6 +35,8 @@ namespace project.dal
                 return db.UpdateById<CountLimit>(DictBuilder.Assign("AlreadyCount", 1).Assign("BeginTime", beginTime), id);
             }
         }
+
+        
     }
 
 }

@@ -15,22 +15,22 @@ namespace project.dal
     /// <summary>
     /// 链接配置
     /// </summary>
+    [AppSetting("ConnectionStrings")]
     public class ConnectionStringsSection
     {
+        public static ConnectionStringsSection Instance;
         static ConnectionStringsSection()
         {
             OrmLite.RegisterProvider(MySqlCommandDialectProvider.Instance);
         }
-
-        public static ConnectionStringsSection Instance { get; set; }
-
-
+        
         public string Db1 { get; set; }
     }
 
     [AppService]
     public class CommonServiceBaseDao<TEntity> : AbstractDao<TEntity>
     {
+        
         protected override IDbConnection Open()
         {
             return new MySqlConnection(ConnectionStringsSection.Instance.Db1);

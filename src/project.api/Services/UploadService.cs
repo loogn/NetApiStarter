@@ -16,6 +16,12 @@ namespace project.api.Services
     {
         private static object lockObj = new object();
 
+        [Autowired]
+        private AppSettings _appSettings;
+        public UploadService(AutowiredService autowiredService)
+        {
+            autowiredService.Autowired(this);
+        }
         /// <summary>
         /// 上传文件
         /// </summary>
@@ -23,17 +29,17 @@ namespace project.api.Services
         /// <returns></returns>
         public ResultObject<UploadFileResponse> Uploadfile(IFormFile formFile)
         {
-            var appSetting = AppSettings.Instance;
+            
             if (formFile == null || formFile.Length == 0)
             {
                 return new ResultObject<UploadFileResponse>("文件不能为空");
             }
-            if (formFile.Length > appSetting.Upload.LimitSize)
+            if (formFile.Length > _appSettings.Upload.LimitSize)
             {
                 return new ResultObject<UploadFileResponse>("文件超过了最大限制");
             }
             var ext = Path.GetExtension(formFile.FileName).ToLower();
-            if (!appSetting.Upload.AllowExts.Contains(ext))
+            if (!_appSettings.Upload.AllowExts.Contains(ext))
             {
                 return new ResultObject<UploadFileResponse>("文件类型不允许");
             }
@@ -44,7 +50,7 @@ namespace project.api.Services
             var dd = now.ToString("dd");
             var fileName = Guid.NewGuid().ToString("n") + ext;
 
-            var folder = Path.Combine(appSetting.Upload.UploadPath, yy, mm, dd);
+            var folder = Path.Combine(_appSettings.Upload.UploadPath, yy, mm, dd);
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
@@ -56,7 +62,7 @@ namespace project.api.Services
                 fileStream.Flush(true);
             }
 
-            var fileUrl = $"{appSetting.RootUrl}{appSetting.Upload.RequestPath}/{yy}/{mm}/{dd}/{fileName}";
+            var fileUrl = $"{_appSettings.RootUrl}{_appSettings.Upload.RequestPath}/{yy}/{mm}/{dd}/{fileName}";
             var response = new UploadFileResponse { Url = fileUrl };
             return new ResultObject<UploadFileResponse>(response);
         }
@@ -74,18 +80,18 @@ namespace project.api.Services
         public ResultObject<UploadFileResponse> ChunkUploadfile(IFormFile formFile, int chunkNumber, int chunkSize, long totalSize,
             string identifier, int totalChunks)
         {
-            var appSetting = AppSettings.Instance;
+            
             #region 验证
             if (formFile == null && formFile.Length == 0)
             {
                 return new ResultObject<UploadFileResponse>("文件不能为空");
             }
-            if (formFile.Length > appSetting.Upload.LimitSize)
+            if (formFile.Length > _appSettings.Upload.LimitSize)
             {
                 return new ResultObject<UploadFileResponse>("文件超过了最大限制");
             }
             var ext = Path.GetExtension(formFile.FileName).ToLower();
-            if (!appSetting.Upload.AllowExts.Contains(ext))
+            if (!_appSettings.Upload.AllowExts.Contains(ext))
             {
                 return new ResultObject<UploadFileResponse>("文件类型不允许");
             }
@@ -100,7 +106,7 @@ namespace project.api.Services
                 return new ResultObject<UploadFileResponse>("参数错误1");
             }
 
-            if (totalSize > appSetting.Upload.TotalLimitSize)
+            if (totalSize > _appSettings.Upload.TotalLimitSize)
             {
                 return new ResultObject<UploadFileResponse>("参数错误2");
             }
@@ -123,7 +129,7 @@ namespace project.api.Services
             var dd = now.ToString("dd");
 
             var fileName = EncryptHelper.MD5Encrypt(identifier) + ext;
-            var filePath = Path.Combine(appSetting.Upload.UploadPath, yy, mm, dd, fileName);
+            var filePath = Path.Combine(_appSettings.Upload.UploadPath, yy, mm, dd, fileName);
             
             var chunkFilePath = GetChunkFilePath(identifier, chunkNumber);
             using (var chunkStream = new FileStream(chunkFilePath, FileMode.Create, FileAccess.Write))
@@ -164,7 +170,7 @@ namespace project.api.Services
                         break;
                     }
                 }
-                var fileUrl = $"{appSetting.RootUrl}{appSetting.Upload.RequestPath}/{yy}/{mm}/{dd}/{fileName}";
+                var fileUrl = $"{_appSettings.RootUrl}{_appSettings.Upload.RequestPath}/{yy}/{mm}/{dd}/{fileName}";
                 var response = new UploadFileResponse { Url = fileUrl };
                 return new ResultObject<UploadFileResponse>(response);
             }
@@ -210,8 +216,7 @@ namespace project.api.Services
 
         private string GetChunkFilePath(string identifier, int chunkNumber)
         {
-            var appSetting = AppSettings.Instance;
-            var folder = Path.Combine(appSetting.Upload.UploadPath, "temp");
+            var folder = Path.Combine(_appSettings.Upload.UploadPath, "temp");
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);

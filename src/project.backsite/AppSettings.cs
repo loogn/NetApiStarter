@@ -3,19 +3,16 @@ using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CoreHelper.Ioc;
 
 namespace project.backsite
 {
     /// <summary>
     /// 对应appsettings.json
     /// </summary>
+    [AppSetting]
     public class AppSettings
     {
-        /// <summary>
-        /// 注入的AppSettings
-        /// </summary>
-        public static AppSettings Instance { get; set; }
-
         public UploadSection Upload { get; set; }
 
         public JwtSection Jwt { get; set; }

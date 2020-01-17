@@ -75,15 +75,12 @@ namespace project.api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<AppSettings> settings)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings settings)
         {
             UploadChunkWriter.Instance.Start();
 
-            AppSettings.Instance = settings.Value;
-
             if (env.IsDevelopment())
             {
-
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
@@ -101,20 +98,20 @@ namespace project.api
 
             app.UseStaticFiles();
 
-            //�ϴ����ļ��������ã��ɸ����Լ���Ŀ���ļ��������
+            
             var fileExtProvider = new FileExtensionContentTypeProvider();
             //fileExtProvider.Mappings[".htm3"] = "text/html";
-            var uploadFullPath = Path.GetFullPath(AppSettings.Instance.Upload.UploadPath);
+            var uploadFullPath = Path.GetFullPath(settings.Upload.UploadPath);
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(uploadFullPath),
-                RequestPath = settings.Value.Upload.RequestPath,
+                RequestPath = settings.Upload.RequestPath,
                 ContentTypeProvider = fileExtProvider
             });
           
             app.UseRouting();
            
-            app.UseAuthentication(); //������֤
+            app.UseAuthentication(); 
             app.UseAuthorization();
 
             app.UseLogRequestBody();

@@ -4,9 +4,9 @@
         <name>project.api</name>
     </assembly>
     <members>
-        <member name="P:project.api.AppSettings.Instance">
+        <member name="T:project.api.AppSettings">
             <summary>
-            注入的AppSettings
+            对应 appsettings.json
             </summary>
         </member>
         <member name="P:project.api.AppSettings.RootUrl">

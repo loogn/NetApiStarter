@@ -45,21 +45,16 @@ namespace project.backsite
                });
             services.AddAppServices(Configuration);
             services.AddHttpClient();
-            services.Configure<AppSettings>(Configuration);
-            services.Configure<ConnectionStringsSection>(Configuration.GetSection("ConnectionStrings"));
-
+            
             services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-            IOptions<AppSettings> settings, IOptions<ConnectionStringsSection> conn)
+            AppSettings settings, ConnectionStringsSection conn)
         {
-            AppSettings.Instance = settings.Value;
-            AppSettings.Instance.Environment = env;
-            ConnectionStringsSection.Instance = conn.Value;
-
+            ConnectionStringsSection.Instance = conn;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -73,18 +68,16 @@ namespace project.backsite
             app.UseCookiePolicy();
 
             //上传路径
-            var uploadFullPath = Path.GetFullPath(AppSettings.Instance.Upload.UploadPath);
+            var uploadFullPath = Path.GetFullPath(settings.Upload.UploadPath);
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(uploadFullPath),
-                RequestPath = settings.Value.Upload.RequestPath,
+                RequestPath = settings.Upload.RequestPath,
             });
 
             app.UseCookiePolicy();
 
             app.UseRouting();
-
-
             app.UseAuthentication(); //开启验证
             app.UseAuthorization();
 

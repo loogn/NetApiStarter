@@ -14,7 +14,8 @@ namespace project.api.Services
     [AppService]
     public class UserService
     {
-    
+        [Autowired]
+        private AppSettings _appSettings;
         public UserService(AutowiredService autowiredService)
         {
             autowiredService.Autowired(this);
@@ -35,12 +36,12 @@ namespace project.api.Services
             var dict = new Dictionary<string, string>();
             dict.Add("userid", "0");
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppSettings.Instance.Jwt.SigningKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Jwt.SigningKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: AppSettings.Instance.Jwt.Issuer,
-                audience: AppSettings.Instance.Jwt.Audience,
+                issuer: _appSettings.Jwt.Issuer,
+                audience: _appSettings.Jwt.Audience,
                 claims: dict.Select(x => new Claim(x.Key, x.Value)),
                 expires: DateTime.Now.AddDays(7),
                 signingCredentials: creds);

@@ -17,7 +17,7 @@ namespace project.backsite.Controllers
     public class UploadController : MvcController
     {
         [Autowired] private UploadService uploadService;
-
+        [Autowired] private AppSettings _appSettings;
         public UploadController(AutowiredService autowiredService)
         {
             autowiredService.Autowired(this);
@@ -39,8 +39,8 @@ namespace project.backsite.Controllers
             String moveupDirPath = "";
 
 
-            var rootPath = Path.GetFullPath(AppSettings.Instance.Upload.UploadPath) + "/";
-            var rootUrl = AppSettings.Instance.Upload.RequestPath + "/";
+            var rootPath = Path.GetFullPath(_appSettings.Upload.UploadPath) + "/";
+            var rootUrl = _appSettings.Upload.RequestPath + "/";
 
             String dirPath = rootPath;
             String dirName = dir;
@@ -154,10 +154,10 @@ namespace project.backsite.Controllers
         public IActionResult upload_json(string dir)
         {
             //文件保存目录路径
-            String savePath = AppSettings.Instance.Upload.UploadPath + "/";
+            String savePath = _appSettings.Upload.UploadPath + "/";
 
             //文件保存目录URL
-            String saveUrl = AppSettings.Instance.Upload.RequestPath + "/";
+            String saveUrl = _appSettings.Upload.RequestPath + "/";
 
             //定义允许上传的文件扩展名
             Hashtable extTable = new Hashtable();

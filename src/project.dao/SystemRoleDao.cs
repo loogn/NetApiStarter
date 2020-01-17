@@ -10,6 +10,5 @@ namespace project.dal
     [AppService]
     public class SystemRoleDao : CommonServiceBaseDao<SystemRole>
     {
-
     }
 }
