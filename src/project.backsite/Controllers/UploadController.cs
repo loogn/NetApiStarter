@@ -9,8 +9,7 @@ using CoreHelper;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Mvc;
 using project.backsite.Models;
-using project.model;
-using project.service;
+using project.backsite.Services;
 
 namespace project.backsite.Controllers
 {

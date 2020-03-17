@@ -1,7 +1,6 @@
-using System;
-using CoreHelper.AppEvent;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace CoreHelper.AppEvent
 {
     public static class AppEventExtensions
     {

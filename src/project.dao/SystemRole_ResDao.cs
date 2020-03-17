@@ -1,14 +1,12 @@
-﻿using CoreHelper.Ioc;
+﻿using System.Collections.Generic;
+using CoreHelper.Ioc;
 using Loogn.OrmLite;
-using project.model.entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using project.dao.Models;
 
-namespace project.dal
+namespace project.dao
 {
        [AppService]
-    public class SystemRole_ResDao : CommonServiceBaseDao<SystemRole_Res>
+    public class SystemRole_ResDao : BaseDao<SystemRole_Res>
     {
 
 

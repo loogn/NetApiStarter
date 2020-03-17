@@ -14,17 +14,9 @@ namespace project.backsite
             return new StaticPagedList<TModel>(pr.List, pr.PageIndex, pr.PageSize, (int)pr.TotalCount);
         }
 
-        public static long GetUserId(this ClaimsPrincipal claimsPrincipal)
+        public static long GetUserId(this ClaimsPrincipal user)
         {
-            var str = claimsPrincipal.FindFirstValue("userid");
-            if (string.IsNullOrEmpty(str))
-            {
-                return 0;
-            }
-            else
-            {
-                return long.Parse(str);
-            }
+         return long.Parse(user?.FindFirst("userid")?.Value ?? "0");
         }
     }
 }

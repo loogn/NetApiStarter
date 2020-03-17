@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Mvc;
 using project.backsite.Services;
-using project.model.entity;
+using project.dao.Models;
 
 namespace project.backsite.Controllers
 {

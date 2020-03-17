@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using System;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using PagedList.Core.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace project.backsite
+namespace project.backsite.TagHelpers
 {
     public class MyPagerTagHelper : PagerTagHelper
     {

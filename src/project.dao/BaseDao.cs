@@ -1,16 +1,10 @@
-﻿using CoreHelper.Ioc;
+﻿using System.Data;
+using CoreHelper.Ioc;
 using Loogn.OrmLite;
 using Loogn.OrmLite.MySql;
 using MySql.Data.MySqlClient;
-using project.model;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Text;
 
-namespace project.dal
+namespace project.dao
 {
     /// <summary>
     /// 链接配置
@@ -28,7 +22,7 @@ namespace project.dal
     }
 
     [AppService]
-    public class CommonServiceBaseDao<TEntity> : AbstractDao<TEntity>
+    public class BaseDao<TEntity> : AbstractDao<TEntity>
     {
         
         protected override IDbConnection Open()

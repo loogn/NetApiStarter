@@ -6,7 +6,7 @@ using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Mvc;
 using project.backsite.Models;
 using project.backsite.Services;
-using project.model.entity;
+using project.dao.Models;
 
 namespace project.backsite.Controllers
 {

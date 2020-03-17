@@ -4,12 +4,12 @@ using CoreHelper.Mapper;
 using Loogn.OrmLite;
 using Microsoft.AspNetCore.Http;
 using project.backsite.Models;
-using project.dal;
-using project.model.entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using project.dao;
+using project.dao.Models;
 
 namespace project.backsite.Services
 {

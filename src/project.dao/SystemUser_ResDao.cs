@@ -1,14 +1,12 @@
-﻿using CoreHelper.Ioc;
+﻿using System.Collections.Generic;
+using CoreHelper.Ioc;
 using Loogn.OrmLite;
-using project.model.entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using project.dao.Models;
 
-namespace project.dal
+namespace project.dao
 {
     [AppService]
-    public class SystemUser_ResDao : CommonServiceBaseDao<SystemUser_Res>
+    public class SystemUser_ResDao : BaseDao<SystemUser_Res>
     {
 
         public List<long> GetResourseIds(long systemUserId)

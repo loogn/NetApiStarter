@@ -43,7 +43,7 @@ namespace project.api.Services
                 issuer: _appSettings.Jwt.Issuer,
                 audience: _appSettings.Jwt.Audience,
                 claims: dict.Select(x => new Claim(x.Key, x.Value)),
-                expires: DateTime.Now.AddDays(7),
+                expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds);
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 

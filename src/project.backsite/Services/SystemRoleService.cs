@@ -1,11 +1,11 @@
 ﻿using CoreHelper;
 using CoreHelper.Ioc;
-using project.dal;
-using project.model.entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Loogn.OrmLite;
+using project.dao;
+using project.dao.Models;
 
 namespace project.backsite.Services
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace project.model.entity
+﻿namespace project.dao.Models
 {
     public partial class SystemUser
     {

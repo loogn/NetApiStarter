@@ -29,10 +29,10 @@ CREATE TABLE [dbo].[Ad] (
   [AdTypeId] bigint DEFAULT ((0)) NOT NULL,
   [ImageUrl] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [LinkUrl] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [Status] tinyint DEFAULT ((0)) NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
   [BeginTime] datetime DEFAULT (getdate()) NOT NULL,
   [EndTime] datetime DEFAULT (getdate()) NOT NULL,
-  [ObjectType] tinyint DEFAULT ((0)) NOT NULL,
+  [ObjectType] int DEFAULT ((0)) NOT NULL,
   [ObjectId] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [OrderNum] int DEFAULT ((0)) NOT NULL,
   [AddTime] datetime DEFAULT (getdate()) NOT NULL
@@ -11623,7 +11623,7 @@ GO
 
 CREATE TABLE [dbo].[SimpleOrder] (
   [Id] bigint  IDENTITY(1,1) NOT NULL,
-  [Type] tinyint DEFAULT ((0)) NOT NULL,
+  [Type] int DEFAULT ((0)) NOT NULL,
   [UserId] bigint DEFAULT ((0)) NOT NULL,
   [OrderNO] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [transaction_id] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
@@ -11721,7 +11721,7 @@ CREATE TABLE [dbo].[SmsCode] (
   [Mobile] varchar(20) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Code] varchar(20) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [IsUse] bit DEFAULT ((0)) NOT NULL,
-  [Type] tinyint DEFAULT ((0)) NOT NULL,
+  [Type] int DEFAULT ((0)) NOT NULL,
   [AddTime] datetime DEFAULT (getdate()) NOT NULL
 )
 GO
@@ -11790,8 +11790,8 @@ CREATE TABLE [dbo].[SystemRes] (
   [Name] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Url] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Target] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [Type] tinyint DEFAULT ((0)) NOT NULL,
-  [Status] tinyint DEFAULT ((0)) NOT NULL,
+  [Type] int DEFAULT ((0)) NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
   [OrderNum] int DEFAULT ((0)) NOT NULL,
   [ParentId] bigint DEFAULT ((0)) NOT NULL,
   [Remark] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
@@ -12042,8 +12042,8 @@ CREATE TABLE [dbo].[SystemUser] (
   [Username] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Password] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Nickname] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [Gender] tinyint DEFAULT ((0)) NOT NULL,
-  [Status] tinyint DEFAULT ((0)) NOT NULL,
+  [Gender] int DEFAULT ((0)) NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
   [avatar] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [AddTime] datetime DEFAULT (getdate()) NOT NULL
 )
@@ -12242,10 +12242,10 @@ CREATE TABLE [dbo].[User] (
   [Id] bigint  IDENTITY(1,1) NOT NULL,
   [Username] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Password] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [Gender] tinyint DEFAULT ((0)) NOT NULL,
+  [Gender] int DEFAULT ((0)) NOT NULL,
   [Avatar] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Mobile] varchar(20) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [Status] tinyint DEFAULT ((0)) NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
   [AddTime] datetime DEFAULT (getdate()) NOT NULL,
   [Birthday] date DEFAULT ('1900-1-1') NOT NULL,
   [RegistrationId] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL

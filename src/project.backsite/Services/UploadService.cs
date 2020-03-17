@@ -1,16 +1,11 @@
-﻿using CoreHelper;
+﻿using System;
+using System.IO;
+using CoreHelper;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Http;
-using project.backsite;
 using project.backsite.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 
-namespace project.service
+namespace project.backsite.Services
 {
     [AppService]
     public class UploadService

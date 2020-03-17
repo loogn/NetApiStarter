@@ -1,13 +1,12 @@
-﻿using CoreHelper.Ioc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace CoreHelper.Ioc
 {
     public static class AppServiceExtensions
     {

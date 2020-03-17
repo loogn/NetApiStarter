@@ -1,15 +1,14 @@
-﻿using CoreHelper.Ioc;
-using Loogn.OrmLite;
-using project.model.entity;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
+using CoreHelper.Ioc;
+using Loogn.OrmLite;
+using project.dao.Models;
 
-namespace project.dal
+namespace project.dao
 {
 
     [AppService]
-    public class SystemUserDao : CommonServiceBaseDao<SystemUser>
+    public class SystemUserDao : BaseDao<SystemUser>
     {
 
         public SystemUser Login(string username, string password)
