@@ -70,7 +70,12 @@
             url: '/upload/ajaxfileupload',
             done: function(data) {
                 //上传完毕回调
-                $("#imgUrl_show").removeClass("layui-hide").attr('src', data.result.fileUrl);
+                if(data.success){
+                    $("#imgUrl_show").removeClass("layui-hide").attr('src', data.result.fileUrl);    
+                }else{
+                    layer.alert(data.msg);
+                }
+                
             },
             error: function() {
                 //请求异常回调

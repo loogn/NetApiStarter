@@ -60,7 +60,8 @@ namespace project.backsite.Services
             var flag = 0L;
             if (m.Id > 0)
             {
-                flag = systemUserDao.Update(m);
+                flag = systemUserDao.Update(m,
+                    "Nickname","Gender","Status","Avatar");
             }
             else
             {
