@@ -3,15 +3,15 @@
 
  Source Server         : 190
  Source Server Type    : MySQL
- Source Server Version : 50727
+ Source Server Version : 50729
  Source Host           : 192.168.1.190:3306
  Source Schema         : ProjectTemplate
 
  Target Server Type    : MySQL
- Target Server Version : 50727
+ Target Server Version : 50729
  File Encoding         : 65001
 
- Date: 07/08/2019 09:52:11
+ Date: 25/03/2020 14:58:18
 */
 
 SET NAMES utf8mb4;
@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `Ad`;
 CREATE TABLE `Ad` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Title` varchar(200) NOT NULL COMMENT '标题',
-  `AdTypeId` int(11) NOT NULL DEFAULT '0' COMMENT '广告类型 DictType=1',
+  `TypeId` int(11) NOT NULL DEFAULT '0' COMMENT '广告类型 DictType=1',
   `ImageUrl` varchar(200) NOT NULL COMMENT '图片地址',
   `LinkUrl` varchar(200) NOT NULL COMMENT '连接地址',
   `Status` int(11) NOT NULL COMMENT '1正常，2禁用',
@@ -34,8 +34,39 @@ CREATE TABLE `Ad` (
   `ObjectId` varchar(200) NOT NULL COMMENT '对象编号',
   `OrderNum` int(11) NOT NULL COMMENT '排序号',
   `AddTime` datetime NOT NULL COMMENT '添加时间',
+  `SubTitle` varchar(200) NOT NULL DEFAULT '' COMMENT '副标题',
+  `VideoUrl` varchar(200) NOT NULL DEFAULT '' COMMENT '视频地址',
+  `Intro` varchar(2000) NOT NULL DEFAULT '' COMMENT '介绍',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='广告';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='广告';
+
+-- ----------------------------
+-- Records of Ad
+-- ----------------------------
+BEGIN;
+INSERT INTO `Ad` VALUES (1, '首页广告33', 4, 'http://localhost:5000/up/2020/03/25/b2f5f02bd6a24812b95a9ee6d482f714.jpg', '3333', 1, '2020-03-25 00:00:00', '2021-03-25 00:00:00', 3, '3', 999, '2020-03-25 10:53:25', '333', '', '2223333');
+INSERT INTO `Ad` VALUES (2, '标题标题', 1, '', '', 1, '2020-03-25 14:23:05', '2020-03-25 14:23:05', 0, '', 999, '2020-03-25 14:23:05', '', '', '');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for Announcement
+-- ----------------------------
+DROP TABLE IF EXISTS `Announcement`;
+CREATE TABLE `Announcement` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(200) NOT NULL DEFAULT '' COMMENT '标题',
+  `Body` text NOT NULL COMMENT '内容',
+  `Status` int(11) NOT NULL DEFAULT '0' COMMENT '状态，1-显示，2-隐藏',
+  `AddTime` datetime NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='公告';
+
+-- ----------------------------
+-- Records of Announcement
+-- ----------------------------
+BEGIN;
+INSERT INTO `Announcement` VALUES (4, '2323', '232323', 1, '2020-03-25 11:42:15');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for AppVersion
@@ -49,6 +80,32 @@ CREATE TABLE `AppVersion` (
   `AddTime` datetime NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='app版本';
+
+-- ----------------------------
+-- Table structure for Article
+-- ----------------------------
+DROP TABLE IF EXISTS `Article`;
+CREATE TABLE `Article` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(200) NOT NULL DEFAULT '' COMMENT '文章标题',
+  `CoverImage` varchar(200) NOT NULL DEFAULT '' COMMENT '封面图',
+  `TypeId` int(20) NOT NULL COMMENT '文章分类,DictType=2',
+  `VirtualRead` int(11) NOT NULL COMMENT '虚拟阅读量',
+  `RealRead` int(11) NOT NULL COMMENT '阅读量',
+  `Status` int(11) NOT NULL COMMENT '1-显示，2-隐藏',
+  `OrderNum` int(11) NOT NULL DEFAULT '1000' COMMENT '排序号，越小越靠前',
+  `AddTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+  `UpdateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `Body` longtext NOT NULL COMMENT '文章内容',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of Article
+-- ----------------------------
+BEGIN;
+INSERT INTO `Article` VALUES (1, '232标题', 'http://localhost:5000/up/2020/03/25/dbf5ad1f19614463b31c685d3694d142.jpg', 2, 1233, 0, 1, 999, '2020-03-25 14:24:19', '2020-03-25 14:24:19', '<p>\n	<strong>sdf</strong>\n</p>\n<p>\n	sdf\n</p>\n<p>\n	<br />\n</p>');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for CountLimie
@@ -69,20 +126,25 @@ DROP TABLE IF EXISTS `DataDict`;
 CREATE TABLE `DataDict` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `DictId` int(11) NOT NULL DEFAULT '0' COMMENT '数据字典编号',
-  `DictType` int(11) NOT NULL DEFAULT '0' COMMENT '数据类型1-广告位置 2-新闻类型',
+  `DictType` int(11) NOT NULL DEFAULT '0' COMMENT '数据类型1-广告位置 2-文章类型',
   `Name` varchar(200) NOT NULL DEFAULT '' COMMENT '名称',
   `OrderNum` int(11) NOT NULL DEFAULT '0' COMMENT '排序号',
   `AddTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
-  `ParentId` int(11) NOT NULL DEFAULT '0' COMMENT '父编号',
+  `ParentId` int(11) NOT NULL DEFAULT '0' COMMENT '父编号,DictId',
   `Remark` varchar(200) NOT NULL DEFAULT '' COMMENT '备注',
+  `Status` int(11) NOT NULL DEFAULT '0' COMMENT '状态，1-启用，2-禁用',
+  `ImageUrl` varchar(200) NOT NULL DEFAULT '' COMMENT '图片地址',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='数据字典';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='数据字典';
 
 -- ----------------------------
 -- Records of DataDict
 -- ----------------------------
 BEGIN;
-INSERT INTO `DataDict` VALUES (1, 1, 1, '首页广告', 0, '2019-07-25 13:45:31', 0, '1');
+INSERT INTO `DataDict` VALUES (1, 1, 1, '一级分类', 999, '2020-03-25 09:44:39', 0, '12', 1, 'http://localhost:5000/up/2020/03/25/b46794d4dc42454b9b33d2b86385303b.jpg');
+INSERT INTO `DataDict` VALUES (4, 4, 1, '首页广告', 999, '2020-03-25 11:02:48', 0, '', 1, '');
+INSERT INTO `DataDict` VALUES (5, 1, 2, '公司新闻', 999, '2020-03-25 14:18:51', 0, '23', 1, '');
+INSERT INTO `DataDict` VALUES (6, 2, 2, '企业动态', 999, '2020-03-25 14:19:02', 0, '', 1, '');
 COMMIT;
 
 -- ----------------------------
@@ -96,6 +158,26 @@ CREATE TABLE `Feedback` (
   `AddTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='反馈';
+
+-- ----------------------------
+-- Table structure for PayOrder
+-- ----------------------------
+DROP TABLE IF EXISTS `PayOrder`;
+CREATE TABLE `PayOrder` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `UserId` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户名',
+  `PayNO` varchar(50) NOT NULL DEFAULT '' COMMENT '支付编号',
+  `OrderNO` varchar(50) NOT NULL DEFAULT '' COMMENT '订单号',
+  `TransactionId` varchar(50) NOT NULL DEFAULT '' COMMENT '支付订单号',
+  `Remark` varchar(300) NOT NULL COMMENT '备注',
+  `Type` int(11) NOT NULL DEFAULT '0' COMMENT '订单类型 1-线上订单',
+  `AddTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+  `PayTime` datetime NOT NULL DEFAULT '1900-01-01 00:00:00' COMMENT '支付时间',
+  `PayStatus` int(11) NOT NULL COMMENT '支付状态1-已支付，2-未支付',
+  `PayMethod` int(11) NOT NULL DEFAULT '0' COMMENT '支付方式1-微信',
+  `Amount` decimal(18,2) NOT NULL DEFAULT '0.00' COMMENT '金额',
+  PRIMARY KEY (`Id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付单';
 
 -- ----------------------------
 -- Table structure for Region
@@ -3844,37 +3926,19 @@ INSERT INTO `Region` VALUES (3726, 820104, 3, '0', '路环', 'LU4 HUAN2');
 COMMIT;
 
 -- ----------------------------
--- Table structure for SimpleOrder
--- ----------------------------
-DROP TABLE IF EXISTS `SimpleOrder`;
-CREATE TABLE `SimpleOrder` (
-  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `UserId` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户名',
-  `OrderNO` varchar(50) NOT NULL DEFAULT '' COMMENT '订单号',
-  `transaction_id` varchar(50) NOT NULL DEFAULT '' COMMENT '支付订单号',
-  `time_end` varchar(20) NOT NULL DEFAULT '' COMMENT '支付完成时间',
-  `total_fee` int(11) NOT NULL COMMENT '订单金额（分）',
-  `body` varchar(300) NOT NULL COMMENT '订单描述',
-  `Status` int(11) NOT NULL DEFAULT '0' COMMENT '订单状态，0-未支付，1-已支付，2-已取消，3-支付失败',
-  `Type` int(11) NOT NULL DEFAULT '0' COMMENT '订单类型 1-充值',
-  `AddTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
 -- Table structure for SmsCode
 -- ----------------------------
 DROP TABLE IF EXISTS `SmsCode`;
 CREATE TABLE `SmsCode` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `Mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
-  `Code` varchar(10) NOT NULL DEFAULT '' COMMENT '验证码',
+  `Mobile` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '手机号',
+  `Code` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '验证码',
   `IsUse` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否使用',
   `Type` int(11) NOT NULL DEFAULT '1' COMMENT '类型1注册 2找回密码',
   `AddTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   `UserId` bigint(20) NOT NULL DEFAULT '0' COMMENT '用户编号',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for SystemRes
@@ -3893,7 +3957,7 @@ CREATE TABLE `SystemRes` (
   `AddTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   `Icon` varchar(50) NOT NULL DEFAULT '' COMMENT '图标',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of SystemRes
@@ -3904,8 +3968,12 @@ INSERT INTO `SystemRes` VALUES (2, '用户管理', '/systemuser/list', '', 1, 1,
 INSERT INTO `SystemRes` VALUES (3, '角色管理', '/systemrole/list', '', 1, 1, 2, 1, '', '2019-07-18 13:43:02', '');
 INSERT INTO `SystemRes` VALUES (4, '资源管理', '/systemres/list', '', 1, 1, 3, 1, '', '2019-07-18 13:43:34', '');
 INSERT INTO `SystemRes` VALUES (6, '内容管理', '', '', 1, 1, 0, 0, '', '2019-07-18 13:44:02', '');
-INSERT INTO `SystemRes` VALUES (7, '数据字典', '/datadict/list', '', 1, 1, 0, 6, '', '2019-07-18 13:44:33', '');
-INSERT INTO `SystemRes` VALUES (8, '广告管理', '/ad/list', '', 1, 1, 0, 6, '', '2019-07-18 13:44:54', '');
+INSERT INTO `SystemRes` VALUES (7, '数据字典', '/datadict/list', '', 2, 1, 0, 6, '', '2019-07-18 13:44:33', '');
+INSERT INTO `SystemRes` VALUES (9, '广告管理', '/Content/AdList', '', 1, 1, 1, 6, '', '2020-03-25 10:50:58', '');
+INSERT INTO `SystemRes` VALUES (10, '广告类型', '/Content/AdTypeList', '', 1, 1, 2, 6, '', '2020-03-25 10:51:53', '');
+INSERT INTO `SystemRes` VALUES (11, '公告管理', '/Content/AnnList', '', 1, 1, 5, 6, '', '2020-03-25 11:42:01', '');
+INSERT INTO `SystemRes` VALUES (12, '文章管理', '/Content/articleList', '', 1, 1, 3, 6, '', '2020-03-25 14:16:47', '');
+INSERT INTO `SystemRes` VALUES (13, '文章分类', '/content/articleTypeList', '', 1, 1, 4, 6, '', '2020-03-25 14:17:12', '');
 COMMIT;
 
 -- ----------------------------
@@ -3935,19 +4003,23 @@ CREATE TABLE `SystemRole_Res` (
   `SystemRoleId` bigint(20) NOT NULL,
   `SystemResId` bigint(20) NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of SystemRole_Res
 -- ----------------------------
 BEGIN;
-INSERT INTO `SystemRole_Res` VALUES (1, 1, 1);
-INSERT INTO `SystemRole_Res` VALUES (2, 1, 2);
-INSERT INTO `SystemRole_Res` VALUES (3, 1, 3);
-INSERT INTO `SystemRole_Res` VALUES (4, 1, 4);
-INSERT INTO `SystemRole_Res` VALUES (5, 1, 6);
-INSERT INTO `SystemRole_Res` VALUES (6, 1, 7);
-INSERT INTO `SystemRole_Res` VALUES (7, 1, 8);
+INSERT INTO `SystemRole_Res` VALUES (25, 1, 6);
+INSERT INTO `SystemRole_Res` VALUES (26, 1, 7);
+INSERT INTO `SystemRole_Res` VALUES (27, 1, 9);
+INSERT INTO `SystemRole_Res` VALUES (28, 1, 10);
+INSERT INTO `SystemRole_Res` VALUES (29, 1, 12);
+INSERT INTO `SystemRole_Res` VALUES (30, 1, 13);
+INSERT INTO `SystemRole_Res` VALUES (31, 1, 11);
+INSERT INTO `SystemRole_Res` VALUES (32, 1, 1);
+INSERT INTO `SystemRole_Res` VALUES (33, 1, 2);
+INSERT INTO `SystemRole_Res` VALUES (34, 1, 3);
+INSERT INTO `SystemRole_Res` VALUES (35, 1, 4);
 COMMIT;
 
 -- ----------------------------
@@ -4008,17 +4080,17 @@ COMMIT;
 DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User` (
   `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `Username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
-  `Password` varchar(50) NOT NULL COMMENT '密码',
-  `Gender` int(11) NOT NULL DEFAULT '0' COMMENT '0保密，1-男，2-女',
-  `Status` int(11) NOT NULL DEFAULT '0' COMMENT '1-正常,2-禁用',
+  `Account` varchar(50) NOT NULL DEFAULT '' COMMENT '账号',
+  `Password` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
+  `Gender` int(4) NOT NULL DEFAULT '0' COMMENT '0保密，1-男，2-女',
+  `Status` int(4) NOT NULL DEFAULT '0' COMMENT '1-正常,2-禁用',
   `Avatar` varchar(200) NOT NULL DEFAULT '' COMMENT '头像',
   `AddTime` datetime NOT NULL COMMENT '添加时间',
   `Mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
   `Birthday` date NOT NULL DEFAULT '1900-01-01' COMMENT '生日',
-  `RegistrationId` varchar(50) NOT NULL DEFAULT '' COMMENT '设备注册编号',
+  `Nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '昵称',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of User
