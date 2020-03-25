@@ -14,6 +14,7 @@ namespace project.backsite.Controllers
         [Autowired] private AdService _adService;
         [Autowired] private DataDictService _dataDictService;
         [Autowired] private AnnouncementService _announcementService;
+        [Autowired] private ArticleService _articleService;
 
         public ContentController(AutowiredService autowiredService)
         {
@@ -22,10 +23,10 @@ namespace project.backsite.Controllers
 
         #region 广告
 
-        public ActionResult AdList(string title, int? adTypeId, DateTime? start, DateTime? end, int page = 1)
+        public ActionResult AdList(string title, int? typeId, DateTime? start, DateTime? end, int page = 1)
         {
             var pageSize = 10;
-            var plist = _adService.SelectList(title, adTypeId, start, end, page, pageSize);
+            var plist = _adService.SelectList(title, typeId, start, end, page, pageSize);
             ViewBag.plist = plist.ToStaticPagedList();
 
             var positionList = _dataDictService.GetTreeList(DataDictType.广告类型);
@@ -72,19 +73,16 @@ namespace project.backsite.Controllers
 
         #region 广告类型
 
-        private int AdmaxLevel = 1;
-        private int AddictType = DataDictType.广告类型;
-
         // GET
         public IActionResult AdTypeList(int parentId = 0)
         {
-            var list = _dataDictService.GetList(AddictType, parentId);
+            var list = _dataDictService.GetList(DataDictType.广告类型, parentId);
             ViewBag.list = list;
-            var parentList = _dataDictService.GetParentList(AddictType, parentId, true);
+            var parentList = _dataDictService.GetParentList(DataDictType.广告类型, parentId, true);
             ViewBag.parentList = parentList;
 
             ViewBag.parentId = parentId;
-            ViewBag.maxLevel = AdmaxLevel;
+            ViewBag.maxLevel = 1;
 
             return View();
         }
@@ -106,7 +104,7 @@ namespace project.backsite.Controllers
 
         public IActionResult AdTypeSave(DataDict dataDict)
         {
-            dataDict.DictType = AddictType;
+            dataDict.DictType = DataDictType.广告类型;
             var ro = _dataDictService.Edit(dataDict);
             return Json(ro);
         }
@@ -124,7 +122,7 @@ namespace project.backsite.Controllers
         public ActionResult AnnList(string title, int page = 1)
         {
             var pageSize = 10;
-            var plist = _announcementService.SelectList(title,  page, pageSize);
+            var plist = _announcementService.SelectList(title, page, pageSize);
             ViewBag.plist = plist.ToStaticPagedList();
 
             return View();
@@ -140,6 +138,7 @@ namespace project.backsite.Controllers
                     Status = 1,
                 };
             }
+
             ViewBag.m = m;
 
             return View();
@@ -154,6 +153,101 @@ namespace project.backsite.Controllers
         public ActionResult AnnDel(long id)
         {
             var ro = _announcementService.Del(id);
+            return Json(ro);
+        }
+
+        #endregion
+
+
+        #region 文章
+
+        public ActionResult ArticleList(string title, int? typeId, int page = 1)
+        {
+            var pageSize = 10;
+            var plist = _articleService.SelectList(title, typeId, page, pageSize);
+            ViewBag.plist = plist.ToStaticPagedList();
+
+            var positionList = _dataDictService.GetTreeList(DataDictType.文章类型);
+            ViewBag.positionList = positionList;
+
+            return View();
+        }
+
+        public ActionResult ArticleEdit(int id = 0)
+        {
+            var m = _articleService.SingleById(id);
+            if (m == null)
+            {
+                m = new Article()
+                {
+                    Status = 1,
+                    OrderNum = 999,
+                };
+            }
+
+            ViewBag.m = m;
+
+            var positionList = _dataDictService.GetTreeList(DataDictType.文章类型);
+            ViewBag.positionList = positionList;
+
+            return View();
+        }
+
+        public ActionResult ArticleSave(Article m)
+        {
+            var ro = _articleService.Edit(m);
+            return Json(ro);
+        }
+
+        public ActionResult ArticleDel(long id)
+        {
+            var ro = _articleService.Del(id);
+            return Json(ro);
+        }
+
+        #endregion
+
+        #region 文章类型
+
+        // GET
+        public IActionResult ArticleTypeList(int parentId = 0)
+        {
+            var list = _dataDictService.GetList(DataDictType.文章类型, parentId);
+            ViewBag.list = list;
+            var parentList = _dataDictService.GetParentList(DataDictType.文章类型, parentId, true);
+            ViewBag.parentList = parentList;
+
+            ViewBag.parentId = parentId;
+            ViewBag.maxLevel = 1;
+
+            return View();
+        }
+
+        public IActionResult ArticleTypeEdit(long id, int parentId = 0)
+        {
+            var dataDict = _dataDictService.Single(id);
+            if (dataDict == null)
+            {
+                dataDict = new DataDict();
+                dataDict.ParentId = parentId;
+                dataDict.OrderNum = 999;
+                dataDict.Status = 1;
+            }
+
+            ViewBag.m = dataDict;
+            return View();
+        }
+
+        public IActionResult ArticleTypeSave(DataDict dataDict)
+        {
+            dataDict.DictType = DataDictType.文章类型;
+            var ro = _dataDictService.Edit(dataDict);
+            return Json(ro);
+        }
+
+        public IActionResult ArticleTypeDel(long id)
+        {
+            var ro = _dataDictService.DeleteById(id);
             return Json(ro);
         }
 

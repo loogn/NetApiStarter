@@ -13,6 +13,8 @@ namespace project.backsite.Services
     {
         [Autowired] private DataDictDao _dataDictDao;
         [Autowired] private AdDao _adDao;
+        [Autowired] private ArticleDao _articleDao;
+
         public DataDictService(AutowiredService autowiredService)
         {
             autowiredService.Autowired(this);
@@ -121,27 +123,28 @@ namespace project.backsite.Services
 
             return new ResultObject(flag);
         }
-        
-        
+
+
         public ResultObject DeleteById(long id)
         {
             var childCount = _dataDictDao.CountWhere("ParentId", id);
             if (childCount > 0)
             {
-                return  new ResultObject("存在子数据，不能删¬除");
+                return new ResultObject("存在子数据，不能删¬除");
             }
-            
-            var m =Single(id) ;
+
+            var m = Single(id);
             var c = 0L;
-            
+
             if (m.DictType == DataDictType.广告类型)
             {
                 c = _adDao.CountWhere("TypeId", m.DictId);
-            }else if (m.DictType == DataDictType.文章类型)
-            {
-                //todo
             }
-            
+            else if (m.DictType == DataDictType.文章类型)
+            {
+                c = _articleDao.CountWhere("TypeId", m.DictId);
+            }
+
             if (c == 0)
             {
                 _dataDictDao.DeleteById(id);

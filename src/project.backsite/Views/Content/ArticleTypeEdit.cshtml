@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "编辑员工信息";
+    ViewBag.Title = "编辑文章类型";
     var m = ViewBag.m as DataDict;
 }
 
@@ -77,11 +77,12 @@
 
 @section scripts{
     <script>
+        
         uploadImage("ImageUrl");
 
         layui.form.on('submit(save)',
             function(data) {
-                $.post("@Url.Action("AdTypeSave")",
+                $.post("@Url.Action("ArticleTypeSave")",
                     data.field,
                     function(ro) {
                         layer.msg(ro.msg,

@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "编辑文章";
+
+    var m = ViewBag.m as Article;
+    var positionList = ViewBag.positionList as List<DataDict>;
+}
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+
+            <form class="layui-form" style="margin-right: 50px;">
+                <input type="hidden" value="@m.Id" name="id"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>标题：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="title" value="@m.Title" lay-verify="required" placeholder="请输入标题"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>类型：</label>
+                    <div class="layui-input-block">
+                        <select name="TypeId" lay-verify="required" asp-items="positionList.Select(x => new SelectListItem
+{
+    Text = x.Name,
+    Value = x.DictId.ToString(),
+})" asp-for="@m.TypeId"></select>
+
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">封面图：</label>
+                    <div class="layui-input-block">
+                        <img src="@m.CoverImage" id="CoverImage_show" style="width: 100px; height: 100px;"/>
+                        <input type="hidden" value="@m.CoverImage" id="CoverImage" name="CoverImage"/>
+                        <button type="button" class="layui-btn" id="CoverImage_btn">
+                            <i class="layui-icon">&#xe67c;</i>上传图片
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>内容：</label>
+                    <div class="layui-input-block">
+                        <textarea id="Body" name="Body">@Html.Raw(m.Body)</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">虚拟阅读量：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="VirtualRead" value="@m.VirtualRead" placeholder=""/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" asp-for="@m.Status" name="status" value="1" title="正常">
+                        <input type="radio" asp-for="@m.Status" name="status" value="2" title="禁用">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">排序号：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="OrderNum" value="@m.OrderNum" placeholder=""/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button lay-submit lay-filter="save" class="layui-btn">保存</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script src="~/lib/kindeditor/kindeditor-all-min.js"></script>
+    <script>
+
+        var bodyEditor = null;
+        KindEditor.ready(function(K) {
+            bodyEditor = K.create('#Body',
+                {
+                    resizeType: 1,
+                    height: '400px;',
+                    width: '100%',
+                    uploadJson: '/upload/upload_json',
+                    fileManagerJson: '/upload/file_manager_json',
+                    allowFileManager: true,
+                    themeType: 'simple',
+                    items: editorSimpleItems
+                    // ,items:editorAllItems
+                });
+        });
+
+        //监听提交
+        layui.form.on('submit(save)',
+            function(data) {
+                data.field.Body=bodyEditor.html();
+                $.post("@Url.Action("ArticleSave")",
+                    data.field,
+                    function(ro) {
+                        layer.msg(ro.msg,
+                            { anim: 0, time: 500 },
+                            function() {
+                                if (ro.success) {
+                                    closeXWindow();
+                                }
+                            });
+                    });
+                return false;
+            });
+
+        uploadImage('CoverImage');
+
+    </script>
+}

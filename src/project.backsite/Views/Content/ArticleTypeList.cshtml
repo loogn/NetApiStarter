@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "广告类型";
+    ViewBag.Title = "文章类型";
 
     var list = ViewBag.list as List<DataDict>;
     int parentId = ViewBag.parentId;
@@ -26,7 +26,7 @@
             </div>
         }
         <div class="layui-card-header">
-            <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加', '@Url.Action("AdTypeEdit", new {parentId})', 800, 600)">
+            <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加', '@Url.Action("ArticleTypeEdit", new {parentId})', 800, 600)">
                 <i class="layui-icon layui-icon-add-circle-fine"></i>添加
             </button>
         </div>
@@ -69,7 +69,7 @@
                         <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
                         <td>
                             <div class="layui-btn-group">
-                                <button class="layui-btn  layui-btn-sm" onclick="xadmin.open('编辑', '@Url.Action("AdTypeEdit", new {id = item.Id})', 1000, 600)">编辑</button>
+                                <button class="layui-btn  layui-btn-sm" onclick="xadmin.open('编辑', '@Url.Action("ArticleTypeEdit", new {id = item.Id})', 1000, 600)">编辑</button>
                                 <button class="layui-btn layui-btn-danger layui-btn-sm" onclick="del(@item.Id)">删除</button>
                             </div>
                         </td>
@@ -89,11 +89,11 @@
  function del(id) {
         layer.confirm('确定要删除吗？',
             function() {
-                $.post('@Url.Action("AdTypeDel")',
+                $.post('@Url.Action("ArticleTypeDel")',
                     { id: id },
                     function(ro) {
                         layer.msg(ro.msg,
-                            { time: 500 },
+                            {  time: 500 },
                             function() {
                                 if (ro.success) {
                                     location.reload();

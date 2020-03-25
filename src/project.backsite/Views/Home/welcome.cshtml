@@ -1,5 +1,4 @@
 ﻿@{
-
     ViewBag.Title = "后台管理系统";
 }
 
@@ -20,39 +19,45 @@
         </textarea>
             </div>
         </div>
-        <hr class="layui-bg-gray">
+
         <div class="layui-card-header">
             图片上传
         </div>
 
         <div class="layui-card-body">
-            <img src="" id="imgUrl_show" class="edit-img layui-hide"/>
-            <button type="button" class="layui-btn" id="test1">
+            <img src="" id="imgUrl_show" class="edit-img"/>
+            <input type="text" id="imgUrl"/>
+            <button type="button" class="layui-btn" id="imgUrl_btn">
                 <i class="layui-icon">&#xe67c;</i>上传图片
             </button>
-
+        </div>
+        <div class="layui-card-header">
+            省市县
+        </div>
+        <div class="layui-card-body">
+            <form class="layui-form">
+                <select id="province" lay-ignore name="province"></select>
+                <select id="city" lay-ignore name="city"></select>
+                <select id="county" lay-ignore name="county"></select>
+            </form>
         </div>
     </div>
-    <form class="layui-form">
-        <select id="province" lay-ignore name="province"></select>
-        <select id="city" lay-ignore name="city"></select>
-        <select id="county" lay-ignore name="county"></select>
-    </form>
+
 
 </div>
 
 @section scripts{
     <script src="~/lib/kindeditor/kindeditor-all-min.js"></script>
-    <script src="~/js/ajaxfileupload.js"></script>
-    <script src="~/js/site.js"></script>
+    <script src="~/js/selectArea.js"></script>
     <script>
         //富文本编辑器
         var bodyEditor = null;
+        //bodyEditor.html();
         KindEditor.ready(function(K) {
             bodyEditor = K.create('#txtBody',
                 {
                     resizeType: 1,
-                    height: '400px;',
+                    height: '200px;',
                     width: '100%',
                     uploadJson: '/upload/upload_json',
                     fileManagerJson: '/upload/file_manager_json',
@@ -62,33 +67,8 @@
                 });
         });
         //单个上传按钮
-//        bindUpload("imgUrl");
-
-        //执行实例
-        var uploadInst = layui.upload.render({
-            elem: '#test1',
-            url: '/upload/ajaxfileupload',
-            done: function(data) {
-                //上传完毕回调
-                if(data.success){
-                    $("#imgUrl_show").removeClass("layui-hide").attr('src', data.result.fileUrl);    
-                }else{
-                    layer.alert(data.msg);
-                }
-                
-            },
-            error: function() {
-                //请求异常回调
-            }
-        });
-
-
-    </script>
-    <script src="~/js/selectArea.js"></script>
-    <script>
-
+        uploadImage("imgUrl");
+    
         new selectArea($("#province"), $("#city"), $("#county")).init();
-        
-
     </script>
 }
