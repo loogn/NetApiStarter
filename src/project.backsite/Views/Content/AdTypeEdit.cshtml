@@ -93,7 +93,7 @@
 
         layui.form.on('submit(save)',
             function(data) {
-                $.post("@Url.Action("Save")",
+                $.post("@Url.Action("AdTypeSave")",
                     data.field,
                     function(ro) {
                         layer.msg(ro.msg,

@@ -66,6 +66,21 @@ namespace project.dao.Models
         /// </summary>
         public DateTime AddTime { get; set; }
 
+        /// <summary>
+        /// 副标题
+        /// </summary>
+        public string SubTitle { get; set; }
+
+        /// <summary>
+        /// 视频地址
+        /// </summary>
+        public string VideoUrl { get; set; }
+
+        /// <summary>
+        /// 介绍
+        /// </summary>
+        public string Intro { get; set; }
+
 
     }
 }

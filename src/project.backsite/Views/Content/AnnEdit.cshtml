@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "编辑公告";
+
+    var m = ViewBag.m as Announcement;
+    var positionList = ViewBag.positionList as List<DataDict>;
+}
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form" style="margin-right: 50px;">
+                <input type="hidden" value="@m.Id" name="id"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>标题：</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="title" value="@m.Title" lay-verify="required" placeholder="请输入标题"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>内容：</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" name="body" lay-verify="required" placeholder="请输入内容">@m.Body</textarea>
+
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" asp-for="@m.Status" name="status" value="1" title="正常">
+                        <input type="radio" asp-for="@m.Status" name="status" value="0" title="禁用">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button lay-submit lay-filter="save" class="layui-btn">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
+        //监听提交
+        layui.form.on('submit(save)',
+            function(data) {
+
+                $.post("@Url.Action("AnnSave")",
+                    data.field,
+                    function(ro) {
+                        layer.msg(ro.msg,
+                            { time: 500 },
+                            function() {
+                                if (ro.success) {
+                                    closeXWindow();
+                                }
+                            });
+                    });
+                return false;
+            });
+
+        bindUpload("ImageUrl");
+    </script>
+}

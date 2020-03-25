@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "公告管理";
+    var plist = ViewBag.plist as StaticPagedList<Announcement>;
+}
+<partial name="breadcrumb"/>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body ">
+            <form class="layui-form">
+                <div class="layui-input-inline">
+                    <input class="layui-input" placeholder="标题" name="title" value="@Context.Request.Query["title"]" id="title">
+                </div>
+
+                <div class="layui-input-inline layui-show-xs-block">
+
+                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                        <i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-header">
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-normal" onclick="xadmin.open('添加公告', '@Url.Action("AnnEdit")', 800, 400)">
+                    <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+                </button>
+            </div>
+        </div>
+        <div class="layui-card-body ">
+
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>标题</th>
+                    <th>状态</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in plist)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Title</td>
+
+
+                        <td>@item.GetStatus()</td>
+
+                        <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td class="td-manage">
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-sm" title="编辑" onclick="xadmin.open('编辑公告', '@Url.Action("AnnEdit", new {id = item.Id})', 800, 400)">
+                                    编辑
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="del(@item.Id)">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="layui-card-body">
+            <div class="page">
+                <my-pager list="plist"></my-pager>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
+        function del(id) {
+            layer.confirm('确定要删除吗？',
+                function() {
+                    $.post('@Url.Action("AnnDel")',
+                        { id: id },
+                        function(ro) {
+                            layer.msg(ro.msg,
+                                {time: 500 },
+                                function() {
+                                    if (ro.success) {
+                                        location.reload();
+                                    }
+                                });
+                        });
+                });
+        }
+    </script>
+}

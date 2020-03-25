@@ -31,6 +31,79 @@ var editorSimpleItems = [
  
  */
 
+function uploadImage(eleId) {
+    layui.upload.render({
+        elem: '#' + eleId + "_btn",
+        url: '/upload/ajaxfileupload',
+        done: function (data) {
+            //上传完毕回调
+            $("#" + eleId + "_show").attr('src', data.result.fileUrl);
+            $("#" + eleId).val(data.result.fileUrl);
+        },
+        error: function () {
+            //请求异常回调
+        }
+    });
+}
+
+
+function uploadImages(eleId, cb) {
+    layui.upload.render({
+        elem: '#' + eleId + "_btn",
+        url: '/upload/ajaxfileupload',
+        done: function (data) {
+            //上传完毕回调
+            $("#" + eleId).val($("#" + eleId).val() + data.result.fileUrl + ",");
+            if (cb) {
+                cb();
+            }
+        },
+        error: function () {
+            //请求异常回调
+        }
+    });
+}
+
+
+function uploadVideo(eleId) {
+
+    layui.upload.render({
+        elem: '#' + eleId + "_btn",
+        url: '/upload/ajaxfileupload',
+        accept: 'video',
+        exts: "mp4",
+        done: function (data) {
+            //上传完毕回调
+            $("#" + eleId + "_show").attr('src', data.result.fileUrl);
+            $("#" + eleId).val(data.result.fileUrl);
+        },
+        error: function () {
+            //请求异常回调
+        }
+    });
+}
+
+
+function uploadAudio(eleId) {
+
+    layui.upload.render({
+        elem: '#' + eleId + "_btn",
+        url: '/upload/ajaxfileupload',
+        accept: 'audio',
+        exts: "mp3",
+        done: function (data) {
+            //上传完毕回调
+            $("#" + eleId + "_show").attr('src', data.result.fileUrl);
+            $("#" + eleId).val(data.result.fileUrl);
+        },
+        error: function () {
+            //请求异常回调
+        }
+    });
+}
+
+
+
 
 function bindUpload(eleId) {
 

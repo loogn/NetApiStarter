@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "数据字典Demo";
+    ViewBag.Title = "广告类型";
 
     var list = ViewBag.list as List<DataDict>;
     int parentId = ViewBag.parentId;
@@ -17,16 +17,16 @@
         {
             <div class="layui-card-body">
                 <span class="layui-breadcrumb">
-                    <a href='@Url.Action("List")'>根目录</a>
+                    <a href='@Url.Action("AdTypeList")'>根目录</a>
                     @foreach (var item in parentList)
                     {
-                        <a href='@Url.Action("List", new {parentId = @item.DictId})'>@item.Name</a>
+                        <a href='@Url.Action("AdTypeList", new {parentId = @item.DictId})'>@item.Name</a>
                     }
                 </span>
             </div>
         }
         <div class="layui-card-header">
-            <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加', '@Url.Action("Edit", new {parentId})', 800, 600)">
+            <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加', '@Url.Action("AdTypeEdit", new {parentId})', 800, 600)">
                 <i class="layui-icon layui-icon-add-circle-fine"></i>添加
             </button>
         </div>
@@ -56,7 +56,7 @@
                         <td>
                             @if (parentList.Count < maxLevel - 1)
                             {
-                                <a href='@Url.Action("List", new {parentId = @item.DictId})'>@item.Name</a>
+                                <a href='@Url.Action("AdTypeList", new {parentId = @item.DictId})'>@item.Name</a>
                             }
                             else
                             {
@@ -69,7 +69,7 @@
                         <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
                         <td>
                             <div class="layui-btn-group">
-                                <button class="layui-btn  layui-btn-sm" onclick="xadmin.open('编辑', '@Url.Action("Edit", new {id = item.Id})', 1000, 600)">编辑</button>
+                                <button class="layui-btn  layui-btn-sm" onclick="xadmin.open('编辑', '@Url.Action("AdTypeEdit", new {id = item.Id})', 1000, 600)">编辑</button>
                                 <button class="layui-btn layui-btn-danger layui-btn-sm" onclick="del(@item.Id)">删除</button>
                             </div>
                         </td>
@@ -87,21 +87,21 @@
 
     <script>
  function del(id) {
-            layer.confirm('确定要删除吗？',
-                function() {
-                    $.post('@Url.Action("del")',
-                        { id: id },
-                        function(ro) {
-                            layer.msg(ro.msg,
-                                { anmi: 0, time: 500 },
-                                function() {
-                                    if (ro.success) {
-                                        location.reload();
-                                    }
-                                });
-                        });
-                });
-        }
+        layer.confirm('确定要删除吗？',
+            function() {
+                $.post('@Url.Action("AdTypeDel")',
+                    { id: id },
+                    function(ro) {
+                        layer.msg(ro.msg,
+                            { anmi: 0, time: 500 },
+                            function() {
+                                if (ro.success) {
+                                    location.reload();
+                                }
+                            });
+                    });
+            });
+    }
         
     </script>
 }

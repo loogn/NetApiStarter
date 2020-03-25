@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "编辑广告";
+
+    var m = ViewBag.m as Ad;
+    var positionList = ViewBag.positionList as List<DataDict>;
+}
+
+
+<div class="layui-fluid">
+    <form class="layui-form" style="margin-right: 50px;">
+        <input type="hidden" value="@m.Id" name="id"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> <span class="x-red">*</span>标题：</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="title" value="@m.Title" lay-verify="required" placeholder="请输入标题"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">子标题：</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="subtitle" value="@m.SubTitle" placeholder="请输入子标题"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> <span class="x-red">*</span>广告位置：</label>
+            <div class="layui-input-block">
+                <select name="TypeId" lay-verify="required" asp-items="positionList.Select(x => new SelectListItem
+{
+    Text = x.Name,
+    Value = x.DictId.ToString(),
+})" asp-for="@m.TypeId"></select>
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">链接地址：</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="LinkUrl" value="@m.LinkUrl" placeholder="请输入链接地址"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">对象类型：</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="ObjectType" value="@m.ObjectType" placeholder=""/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">对象值：</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="ObjectId" value="@m.ObjectId" placeholder=""/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+                <input type="radio" asp-for="@m.Status" name="status" value="1" title="正常">
+                <input type="radio" asp-for="@m.Status" name="status" value="0" title="禁用">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">有效时间：</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" name="BeginTime" id="start" value="@m.BeginTime.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="layui-input-inline" style="width: unset"> ~ </div>
+            <div class="layui-input-inline">
+                <input class="layui-input" name="EndTime" id="end" value="@m.EndTime.ToString("yyyy-MM-dd")">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序号：</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="OrderNum" value="@m.OrderNum" placeholder=""/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">图片：</label>
+            <div class="layui-input-block">
+                <img src="@m.ImageUrl" id="ImageUrl_show" style="width: 100px; height: 100px;"/>
+                <input type="hidden" value="@m.ImageUrl" id="ImageUrl" name="ImageUrl"/>
+                <button type="button" class="layui-btn" id="ImageUrl_btn">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">视频：</label>
+            <div class="layui-input-block">
+                <video src="@m.VideoUrl" id="VideoUrl_show" controls width="300" height="200"></video>
+                <input type="hidden" value="@m.VideoUrl" id="VideoUrl" name="VideoUrl"/>
+                <button type="button" class="layui-btn" id="VideoUrl_btn">
+                    <i class="layui-icon">&#xe67c;</i>上传视频
+                </button>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">介绍：</label>
+            <div class="layui-input-block">
+                <textarea class="layui-textarea" name="Intro">@m.Intro</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <button lay-submit lay-filter="save" class="layui-btn">保存</button>
+        </div>
+    </form>
+</div>
+
+
+@section scripts{
+
+    <script>
+
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
+        //监听提交
+        layui.form.on('submit(save)',
+            function(data) {
+
+                $.post("@Url.Action("AdSave")",
+                    data.field,
+                    function(ro) {
+                        layer.msg(ro.msg,
+                            { anim: 0, time: 500 },
+                            function() {
+                                if (ro.success) {
+                                    closeXWindow();
+                                }
+                            });
+                    });
+                return false;
+            });
+
+        uploadImage('ImageUrl');
+        uploadVideo('VideoUrl');
+
+    </script>
+}
