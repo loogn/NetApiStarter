@@ -5,70 +5,74 @@
 
 
 <div class="layui-fluid">
-    <form class="layui-form" style="margin-right: 50px;">
-        <input type="hidden" value="@m.Id" name="id"/>
-        <input type="hidden" value="@m.ParentId" name="parentId"/>
-        <input type="hidden" value="@m.DictId" name="DictId"/>
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="x-red">*</span>
-                名称：
-            </label>
-            <div class="layui-input-block">
-                <input class="layui-input" name="Name" value="@m.Name" lay-verify="required" required placeholder="">
-            </div>
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form" style="margin-right: 50px;">
+                <input type="hidden" value="@m.Id" name="id"/>
+                <input type="hidden" value="@m.ParentId" name="parentId"/>
+                <input type="hidden" value="@m.DictId" name="DictId"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>
+                        名称：
+                    </label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="Name" value="@m.Name" lay-verify="required" required placeholder="">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>
+                        图片：
+                    </label>
+                    <div class="layui-input-block">
+                        <img src="@m.ImageUrl" id="ImageUrl_show" class="edit-img" alt=""/>
+                        <input type="hidden" name="ImageUrl" id="ImageUrl" value="@m.ImageUrl"/>
+                        <button type="button" class="layui-btn" id="ImageUrl_btn">
+                            <i class="layui-icon">&#xe67c;</i>上传图片
+                        </button>
+
+
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>
+                        排序号：
+                    </label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="OrderNum" lay-verify="required number" required value="@m.OrderNum" placeholder="越小越靠前">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+
+                        备注：
+                    </label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="Remark" value="@m.Remark" placeholder="">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>状态：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" asp-for="@m.Status" name="Status" value="1" title="正常">
+                        <input type="radio" asp-for="@m.Status" name="Status" value="2" title="禁用">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button class="layui-btn" lay-submit lay-filter="save">保存</button>
+                </div>
+            </form>
         </div>
-
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="x-red">*</span>
-                图片：
-            </label>
-            <div class="layui-input-block">
-                <img src="@m.ImageUrl" id="ImageUrl_show" class="edit-img" alt=""/>
-                <input type="hidden" name="ImageUrl" id="ImageUrl" value="@m.ImageUrl"/>
-                <button type="button" class="layui-btn" id="ImageUrl_btn">
-                    <i class="layui-icon">&#xe67c;</i>上传图片
-                </button>
-
-
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="x-red">*</span>
-                排序号：
-            </label>
-            <div class="layui-input-block">
-                <input class="layui-input" name="OrderNum" lay-verify="required number" required value="@m.OrderNum" placeholder="越小越靠前">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-
-                备注：
-            </label>
-            <div class="layui-input-block">
-                <input class="layui-input" name="Remark" value="@m.Remark" placeholder="">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label"> <span class="x-red">*</span>状态：</label>
-            <div class="layui-input-block">
-                <input type="radio" asp-for="@m.Status" name="Status" value="1" title="正常">
-                <input type="radio" asp-for="@m.Status" name="Status" value="2" title="禁用">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label"></label>
-            <button class="layui-btn" lay-submit lay-filter="save">保存</button>
-        </div>
-    </form>
+    </div>
 </div>
 
 @section scripts{
