@@ -1,5 +1,4 @@
-﻿@using project.dao.Models
-@{
+﻿@{
     ViewBag.Title = "编辑角色员工";
     var roleId = int.Parse(Context.Request.Query["roleId"]);
     var pList = ViewBag.pList as StaticPagedList<SystemUser>;

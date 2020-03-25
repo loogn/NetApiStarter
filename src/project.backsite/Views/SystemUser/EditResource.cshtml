@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "编辑资源";
-   
+
     var employeeId = long.Parse(Context.Request.Query["employeeId"]);
 }
 
@@ -16,10 +16,11 @@
 
 <div class="layui-fluid">
 
-
-    <ul id="tree" class="ztree"></ul>
-    
-    <br/>
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <ul id="tree" class="ztree"></ul>
+        </div>
+    </div>
     <input type="button" class="layui-btn" value="保存" onclick="saveResource()"/>
 
 </div>
@@ -68,7 +69,7 @@
                 data,
                 function(ro) {
                     layer.msg(ro.msg,
-                        { time: 1000 },
+                        { time: 500 },
                         function() {
                             if (ro.success) {
                                 closeXWindow(true);

@@ -1,8 +1,6 @@
 ﻿using CoreHelper;
 using CoreHelper.Ioc;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Loogn.OrmLite;
 using project.dao;
 using project.dao.Models;

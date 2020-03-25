@@ -1,8 +1,9 @@
-﻿@using project.dao.Models
-@{
+﻿@{
     ViewData["Title"] = "资源管理";
-    var plist = ViewBag.plist as StaticPagedList<SystemRes>
-        ;
+    var list = ViewBag.list as List<SystemRes>;
+    var parent = ViewBag.parent as SystemRes;
+
+
 }
 
 <partial name="breadcrumb"/>
@@ -10,20 +11,19 @@
 <div class="layui-fluid">
 
     <div class="layui-card">
+
         <div class="layui-card-body">
-            <form class="layui-form">
-                <div class="layui-input-inline layui-show-xs-block">
-                    <input class="layui-input" placeholder="名称" value="@(Context.Request.Query["name"])" name="name" id="name">
-                </div>
-                <div class="layui-input-inline layui-show-xs-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
-                        <i class="layui-icon">&#xe615;</i>
-                    </button>
-                </div>
-            </form>
+            <span class="layui-breadcrumb">
+                <a href='@Url.Action("List")'>根目录</a>
+                @if (parent != null)
+                {
+                    <a href='@Url.Action("List", new {parentId = parent.Id})'>@parent.Name</a>
+                }
+            </span>
         </div>
-        <div class="layui-card-header layui-btn-group">
-            <button class="layui-btn layui-btn-normal" onclick="xadmin.open('添加资源', '@Url.Action("Edit")', 800, 600)">
+
+        <div class="layui-card-header ">
+            <button class="layui-btn layui-btn-normal" onclick="xadmin.open('添加资源', '@Url.Action("Edit",new{parentId=parent?.Id??0})', 800, 600)">
                 <i class="layui-icon layui-icon-add-circle-fine"></i>添加
             </button>
         </div>
@@ -35,7 +35,7 @@
                     <th>编号</th>
                     <th>名称</th>
                     <th>地址</th>
-                    <th>类型</th>
+                    <th>菜单显示</th>
                     <th>排序号</th>
                     <th>状态</th>
                     <th>添加时间</th>
@@ -43,15 +43,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in plist)
+                @foreach (var item in list)
                 {
                     <tr>
                         <td>@item.Id</td>
-                        <td>@item.Name</td>
+                        <td>
+                            @if (parent == null)
+                            {
+                                <a href='@Url.Action("List", new {parentId = @item.Id})'>@item.Name</a>
+                            }
+                            else
+                            {
+                                @:@item.Name
+                            }
+                        </td>
                         <td>@item.Url</td>
-                        <td>@item.Type</td>
+                        <td>@item.GetType()</td>
                         <td>@item.OrderNum</td>
-                        <td>@item.Status</td>
+                        <td>@item.GetStatus()</td>
                         <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
                         <td class="td-manage">
                             <div class="layui-btn-group">
@@ -67,11 +76,6 @@
                 </tbody>
             </table>
         </div>
-        <div class="layui-card-body">
-            <div class="page">
-                <my-pager list="plist"></my-pager>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -86,7 +90,7 @@
                         { id: id },
                         function(ro) {
                             layer.msg(ro.msg,
-                                { time: 1000 },
+                                { time: 500 },
                                 function() {
                                     if (ro.success) {
                                         location.reload();

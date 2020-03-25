@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CoreHelper
+﻿namespace CoreHelper
 {
     /// <summary>
     /// 结果对象

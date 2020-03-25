@@ -1,8 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Hosting;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using CoreHelper.Ioc;
 
 namespace project.backsite

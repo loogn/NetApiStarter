@@ -1,25 +1,28 @@
-﻿@using project.dao.Models
-@{
+﻿@{
     ViewBag.Title = "编辑角色";
     var m = ViewBag.m as SystemRole;
 }
 
 <div class="layui-fluid">
-    <form class="layui-form" style="margin-right: 50px;">
-        <input type="hidden" value="@m.Id" name="id"/>
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="x-red">*</span>角色名称:
-            </label>
-            <div class="layui-input-block">
-                <input class="layui-input" name="name" lay-verify="required" required value="@m.Name" placeholder="请输入角色名称">
-            </div>
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form" style="margin-right: 50px;">
+                <input type="hidden" value="@m.Id" name="id"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>角色名称:
+                    </label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="name" lay-verify="required" required value="@m.Name" placeholder="请输入角色名称">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button class="layui-btn" lay-submit lay-filter="save">保存</button>
+                </div>
+            </form>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"></label>
-            <button class="layui-btn" lay-submit lay-filter="save">保存</button>
-        </div>
-    </form>
+    </div>
 </div>
 
 

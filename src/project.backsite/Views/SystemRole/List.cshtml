@@ -1,5 +1,4 @@
-﻿@using project.dao.Models
-@{
+﻿@{
     ViewBag.Title = "角色列表";
 
     var list = ViewBag.list as List<SystemRole>;
@@ -22,11 +21,11 @@
                 </div>
             </form>
         </div>
-       
-        <div class="layui-card-header layui-btn-group">
+
+        <div class="layui-card-header">
 
             <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加角色', '@Url.Action("Edit")', 400, 200)">
-                <i class="layui-icon"></i>添加
+                <i class="layui-icon layui-icon-add-circle-fine"></i>添加
             </button>
         </div>
         <div class="layui-card-body">
@@ -72,7 +71,7 @@
                         { id: id },
                         function(ro) {
                             layer.msg(ro.msg,
-                                {time: 1000 },
+                                {time: 500 },
                                 function() {
                                     if (ro.success) {
                                         location.reload();

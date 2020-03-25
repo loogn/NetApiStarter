@@ -3970,7 +3970,7 @@ CREATE TABLE `SystemUser` (
 -- Records of SystemUser
 -- ----------------------------
 BEGIN;
-INSERT INTO `SystemUser` VALUES (1, 'loogn', '123456', '小水', 1, 1, '', '2019-07-18 13:40:44');
+INSERT INTO `SystemUser` VALUES (1, 'loogn', 'E10ADC3949BA59ABBE56E057F20F883E', '小水', 1, 1, '', '2019-07-18 13:40:44');
 COMMIT;
 
 -- ----------------------------

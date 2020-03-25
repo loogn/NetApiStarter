@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CoreHelper.Ioc;
@@ -15,8 +13,7 @@ namespace project.backsite.Controllers
 {
     public class AccountController : MvcController
     {
-        [Autowired]
-        private SystemUserService systemUserBusiness;
+        [Autowired] private SystemUserService systemUserBusiness;
 
         public AccountController(AutowiredService autowiredService)
         {
@@ -26,7 +23,6 @@ namespace project.backsite.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-
             return View();
         }
 
@@ -36,13 +32,14 @@ namespace project.backsite.Controllers
             var ro = systemUserBusiness.Login(request);
             if (ro.Success)
             {
-
                 var claims = new List<Claim>
                 {
-                    new Claim("userid",ro.Result.Id.ToString())
+                    new Claim("userid", ro.Result.Id.ToString()),
+                    new Claim("nickname", ro.Result.Nickname)
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
 
                 ro.Result = null;
                 return Json(ro);
@@ -57,7 +54,7 @@ namespace project.backsite.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("login");
+            return RedirectToAction("Login");
         }
     }
 }

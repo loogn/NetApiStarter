@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "数据字典Demo";
+
+    var list = ViewBag.list as List<DataDict>;
+    int parentId = ViewBag.parentId;
+    int maxLevel = ViewBag.maxLevel;
+    var parentList = ViewBag.parentList as List<DataDict>;
+
+}
+
+<partial name="breadcrumb"/>
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <span class="layui-breadcrumb">
+                <a href='@Url.Action("List")'>根目录</a>
+                @foreach (var item in parentList)
+                {
+                    <a href='@Url.Action("List", new {parentId = @item.DictId})'>@item.Name</a>
+                }
+            </span>
+        </div>
+        <div class="layui-card-header">
+            <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加', '@Url.Action("Edit", new {parentId})', 800, 600)">
+                <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+            </button>
+        </div>
+
+
+        <div class="layui-card-body">
+
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>图片</th>
+                    <th>名称</th>
+                    <th>排序号</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in list)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>
+                            <img src="@item.ImageUrl" class="list-img"/>
+                        </td>
+                        <td>
+                            @if (parentList.Count < maxLevel - 1)
+                            {
+                                <a href='@Url.Action("List", new {parentId = @item.DictId})'>@item.Name</a>
+                            }
+                            else
+                            {
+                                @:@item.Name
+                                //<text>@item.Name</text>
+                            }
+                        </td>
+
+                        <td>@item.OrderNum</td>
+                        <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <button class="layui-btn  layui-btn-sm" onclick="xadmin.open('编辑', '@Url.Action("Edit", new {id = item.Id})', 1000, 600)">编辑</button>
+                                <button class="layui-btn layui-btn-danger layui-btn-sm" onclick="deleteProduct(@item.Id)">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+
+        
+    </script>
+}

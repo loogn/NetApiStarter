@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using CoreHelper;
 using CoreHelper.Ioc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using project.api.Models;
 using project.api.Services;

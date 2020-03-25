@@ -31,11 +31,11 @@
 
             layui.form.on('submit(login)',
                 function(data) {
-                    $.post("@Url.Action("dologin")",
+                    $.post("@Url.Action("DoLogin")",
                         data.field,
                         function(ro) {
                             layer.msg(ro.msg,
-                                { anim: 0 },
+                                { time: 500 },
                                 function() {
                                     if (ro.success) {
                                         location.href = '/home/index';

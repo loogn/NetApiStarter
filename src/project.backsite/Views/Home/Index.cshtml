@@ -1,7 +1,7 @@
 ﻿@inject project.backsite.Services.SystemResService systemResBusiness;
 @{
-
     ViewBag.Title = "后台管理系统";
+    var nickname = User.GetNickname();
     var list = systemResBusiness.GetEmployeeResource(User.GetUserId()).Where(x => x.Type == 1);
 }
 
@@ -61,7 +61,7 @@
         </ul>
         <ul class="layui-nav right" lay-filter="">
             <li class="layui-nav-item">
-                <a href="javascript:;">admin</a>
+                <a href="javascript:;">@nickname</a>
                 <dl class="layui-nav-child">
                     <!-- 二级菜单 -->
                     @* <dd> *@
@@ -99,7 +99,7 @@
                             @foreach (var nav2 in list.Where(x => x.ParentId == nav1.Id).OrderBy(x => x.OrderNum))
                             {
                                 <li>
-                                    <a onclick="xadmin.add_tab('@nav2.Name', '@nav2.Url')">
+                                    <a onclick="xadmin.add_tab('@nav2.Name', '@nav2.Url',true)">
                                         <i class="iconfont">&#xe6a7;</i>
                                         <cite>@nav2.Name</cite>
                                     </a>

@@ -1,9 +1,7 @@
-﻿using CoreHelper.Ioc;
-using CoreHelper.Reflection;
+﻿using CoreHelper.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;

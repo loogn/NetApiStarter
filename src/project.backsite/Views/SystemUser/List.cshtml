@@ -1,5 +1,4 @@
-﻿@using project.dao.Models
-@{
+﻿@{
     ViewBag.Title = "用户管理";
 
     var plist = ViewBag.plist as StaticPagedList<SystemUser>;
@@ -13,7 +12,7 @@
         <div class="layui-card-body">
             <form class="layui-form">
                 <div class="layui-inline">
-                    <input class="layui-input" name="nickname" placeholder="姓名" id="nickname" value="@Context.Request.Query["nickname"]" class="ml-0"/>
+                    <input class="layui-input ml-0" name="nickname" placeholder="姓名" id="nickname" value="@Context.Request.Query["nickname"]"/>
                 </div>
                 <div class="layui-inline">
                     <button class="layui-btn" lay-submit="" lay-filter="sreach">
@@ -22,7 +21,7 @@
                 </div>
             </form>
         </div>
-        <div class="layui-card-header layui-btn-group">
+        <div class="layui-card-header">
             <button class="layui-btn layui-btn-normal " onclick="xadmin.open('添加用户', '@Url.Action("Edit")', 800, 600)">
                 <i class="layui-icon layui-icon-add-circle-fine"></i>添加
             </button>
@@ -86,7 +85,7 @@
                         { id: id },
                         function(ro) {
                             layer.msg(ro.msg,
-                                { time: 1000 },
+                                { time: 500 },
                                 function() {
                                     if (ro.success) {
                                         location.reload();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoreHelper.Ioc;
+﻿using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Mvc;
 using project.backsite.Models;
 using project.backsite.Services;
@@ -19,16 +15,16 @@ namespace project.backsite.Controllers
             autowiredService.Autowired(this);
         }
 
-        public IActionResult List(string name, int page = 1)
+        public IActionResult List(long parentId = 0)
         {
-            var pageSize = 10;
-            var plist = systemResBusiness.SelectList(name, page, pageSize);
-            ViewBag.plist = plist.ToStaticPagedList();
+            var parent = systemResBusiness.SingleById(parentId);
+            ViewBag.parent = parent;
+            ViewBag.list = systemResBusiness.SelectByParentId(parentId);
             return View();
         }
 
 
-        public IActionResult Edit(long id = 0)
+        public IActionResult Edit(long id = 0, long parentId = 0)
         {
             var m = systemResBusiness.SingleById(id);
             if (m == null)
@@ -36,10 +32,13 @@ namespace project.backsite.Controllers
                 m = new SystemRes();
                 m.Status = 1;
                 m.Type = 1;
+                ViewBag.parent = systemResBusiness.SingleById(parentId);
+            }
+            else
+            {
+                ViewBag.parent = systemResBusiness.SingleById(m.ParentId);
             }
 
-            var plist = systemResBusiness.ParentList();
-            ViewBag.plist = plist;
             ViewBag.m = m;
             return View();
         }

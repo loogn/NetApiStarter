@@ -1,8 +1,8 @@
-﻿@using project.dao.Models
-@{
+﻿@{
     ViewData["Title"] = "编辑资源";
     var m = ViewBag.m as SystemRes;
-    var plist = ViewBag.plist as List<SystemRes>;
+
+    var parent = ViewBag.parent as SystemRes;
 }
 
 <div class="layui-fluid">
@@ -14,23 +14,9 @@
                 父菜单：
             </label>
             <div class="layui-input-block">
-                <select name="parentId">
-                    <option value="0">作为一级</option>
-                    @if (m.ParentId != 0 || m.Id == 0)
-                    {
-                        foreach (var p in plist)
-                        {
-                            if (p.Id == m.ParentId)
-                            {
-                                <option value="@p.Id" selected>@p.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@p.Id">@p.Name</option>
-                            }
-                        }
-                    }
-                </select>
+                <input type="hidden" name="parentId" value="@(parent?.Id ?? 0)"/>
+
+                <input class="layui-input" readonly disabled value="@(parent?.Name ?? "作为一级")"/>
             </div>
         </div>
 
@@ -63,10 +49,10 @@
 
 
         <div class="layui-form-item">
-            <label class="layui-form-label"> <span class="x-red">*</span>类型：</label>
+            <label class="layui-form-label"> <span class="x-red">*</span>菜单显示：</label>
             <div class="layui-input-block">
-                <input type="radio" asp-for="@m.Type" name="Type" value="1" title="菜单">
-                <input type="radio" asp-for="@m.Type" name="Type" value="2" title="资源">
+                <input type="radio" asp-for="@m.Type" name="Type" value="1" title="显示">
+                <input type="radio" asp-for="@m.Type" name="Type" value="2" title="隐藏">
             </div>
         </div>
         <div class="layui-form-item">
@@ -121,7 +107,7 @@
                     data.field,
                     function(ro) {
                         layer.msg(ro.msg,
-                            { time: 1000 },
+                            { time: 500 },
                             function() {
                                 if (ro.success) {
                                     closeXWindow();

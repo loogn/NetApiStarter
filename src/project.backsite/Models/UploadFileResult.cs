@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace project.backsite.Models
+﻿namespace project.backsite.Models
 {
     /// <summary>
     /// 上传结果

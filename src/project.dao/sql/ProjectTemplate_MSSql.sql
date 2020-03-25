@@ -12117,10 +12117,10 @@ GO
 SET IDENTITY_INSERT [dbo].[SystemUser] ON
 GO
 
-INSERT INTO [dbo].[SystemUser] ([Id], [Username], [Password], [Nickname], [Gender], [Status], [avatar], [AddTime]) VALUES (N'1', N'loogn', N'8CFB018CC8826BD229CBB696F0F07E3A', N'王小龙', N'1', N'1', N'', N'2018-04-19 16:58:05.770')
+INSERT INTO [dbo].[SystemUser] ([Id], [Username], [Password], [Nickname], [Gender], [Status], [avatar], [AddTime]) VALUES (N'1', N'loogn', N'E10ADC3949BA59ABBE56E057F20F883E', N'王小龙', N'1', N'1', N'', N'2018-04-19 16:58:05.770')
 GO
 
-INSERT INTO [dbo].[SystemUser] ([Id], [Username], [Password], [Nickname], [Gender], [Status], [avatar], [AddTime]) VALUES (N'15', N'abc', N'8CFB018CC8826BD229CBB696F0F07E3A', N'sd', N'1', N'1', N'', N'2019-07-15 15:41:50.603')
+INSERT INTO [dbo].[SystemUser] ([Id], [Username], [Password], [Nickname], [Gender], [Status], [avatar], [AddTime]) VALUES (N'15', N'abc', N'E10ADC3949BA59ABBE56E057F20F883E', N'sd', N'1', N'1', N'', N'2019-07-15 15:41:50.603')
 GO
 
 SET IDENTITY_INSERT [dbo].[SystemUser] OFF

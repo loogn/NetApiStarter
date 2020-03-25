@@ -1,4 +1,3 @@
-@using project.dao.Models
 @{
     ViewBag.Title = "角色设置";
     var roleIds = ViewBag.roleIds as List<long>;
@@ -42,7 +41,7 @@
                 { employeeId: '@ViewBag.employeeId', roleIds: roleIds },
                 function(ro) {
                     layer.msg(ro.msg,
-                        { time: 1000 },
+                        { time: 500 },
                         function() {
                             if (ro.success) {
                                 closeXWindow();

@@ -13,7 +13,12 @@ namespace project.backsite.Services
         private static object lockObj = new object();
 
         [Autowired] private AppSettings _appSettings;
-        
+
+        public UploadService(AutowiredService autowiredService)
+        {
+            autowiredService.Autowired(this);
+        }
+
         /// <summary>
         /// 上传文件
         /// </summary>
@@ -21,20 +26,22 @@ namespace project.backsite.Services
         /// <returns></returns>
         public ResultObject<UploadFileResult> Uploadfile(IFormFile formFile)
         {
-            
             if (formFile == null || formFile.Length == 0)
             {
                 return new ResultObject<UploadFileResult>("文件不能为空");
             }
+
             if (formFile.Length > _appSettings.Upload.LimitSize)
             {
                 return new ResultObject<UploadFileResult>("文件超过了最大限制");
             }
+
             var ext = Path.GetExtension(formFile.FileName).ToLower();
             if (!_appSettings.Upload.AllowExts.Contains(ext))
             {
                 return new ResultObject<UploadFileResult>("文件类型不允许");
             }
+
             //上传逻辑
             var now = DateTime.Now;
             var yy = now.ToString("yyyy");
@@ -47,6 +54,7 @@ namespace project.backsite.Services
             {
                 Directory.CreateDirectory(folder);
             }
+
             var filePath = Path.Combine(folder, fileName);
             using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
@@ -55,9 +63,8 @@ namespace project.backsite.Services
             }
 
             var fileUrl = $"{_appSettings.RootUrl}{_appSettings.Upload.RequestPath}/{yy}/{mm}/{dd}/{fileName}";
-            var response = new UploadFileResult { FileUrl = _appSettings.RootUrl + fileUrl };
+            var response = new UploadFileResult {FileUrl = fileUrl};
             return new ResultObject<UploadFileResult>(response);
         }
-
     }
 }

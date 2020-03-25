@@ -24,15 +24,15 @@
     top: 0;
 }
 
-    .page-top .sitename {
-        color: #ffffff;
-        font-size: 20px;
-        padding: 0 7px;
-        margin-left: 13px;
-        height: 100%;
-        line-height: 50px;
-        text-decoration: none;
-    }
+.page-top .sitename {
+    color: #ffffff;
+    font-size: 20px;
+    padding: 0 7px;
+    margin-left: 13px;
+    height: 100%;
+    line-height: 50px;
+    text-decoration: none;
+}
 
 .page-nav {
     margin-top: 50px;
@@ -53,10 +53,10 @@
     text-decoration: none;
 }
 
-    #mtree a:hover, #mtree a.curSelectedNode {
-        color: #1d1d1d;
-        background-color: #eeeeee;
-    }
+#mtree a:hover, #mtree a.curSelectedNode {
+    color: #1d1d1d;
+    background-color: #eeeeee;
+}
 
 #mtree .node_name {
     font-size: 14px;
@@ -94,21 +94,25 @@
     background-color: #fff;
 }
 
-    .upload-button input {
-        position: absolute;
-        overflow: hidden;
-        right: 0;
-        top: 0;
-        -ms-filter: 'alpha(opacity=0)';
-        opacity: 0;
-    }
+.upload-button input {
+    position: absolute;
+    overflow: hidden;
+    right: 0;
+    top: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    opacity: 0;
+}
 
 .list-img {
-    max-width: 100px;
+    max-width: 50px;
     max-height: 50px;
 }
 
 .edit-img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
+}
+
+.layui-card-body a {
+    color: #01AAED !important;
 }

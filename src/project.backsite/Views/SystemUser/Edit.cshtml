@@ -1,5 +1,4 @@
-﻿@using project.dao.Models
-@{
+﻿@{
     ViewBag.Title = "编辑员工信息";
     var m = ViewBag.m as SystemUser;
 
@@ -8,64 +7,68 @@
 
 
 <div class="layui-fluid">
-    <form class="layui-form" style="margin-right: 50px;">
-        <input type="hidden" value="@m.Id" name="id"/>
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="x-red">*</span>
-                用户名：
-            </label>
-            <div class="layui-input-block">
-                <input class="layui-input" name="username" value="@m.Username" @read lay-verify="required" required placeholder="请输入用户名">
-            </div>
-        </div>
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form" style="margin-right: 50px;">
+                <input type="hidden" value="@m.Id" name="id"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>
+                        用户名：
+                    </label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="username" value="@m.Username" @read lay-verify="required" required placeholder="请输入用户名">
+                    </div>
+                </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="x-red">*</span>
-                密码：
-            </label>
-            <div class="layui-input-block">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>
+                        密码：
+                    </label>
+                    <div class="layui-input-block">
 
-                <input class="layui-input" type="password" name="password" value="@m.Password" @read lay-verify="required" required placeholder="请输入密码">
-                @if (m.Id > 0)
-                {
-                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="resetBtn">重置密码</button>
-                }
-            </div>
-        </div>
+                        <input class="layui-input" type="password" name="password" value="@m.Password" @read lay-verify="required" required placeholder="请输入密码">
+                        @if (m.Id > 0)
+                        {
+                            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="resetBtn">重置密码</button>
+                        }
+                    </div>
+                </div>
 
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">
-                <span class="x-red">*</span>
-                姓名：
-            </label>
-            <div class="layui-input-block">
-                <input class="layui-input" name="nickname" lay-verify="required" required value="@m.Nickname" placeholder="请输入姓名">
-            </div>
-        </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>
+                        姓名：
+                    </label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" name="nickname" lay-verify="required" required value="@m.Nickname" placeholder="请输入姓名">
+                    </div>
+                </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label"> <span class="x-red">*</span>性别：</label>
-            <div class="layui-input-block">
-                <input type="radio" asp-for="@m.Gender" name="Gender" value="1" title="男">
-                <input type="radio" asp-for="@m.Gender" name="Gender" value="2" title="女">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"> <span class="x-red">*</span>状态：</label>
-            <div class="layui-input-block">
-                <input type="radio" asp-for="@m.Status" name="Status" value="1" title="正常">
-                <input type="radio" asp-for="@m.Status" name="Status" value="2" title="禁用">
-            </div>
-        </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>性别：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" asp-for="@m.Gender" name="Gender" value="1" title="男">
+                        <input type="radio" asp-for="@m.Gender" name="Gender" value="2" title="女">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"> <span class="x-red">*</span>状态：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" asp-for="@m.Status" name="Status" value="1" title="正常">
+                        <input type="radio" asp-for="@m.Status" name="Status" value="2" title="禁用">
+                    </div>
+                </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label"></label>
-            <button class="layui-btn" lay-submit lay-filter="save">保存</button>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button class="layui-btn" lay-submit lay-filter="save">保存</button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 
 @section scripts{

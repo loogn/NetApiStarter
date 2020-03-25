@@ -1,8 +1,4 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoreHelper.Ioc;
+﻿using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Mvc;
 using project.backsite.Services;
 

@@ -4,10 +4,8 @@ using CoreHelper.Mapper;
 using Loogn.OrmLite;
 using Microsoft.AspNetCore.Http;
 using project.backsite.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using project.dao;
 using project.dao.Models;
 
@@ -16,16 +14,11 @@ namespace project.backsite.Services
     [AppService]
     public class SystemResService
     {
-        [Autowired]
-        private SystemResDao systemResDao;
-        [Autowired]
-        private SystemUserDao systemUserDao;
-        [Autowired]
-        private SystemRole_ResDao systemRole_ResDao;
-        [Autowired]
-        private SystemUser_ResDao systemUser_ResDao;
-        [Autowired]
-        private IHttpContextAccessor httpContextAccessor;
+        [Autowired] private SystemResDao systemResDao;
+        [Autowired] private SystemUserDao systemUserDao;
+        [Autowired] private SystemRole_ResDao systemRole_ResDao;
+        [Autowired] private SystemUser_ResDao systemUser_ResDao;
+        [Autowired] private IHttpContextAccessor httpContextAccessor;
 
         public SystemResService(AutowiredService autowiredService)
         {
@@ -63,17 +56,18 @@ namespace project.backsite.Services
                 };
                 if (list.Any(x => x.ParentId == node.id))
                 {
-                    var newLevel = (byte)(level + 1);
+                    var newLevel = (byte) (level + 1);
                     node.children = GetNodes(list, node.id, newLevel);
                 }
+
                 nodeList.Add(node);
             }
+
             return nodeList;
         }
 
         public ResultObject Edit(EditResourceRequest request)
         {
-
             var m = SimpleMapper.Map<SystemRes>(request);
 
             if (m.Id > 0)
@@ -97,12 +91,18 @@ namespace project.backsite.Services
                 list = systemResDao.SelectByIds(resIds);
                 httpContextAccessor.HttpContext.Items["User_Res"] = list;
             }
+
             return list;
         }
 
         public OrmLitePageResult<SystemRes> SelectList(string name, int pageIndex, int pageSize)
         {
             return systemResDao.SelectList(name, pageIndex, pageSize);
+        }
+
+        public List<SystemRes> SelectByParentId(long parentId)
+        {
+            return systemResDao.SelectWhere("ParentId", parentId, "OrderNum,Id");
         }
 
         public ResultObject DeleteRes(long resId)
@@ -113,6 +113,7 @@ namespace project.backsite.Services
                 systemUser_ResDao.DeleteByResId(resId);
                 systemRole_ResDao.DeleteByResId(resId);
             }
+
             return new ResultObject(flag);
         }
     }
