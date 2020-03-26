@@ -14,6 +14,7 @@ namespace project.backsite.Services
 
         public AnnouncementService(AutowiredService autowiredService)
         {
+            
             autowiredService.Autowired(this);
         }
         

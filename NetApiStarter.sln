@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.api", "src\project.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "project.backsite", "src\project.backsite\project.backsite.csproj", "{C87063EC-8AE0-4216-9A91-0CD88858BB84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxPaySDK", "WxPaySDK\WxPaySDK.csproj", "{8D47B40C-10C1-4F7A-93A6-009968A03953}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C87063EC-8AE0-4216-9A91-0CD88858BB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C87063EC-8AE0-4216-9A91-0CD88858BB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C87063EC-8AE0-4216-9A91-0CD88858BB84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D47B40C-10C1-4F7A-93A6-009968A03953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D47B40C-10C1-4F7A-93A6-009968A03953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D47B40C-10C1-4F7A-93A6-009968A03953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D47B40C-10C1-4F7A-93A6-009968A03953}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

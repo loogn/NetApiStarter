@@ -154,6 +154,40 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:project.api.Services.WxPayHelper.UnifiedOrderAndGetParams(WxPaySDK.WxPayConfig,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            发起统一支付,并且获取js参数
+            </summary>
+            <param name="out_trade_no">商户订单号</param>
+            <param name="body">标题</param>
+            <param name="total_fee">金额（分）</param>
+            <param name="openid">wx openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.WxPayHelper.UnifiedOrder(WxPaySDK.WxPayConfig,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            发起统一支付(Demo）
+            </summary>
+            <param name="out_trade_no">商户订单号</param>
+            <param name="body">标题</param>
+            <param name="total_fee">金额（分）</param>
+            <param name="openid">wx openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.WxPayHelper.GetJSApiParameters(WxPaySDK.WxPayConfig,System.Object)">
+            <summary>
+            wx.requestPayment的参数
+            </summary>
+            <param name="unifiedOrderResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.WxPayHelper.QueryOrder(WxPaySDK.WxPayConfig,System.String)">
+            <summary>
+            查询订单
+            </summary>
+            <param name="transaction_id"></param>
+            <returns></returns>
+        </member>
         <member name="T:project.api.SwaggerServiceExtensions.SwaggerDocumentFilter">
             <summary>
             Swagger控制器描述文字
