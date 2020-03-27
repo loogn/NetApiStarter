@@ -22,7 +22,6 @@ namespace project.api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            
         }
 
         public IConfiguration Configuration { get; }
@@ -32,23 +31,34 @@ namespace project.api
         {
             var jwtSection = Configuration.GetSection("Jwt");
 
-            services.AddAuthentication(options =>
-            {
-                options.RequireAuthenticatedSignIn = false;
-            })
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(options => { options.RequireAuthenticatedSignIn = false; })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidAudience = jwtSection["Audience"],
-                    ValidIssuer = jwtSection["Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["SigningKey"]))
-                };
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidAudience = jwtSection["Audience"],
+                        ValidIssuer = jwtSection["Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["SigningKey"]))
+                    };
+                });
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", builder =>
+                {
+                    builder.SetIsOriginAllowed(_=>true)
+                        .AllowCredentials()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
             });
+
+
             services.AddAppServices(Configuration);
 
             services.AddControllersWithViews(options =>
@@ -89,7 +99,7 @@ namespace project.api
 
             app.UseStaticFiles();
 
-            
+
             var fileExtProvider = new FileExtensionContentTypeProvider();
             //fileExtProvider.Mappings[".htm3"] = "text/html";
             var uploadFullPath = Path.GetFullPath(settings.Upload.UploadPath);
@@ -99,13 +109,14 @@ namespace project.api
                 RequestPath = settings.Upload.RequestPath,
                 ContentTypeProvider = fileExtProvider
             });
-          
-            app.UseRouting();
-           
-            app.UseAuthentication(); 
-            app.UseAuthorization();
 
+            app.UseRouting();
+
+            app.UseCors("any");
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseLogRequestBody();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
