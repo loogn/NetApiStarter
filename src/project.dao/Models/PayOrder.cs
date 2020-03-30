@@ -10,12 +10,7 @@ namespace project.dao.Models
     {
         [OrmLiteField(IsPrimaryKey = true, InsertIgnore = true)]
         public long Id { get; set; }
-
-        /// <summary>
-        /// 公司编号
-        /// </summary>
-        public long CompanyId { get; set; }
-
+        
         /// <summary>
         /// 用户名
         /// </summary>
