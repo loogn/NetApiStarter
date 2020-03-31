@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WxPaySDK
 {
@@ -10,26 +11,26 @@ namespace WxPaySDK
         /// 接收从微信支付后台发送过来的数据并验证签名
         /// </summary>
         /// <returns>微信支付后台返回的数据</returns>
-        public static WxPayData GetNotifyData(WxPayConfig wxPayConfig, Stream body)
+        public static async Task<WxPayData> GetNotifyData(WxPayConfig wxPayConfig, Stream body)
         {
             //接收从微信后台POST过来的数据
 
             int count = 0;
             byte[] buffer = new byte[1024];
             StringBuilder builder = new StringBuilder();
-            while ((count = body.Read(buffer, 0, 1024)) > 0)
+            while ((count = await body.ReadAsync(buffer, 0, 1024)) > 0)
             {
                 builder.Append(Encoding.UTF8.GetString(buffer, 0, count));
             }
 
-            Log.Info("WxPayApi", "Receive data from WeChat : " + builder.ToString());
+            WxPayLog.Info("WxPayApi", "Receive data from WeChat : " + builder.ToString());
 
             //转换数据格式并验证签名
             WxPayData data = new WxPayData();
             //可能抛出异常
             data.FromXml(wxPayConfig, builder.ToString());
 
-            Log.Info("WxPayApi", "Check sign success");
+            WxPayLog.Info("WxPayApi", "Check sign success");
             return data;
         }
 
@@ -74,9 +75,9 @@ namespace WxPaySDK
 
             var start = DateTime.Now; //请求开始时间
 
-            Log.Debug("WxPayApi", "MicroPay request : " + xml);
+            WxPayLog.Debug("WxPayApi", "MicroPay request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut); //调用HTTP通信接口以提交数据到API
-            Log.Debug("WxPayApi", "MicroPay response : " + response);
+            WxPayLog.Debug("WxPayApi", "MicroPay response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds); //获得接口耗时
@@ -119,9 +120,9 @@ namespace WxPaySDK
 
             var start = DateTime.Now;
 
-            Log.Debug("WxPayApi", "OrderQuery request : " + xml);
+            WxPayLog.Debug("WxPayApi", "OrderQuery request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut); //调用HTTP通信接口提交数据
-            Log.Debug("WxPayApi", "OrderQuery response : " + response);
+            WxPayLog.Debug("WxPayApi", "OrderQuery response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds); //获得接口耗时
@@ -162,11 +163,11 @@ namespace WxPaySDK
 
             var start = DateTime.Now; //请求开始时间
 
-            Log.Debug("WxPayApi", "Reverse request : " + xml);
+            WxPayLog.Debug("WxPayApi", "Reverse request : " + xml);
 
             string response = HttpService.Post(wxPayConfig, xml, url, true, timeOut);
 
-            Log.Debug("WxPayApi", "Reverse response : " + response);
+            WxPayLog.Debug("WxPayApi", "Reverse response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds);
@@ -222,9 +223,9 @@ namespace WxPaySDK
             string xml = inputObj.ToXml();
             var start = DateTime.Now;
 
-            Log.Debug("WxPayApi", "Refund request : " + xml);
+            WxPayLog.Debug("WxPayApi", "Refund request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, true, timeOut); //调用HTTP通信接口提交数据到API
-            Log.Debug("WxPayApi", "Refund response : " + response);
+            WxPayLog.Debug("WxPayApi", "Refund response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds); //获得接口耗时
@@ -270,9 +271,9 @@ namespace WxPaySDK
 
             var start = DateTime.Now; //请求开始时间
 
-            Log.Debug("WxPayApi", "RefundQuery request : " + xml);
+            WxPayLog.Debug("WxPayApi", "RefundQuery request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut); //调用HTTP通信接口以提交数据到API
-            Log.Debug("WxPayApi", "RefundQuery response : " + response);
+            WxPayLog.Debug("WxPayApi", "RefundQuery response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds); //获得接口耗时
@@ -311,9 +312,9 @@ namespace WxPaySDK
 
             string xml = inputObj.ToXml();
 
-            Log.Debug("WxPayApi", "DownloadBill request : " + xml);
+            WxPayLog.Debug("WxPayApi", "DownloadBill request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut); //调用HTTP通信接口以提交数据到API
-            Log.Debug("WxPayApi", "DownloadBill result : " + response);
+            WxPayLog.Debug("WxPayApi", "DownloadBill result : " + response);
 
             WxPayData result = new WxPayData();
             //若接口调用失败会返回xml格式的结果
@@ -357,9 +358,9 @@ namespace WxPaySDK
 
             var start = DateTime.Now; //请求开始时间
 
-            Log.Debug("WxPayApi", "ShortUrl request : " + xml);
+            WxPayLog.Debug("WxPayApi", "ShortUrl request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut);
-            Log.Debug("WxPayApi", "ShortUrl response : " + response);
+            WxPayLog.Debug("WxPayApi", "ShortUrl response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds);
@@ -430,9 +431,9 @@ namespace WxPaySDK
 
             var start = DateTime.Now;
 
-            Log.Debug("WxPayApi", "UnfiedOrder request : " + xml);
+            WxPayLog.Debug("WxPayApi", "UnfiedOrder request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut);
-            Log.Debug("WxPayApi", "UnfiedOrder response : " + response);
+            WxPayLog.Debug("WxPayApi", "UnfiedOrder response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds);
@@ -478,9 +479,9 @@ namespace WxPaySDK
 
             var start = DateTime.Now;
 
-            Log.Debug("WxPayApi", "MchPayTransfers request : " + xml);
+            WxPayLog.Debug("WxPayApi", "MchPayTransfers request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, true, timeOut);
-            Log.Debug("WxPayApi", "MchPayTransfers response : " + response);
+            WxPayLog.Debug("WxPayApi", "MchPayTransfers response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds);
@@ -521,9 +522,9 @@ namespace WxPaySDK
 
             var start = DateTime.Now;
 
-            Log.Debug("WxPayApi", "MchPayTransfers request : " + xml);
+            WxPayLog.Debug("WxPayApi", "MchPayTransfers request : " + xml);
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut);
-            Log.Debug("WxPayApi", "MchPayTransfers response : " + response);
+            WxPayLog.Debug("WxPayApi", "MchPayTransfers response : " + response);
 
             var end = DateTime.Now;
             int timeCost = (int) ((end - start).TotalMilliseconds);
@@ -703,11 +704,11 @@ namespace WxPaySDK
             inputObj.SetValue("sign", inputObj.MakeSign(wxPayConfig)); //签名
             string xml = inputObj.ToXml();
 
-            Log.Info("WxPayApi", "Report request : " + xml);
+            WxPayLog.Info("WxPayApi", "Report request : " + xml);
 
             string response = HttpService.Post(wxPayConfig, xml, url, false, timeOut);
 
-            Log.Info("WxPayApi", "Report response : " + response);
+            WxPayLog.Info("WxPayApi", "Report response : " + response);
 
             WxPayData result = new WxPayData();
             result.FromXml(wxPayConfig, response);

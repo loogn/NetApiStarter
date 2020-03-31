@@ -4,7 +4,7 @@ using System.Net;
 
 namespace WxPaySDK
 {
-    internal class Log
+    public class WxPayLog
     {
         public static int LogLevel = 1;
 
@@ -61,7 +61,13 @@ namespace WxPaySDK
             //需要用户自定义日志实现形式
             Console.WriteLine(write_content);
             //写入文件
-            var path = Path.GetFullPath($"./WxPayLog_{DateTime.Now.ToString("yyyy-MM-dd")}.log");
+            
+            var path = Path.GetFullPath($"./logs/WxPayLog_{DateTime.Now.ToString("yyyy-MM-dd")}.log");
+            var dir = Path.GetDirectoryName(path);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
             File.AppendAllText(path, write_content);
         }
     }

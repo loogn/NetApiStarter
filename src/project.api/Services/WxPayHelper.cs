@@ -9,31 +9,35 @@ namespace project.api.Services
         /// <summary>
         /// 发起统一支付,并且获取js参数
         /// </summary>
+        /// <param name="wxPayConfig">商户订单号</param>
         /// <param name="out_trade_no">商户订单号</param>
         /// <param name="body">标题</param>
         /// <param name="total_fee">金额（分）</param>
         /// <param name="openid">wx openid</param>
         /// <returns></returns>
-        public static WxPayData UnifiedOrderAndGetParams(WxPayConfig wxPayConfig, string out_trade_no, string body, int total_fee, string openid)
+        public static WxPayData JSAPIOrderAndGetParams(WxPayConfig wxPayConfig, string out_trade_no, string body,
+            int total_fee, string openid)
         {
-            var unifiedOrderResult = UnifiedOrder(wxPayConfig, out_trade_no, body, total_fee, openid);
+            var unifiedOrderResult = JSAPIOrder(wxPayConfig, out_trade_no, body, total_fee, openid);
             return GetJSApiParameters(wxPayConfig, unifiedOrderResult.GetValue("prepay_id"));
         }
 
         /// <summary>
         /// 发起统一支付(Demo）
         /// </summary>
+        /// <param name="wxPayConfig"></param>
         /// <param name="out_trade_no">商户订单号</param>
         /// <param name="body">标题</param>
         /// <param name="total_fee">金额（分）</param>
         /// <param name="openid">wx openid</param>
         /// <returns></returns>
-        public static WxPayData UnifiedOrder(WxPayConfig wxPayConfig, string out_trade_no, string body, int total_fee, string openid)
+        public static WxPayData JSAPIOrder(WxPayConfig wxPayConfig, string out_trade_no, string body, int total_fee,
+            string openid)
         {
             WxPayData data = new WxPayData();
             data.SetValue("time_start", DateTime.Now.ToString("yyyyMMddHHmmss"));
             data.SetValue("time_expire", DateTime.Now.AddMinutes(30).ToString("yyyyMMddHHmmss"));
-            data.SetValue("device_info", "mp");
+            data.SetValue("device_info", "WEB");
             data.SetValue("body", body);
             data.SetValue("out_trade_no", out_trade_no);
             data.SetValue("total_fee", total_fee);
@@ -53,7 +57,8 @@ namespace project.api.Services
         /// <summary>
         /// wx.requestPayment的参数
         /// </summary>
-        /// <param name="unifiedOrderResult"></param>
+        /// <param name="wxPayConfig"></param>
+        /// <param name="prepay_id"></param>
         /// <returns></returns>
         public static WxPayData GetJSApiParameters(WxPayConfig wxPayConfig, object prepay_id)
         {
@@ -71,6 +76,7 @@ namespace project.api.Services
         /// <summary>
         /// 查询订单
         /// </summary>
+        /// <param name="wxPayConfig"></param>
         /// <param name="transaction_id"></param>
         /// <returns></returns>
         public static bool QueryOrder(WxPayConfig wxPayConfig, string transaction_id)
@@ -88,7 +94,5 @@ namespace project.api.Services
                 return false;
             }
         }
-
-
     }
 }

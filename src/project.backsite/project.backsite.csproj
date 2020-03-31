@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591;0649;0044</NoWarn>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Include="Views\Home\Index.cshtml" />
@@ -23,132 +27,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\project.dao\project.dao.csproj" />
-  </ItemGroup>
-
-
-
-  <ItemGroup>
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\32.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\36.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\39.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\38.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\34.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\4.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\35.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\40.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\41.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\43.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\44.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\46.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\42.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\48.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\37.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\45.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\47.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\5.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\50.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\51.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\52.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\49.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\53.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\54.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\55.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\56.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\57.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\58.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\60.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\6.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\61.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\62.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\63.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\65.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\64.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\59.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\68.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\67.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\71.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\69.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\70.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\72.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\7.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\66.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\75.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\76.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\74.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\73.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\77.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\79.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\78.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\82.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\81.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\84.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\80.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\8.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\83.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\85.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\88.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\89.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\87.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\86.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\9.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\92.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\97.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\96.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\93.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\95.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\98.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\91.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\94.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\90.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\filemanager\filemanager.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\99.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\emoticons\images\static.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\filemanager\images\file-16.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\filemanager\images\file-64.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\filemanager\images\folder-16.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\filemanager\images\folder-64.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\flash\flash.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\image\images\align_top.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\image\image.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\filemanager\images\go-up.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\image\images\align_right.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\image\images\align_left.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\fixtoolbar\fixtoolbar.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\link\link.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\map\map.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\lineheight\lineheight.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\map\map.html" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\insertfile\insertfile.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\image\images\refresh.png" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\multiimage\images\swfupload.swf" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\pagebreak\pagebreak.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\multiimage\images\select-files-zh-CN.png" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\multiimage\multiimage.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\multiimage\images\image.png" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\media\media.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\multiimage\images\select-files-en.png" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\preview\preview.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\plainpaste\plainpaste.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\quickformat\quickformat.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\template\html\1.html" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\table\table.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\template\template.js" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\common\anchor.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\template\html\2.html" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\common\blank.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\wordpaste\wordpaste.js" />
-    <Content Remove="wwwroot\lib\kindeditor\plugins\template\html\3.html" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\common\flash.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\default\default.min.css" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\common\loading.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\default\default.png" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\simple\simple.css" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\common\media.gif" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\default\background.png" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\default\default.css" />
-    <Content Remove="wwwroot\lib\kindeditor\themes\common\rm.gif" />
-    <Content Remove="wwwroot\lib\layui\css\layui.mobile.css" />
-    <Content Remove="wwwroot\lib\layui\css\layui.css" />
-    <Content Remove="wwwroot\lib\layui\css\modules\code.css" />
   </ItemGroup>
 </Project>

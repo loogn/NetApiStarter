@@ -84,7 +84,7 @@ namespace WxPaySDK
             //数据为空时不能转化为xml格式
             if (0 == m_values.Count)
             {
-                Log.Error(this.GetType().ToString(), "WxPayData数据为空!");
+                WxPayLog.Error(this.GetType().ToString(), "WxPayData数据为空!");
                 throw new WxPayException("WxPayData数据为空!");
             }
 
@@ -94,7 +94,7 @@ namespace WxPaySDK
                 //字段值不能为null，会影响后续流程
                 if (pair.Value == null)
                 {
-                    Log.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
+                    WxPayLog.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
                     throw new WxPayException("WxPayData内部含有值为null的字段!");
                 }
 
@@ -108,7 +108,7 @@ namespace WxPaySDK
                 }
                 else//除了string和int类型不能含有其他数据类型
                 {
-                    Log.Error(this.GetType().ToString(), "WxPayData字段数据类型错误!");
+                    WxPayLog.Error(this.GetType().ToString(), "WxPayData字段数据类型错误!");
                     throw new WxPayException("WxPayData字段数据类型错误!");
                 }
             }
@@ -126,7 +126,7 @@ namespace WxPaySDK
         {
             if (string.IsNullOrEmpty(xml))
             {
-                Log.Error(this.GetType().ToString(), "将空的xml串转换为WxPayData不合法!");
+                WxPayLog.Error(this.GetType().ToString(), "将空的xml串转换为WxPayData不合法!");
                 throw new WxPayException("将空的xml串转换为WxPayData不合法!");
             }
 
@@ -170,7 +170,7 @@ namespace WxPaySDK
             {
                 if (pair.Value == null)
                 {
-                    Log.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
+                    WxPayLog.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
                     throw new WxPayException("WxPayData内部含有值为null的字段!");
                 }
 
@@ -206,7 +206,7 @@ namespace WxPaySDK
             {
                 if (pair.Value == null)
                 {
-                    Log.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
+                    WxPayLog.Error(this.GetType().ToString(), "WxPayData内部含有值为null的字段!");
                     throw new WxPayException("WxPayData内部含有值为null的字段!");
                 }
 
@@ -214,7 +214,7 @@ namespace WxPaySDK
                 str += string.Format("{0}={1}\n", pair.Key, pair.Value.ToString());
             }
             str = HttpUtility.HtmlEncode(str);
-            Log.Debug(this.GetType().ToString(), "Print in Web Page : " + str);
+            WxPayLog.Debug(this.GetType().ToString(), "Print in Web Page : " + str);
             return str;
         }
 
@@ -272,13 +272,13 @@ namespace WxPaySDK
             //如果没有设置签名，则跳过检测
             if (!IsSet("sign"))
             {
-                Log.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
+                WxPayLog.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
                 throw new WxPayException("WxPayData签名存在但不合法!");
             }
             //如果设置了签名但是签名为空，则抛异常
             else if (GetValue("sign") == null || GetValue("sign").ToString() == "")
             {
-                Log.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
+                WxPayLog.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
                 throw new WxPayException("WxPayData签名存在但不合法!");
             }
 
@@ -288,12 +288,12 @@ namespace WxPaySDK
             //在本地计算新的签名
             string cal_sign = MakeSign(wxPayConfig, signType);
 
-            if (cal_sign == return_sign)
+            if (cal_sign.Equals( return_sign,StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
 
-            Log.Error(this.GetType().ToString(), "WxPayData签名验证错误!");
+            WxPayLog.Error(this.GetType().ToString(), "WxPayData签名验证错误!");
             throw new WxPayException("WxPayData签名验证错误!");
         }
 

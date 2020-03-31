@@ -68,7 +68,7 @@ namespace WxPaySDK
                     //string path =  HttpContext.Current.Request.PhysicalApplicationPath;
                     X509Certificate2 cert = new X509Certificate2(wxPayConfig.SSlCertPath, wxPayConfig.SSlCertPassword);
                     request.ClientCertificates.Add(cert);
-                    Log.Debug("WxPayApi", "PostXml used cert");
+                    WxPayLog.Debug("WxPayApi", "PostXml used cert");
                 }
 
                 //往服务器写入数据
@@ -86,23 +86,23 @@ namespace WxPaySDK
             }
             catch (System.Threading.ThreadAbortException e)
             {
-                Log.Error("HttpService", "Thread - caught ThreadAbortException - resetting.");
-                Log.Error("Exception message: {0}", e.Message);
+                WxPayLog.Error("HttpService", "Thread - caught ThreadAbortException - resetting.");
+                WxPayLog.Error("Exception message: {0}", e.Message);
                 System.Threading.Thread.ResetAbort();
             }
             catch (WebException e)
             {
-                Log.Error("HttpService", e.ToString());
+                WxPayLog.Error("HttpService", e.ToString());
                 if (e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    Log.Error("HttpService", "StatusCode : " + ((HttpWebResponse)e.Response).StatusCode);
-                    Log.Error("HttpService", "StatusDescription : " + ((HttpWebResponse)e.Response).StatusDescription);
+                    WxPayLog.Error("HttpService", "StatusCode : " + ((HttpWebResponse)e.Response).StatusCode);
+                    WxPayLog.Error("HttpService", "StatusDescription : " + ((HttpWebResponse)e.Response).StatusDescription);
                 }
                 throw new WxPayException(e.ToString());
             }
             catch (Exception e)
             {
-                Log.Error("HttpService", e.ToString());
+                WxPayLog.Error("HttpService", e.ToString());
                 throw new WxPayException(e.ToString());
             }
             finally
@@ -162,23 +162,23 @@ namespace WxPaySDK
             }
             catch (System.Threading.ThreadAbortException e)
             {
-                Log.Error("HttpService", "Thread - caught ThreadAbortException - resetting.");
-                Log.Error("Exception message: {0}", e.Message);
+                WxPayLog.Error("HttpService", "Thread - caught ThreadAbortException - resetting.");
+                WxPayLog.Error("Exception message: {0}", e.Message);
                 System.Threading.Thread.ResetAbort();
             }
             catch (WebException e)
             {
-                Log.Error("HttpService", e.ToString());
+                WxPayLog.Error("HttpService", e.ToString());
                 if (e.Status == WebExceptionStatus.ProtocolError)
                 {
-                    Log.Error("HttpService", "StatusCode : " + ((HttpWebResponse)e.Response).StatusCode);
-                    Log.Error("HttpService", "StatusDescription : " + ((HttpWebResponse)e.Response).StatusDescription);
+                    WxPayLog.Error("HttpService", "StatusCode : " + ((HttpWebResponse)e.Response).StatusCode);
+                    WxPayLog.Error("HttpService", "StatusDescription : " + ((HttpWebResponse)e.Response).StatusDescription);
                 }
                 throw new WxPayException(e.ToString());
             }
             catch (Exception e)
             {
-                Log.Error("HttpService", e.ToString());
+                WxPayLog.Error("HttpService", e.ToString());
                 throw new WxPayException(e.ToString());
             }
             finally
