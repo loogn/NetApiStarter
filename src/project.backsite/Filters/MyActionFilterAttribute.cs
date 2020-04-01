@@ -29,6 +29,7 @@ namespace project.backsite.Filters
                 return;
             }
 
+            
             //默认只有一个参数
             var firstParam = context.ActionArguments.FirstOrDefault().Value;
             if (firstParam != null && firstParam.GetType().IsClass)

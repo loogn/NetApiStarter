@@ -30,6 +30,42 @@ namespace project.backsite.Services
             return systemResDao.SingleById(id);
         }
 
+        //parent
+
+        /// <summary>
+        /// 获取父级列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="withSelf"></param>
+        /// <returns></returns>
+        public List<SystemRes> GetParentList(long id, bool withSelf)
+        {
+            var list = new List<SystemRes>();
+            if (id == 0)
+            {
+                return list;
+            }
+
+            var self = systemResDao.SingleById(id);
+
+            if (withSelf)
+            {
+                list.Add(self);
+            }
+
+            var cur = self;
+            while (cur.ParentId != 0)
+            {
+                var par = systemResDao.SingleById(cur.ParentId);
+                list.Add(par);
+                cur = par;
+            }
+
+            list.Reverse();
+            return list;
+        }
+
+
         public List<SystemRes> ParentList()
         {
             return systemResDao.SelectWhere("ParentId", 0);
@@ -66,9 +102,12 @@ namespace project.backsite.Services
             return nodeList;
         }
 
-        public ResultObject Edit(EditResourceRequest request)
+        public ResultObject Edit(SystemRes m)
         {
-            var m = SimpleMapper.Map<SystemRes>(request);
+            if (string.IsNullOrEmpty(m.Name))
+            {
+                return new ResultObject("名称不能为空");
+            }
 
             if (m.Id > 0)
             {

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using project.api.Filters;
 using project.api.Services;
+using project.dao;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace project.api
@@ -76,9 +77,10 @@ namespace project.api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings settings)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings settings,ConnectionStringsSection conn)
         {
             UploadChunkWriter.Instance.Start();
+            ConnectionStringsSection.Instance = conn;
 
             if (env.IsDevelopment())
             {

@@ -1,6 +1,8 @@
 using System;
 using CoreHelper.Ioc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using project.backsite.Auth;
 using project.backsite.Services;
 using project.dao.Models;
 
@@ -9,6 +11,7 @@ namespace project.backsite.Controllers
     /// <summary>
     /// 内容
     /// </summary>
+    [Authorize("res")]
     public class ContentController : MvcController
     {
         [Autowired] private AdService _adService;
@@ -35,6 +38,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
+
         public ActionResult AdEdit(int id = 0)
         {
             var m = _adService.SingleById(id);
@@ -57,6 +61,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
+        [ResItem("/content/AdEdit")]
         public ActionResult AdSave(Ad m)
         {
             var ro = _adService.Edit(m);
@@ -102,6 +107,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
+        [ResItem("/content/AdTypeEdit")]
         public IActionResult AdTypeSave(DataDict dataDict)
         {
             dataDict.DictType = DataDictType.广告类型;
@@ -144,6 +150,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
+        [ResItem("/content/AnnEdit")]
         public ActionResult AnnSave(Announcement m)
         {
             var ro = _announcementService.Edit(m);
@@ -193,6 +200,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
+        [ResItem("/content/ArticleEdit")]
         public ActionResult ArticleSave(Article m)
         {
             var ro = _articleService.Edit(m);
@@ -238,6 +246,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
+        [ResItem("/Content/ArticleTypeEdit")]
         public IActionResult ArticleTypeSave(DataDict dataDict)
         {
             dataDict.DictType = DataDictType.文章类型;

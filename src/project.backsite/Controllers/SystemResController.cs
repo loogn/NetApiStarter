@@ -17,8 +17,10 @@ namespace project.backsite.Controllers
 
         public IActionResult List(long parentId = 0)
         {
-            var parent = systemResBusiness.SingleById(parentId);
-            ViewBag.parent = parent;
+            var parentList = systemResBusiness.GetParentList(parentId, true);
+            ViewBag.parent = parentList;
+            ViewBag.parentId = parentId;
+            ViewBag.maxLevel = 3;
             ViewBag.list = systemResBusiness.SelectByParentId(parentId);
             return View();
         }
@@ -43,7 +45,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
-        public IActionResult DoEdit(EditResourceRequest m)
+        public IActionResult DoEdit(SystemRes m)
         {
             var ro = systemResBusiness.Edit(m);
             return Json(ro);
