@@ -25,7 +25,7 @@ namespace project.backsite.Controllers
 
         #region 广告
 
-        [ResItem("列表")]
+        [ResItem]
         public ActionResult AdList(string title, int? typeId, DateTime? start, DateTime? end, int page = 1)
         {
             var pageSize = 10;

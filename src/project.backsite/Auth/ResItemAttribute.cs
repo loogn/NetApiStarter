@@ -4,7 +4,7 @@ namespace project.backsite.Auth
 {
     public class ResItemAttribute : Attribute
     {
-        public ResItemAttribute(string operation, string page = null)
+        public ResItemAttribute(string operation="查看", string page = null)
         {
             Operation = operation;
             Page = page;
