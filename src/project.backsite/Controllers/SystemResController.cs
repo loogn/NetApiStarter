@@ -34,6 +34,7 @@ namespace project.backsite.Controllers
                 m = new SystemRes();
                 m.Status = 1;
                 m.Type = 1;
+                m.Operations = "查看";
                 ViewBag.parent = systemResBusiness.SingleById(parentId);
             }
             else
