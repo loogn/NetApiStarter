@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Loogn.OrmLite;
 
 namespace project.dao.Models
@@ -8,6 +9,8 @@ namespace project.dao.Models
     /// </summary>
     public partial class SystemRes
     {
+        [OrmLiteField(Ignore = true)]
+        public HashSet<string> HadOperations { get; set; }
         public string GetStatus()
         {
             return Status switch

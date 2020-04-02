@@ -20,7 +20,7 @@ namespace project.backsite.Controllers
             var parentList = systemResBusiness.GetParentList(parentId, true);
             ViewBag.parent = parentList;
             ViewBag.parentId = parentId;
-            ViewBag.maxLevel = 3;
+            ViewBag.maxLevel = 2;
             ViewBag.list = systemResBusiness.SelectByParentId(parentId);
             return View();
         }

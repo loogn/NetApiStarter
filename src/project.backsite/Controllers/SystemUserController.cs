@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using CoreHelper;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Mvc;
 using project.backsite.Models;
@@ -13,6 +15,7 @@ namespace project.backsite.Controllers
         [Autowired] SystemUser_ResService systemUser_ResBusiness;
         [Autowired] private SystemUser_RoleService _systemUserRoleBusincess;
         [Autowired] private SystemRoleService _systemRoleBusiness;
+        [Autowired] private SystemResService _systemResService;
 
         public SystemUserController(AutowiredService autowiredService)
         {
@@ -55,23 +58,35 @@ namespace project.backsite.Controllers
             return Json(ro);
         }
 
-        public IActionResult EditResource(long employeeId)
+        public IActionResult EditResource(int employeeId)
         {
+            var resList = _systemResService.SelectAll();
+            var resRole = systemUser_ResBusiness.SelectByUser(employeeId);
+            foreach (var res in resList)
+            {
+                var operations = resRole.SingleOrDefault(x => x.SystemResId == res.Id)?.Operations ?? string.Empty;
+                res.HadOperations = new HashSet<string>(StringHelper.Split(operations, ',', '，'));
+            }
+
+            ViewBag.resList = resList;
             return View();
         }
 
-        public IActionResult GetResourceIds(long employeeId)
+        public IActionResult SaveRes(int employeeId)
         {
-            var resIds = systemUser_ResBusiness.GetResourseIds(employeeId);
-            return Json(resIds);
-        }
+            Dictionary<string, string> res = new Dictionary<string, string>();
+            foreach (var key in Request.Form.Keys)
+            {
+                if (key.StartsWith("res_"))
+                {
+                    res.Add(key, Request.Form[key].ToString());
+                }
+            }
 
-        public IActionResult SaveResourceIds(long employeeId, List<long> resourceIds)
-        {
-            var ro = systemUser_ResBusiness.Save(employeeId, resourceIds);
+            var ro = systemUser_ResBusiness.SaveRes(employeeId, res);
             return Json(ro);
         }
-
+       
         public IActionResult Del(long id)
         {
             var ro = systemUserBusiness.Delete(id);

@@ -12,11 +12,8 @@ using project.backsite.Services;
 
 namespace project.backsite.Auth
 {
- 
-    public class ResOperationRequirement : IAuthorizationRequirement
-    {
-    }
-    public class ResAuthorizationHandler : AuthorizationHandler<ResOperationRequirement>
+    
+    public class ResAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement, ResItemAttribute>
     {
         [Autowired] private SystemResService _systemResService;
         [Autowired] private IHttpContextAccessor _httpContextAccessor;
@@ -27,23 +24,27 @@ namespace project.backsite.Auth
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-            ResOperationRequirement requirement)
+            OperationAuthorizationRequirement requirement,
+            ResItemAttribute resource)
         {
-            if (context.Resource is RouteEndpoint endpoint && context.User.Identity.IsAuthenticated)
+            if (!context.User.Identity.IsAuthenticated)
+                return Task.CompletedTask;
+
+            var path = resource.Page;
+            if (string.IsNullOrEmpty(path))
             {
-                var path = endpoint.Metadata.GetMetadata<ResItemAttribute>()?.Path ??
-                           _httpContextAccessor.HttpContext.Request.Path;
-                var resList = _systemResService.GetEmployeeResource(context.User.GetUserId());
-                if (resList.Any(x =>
-                    x.Url.Equals(path, StringComparison.OrdinalIgnoreCase)))
-                {
-                    context.Succeed(requirement);
-                }
+                path = _httpContextAccessor.HttpContext.Request.Path;
+            }
+
+            var resList = _systemResService.GetEmployeeResource(context.User.GetUserId());
+            var res = resList.FirstOrDefault(x =>
+                x.Url.Equals(path, StringComparison.OrdinalIgnoreCase));
+            if (res != null && res.HadOperations.Contains(resource.Operation))
+            {
+                context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
         }
     }
-
-    
 }

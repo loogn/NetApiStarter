@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,7 @@ namespace project.backsite.Auth
 {
     public static class AuthExtendMethods
     {
-        public static IServiceCollection AddAuth(this IServiceCollection services, bool enableAuthorization = false)
+        public static IServiceCollection AddAuth(this IServiceCollection services)
         {
             //认证
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -19,16 +20,8 @@ namespace project.backsite.Auth
                     cookieOptions.SlidingExpiration = true;
                     cookieOptions.ExpireTimeSpan = TimeSpan.FromHours(1);
                 });
-            //授权
-            if (enableAuthorization)
-            {
-                services.AddSingleton<IAuthorizationHandler, ResAuthorizationHandler>();
-                services.AddAuthorization(options =>
-                {
-                    options.AddPolicy("res", policy => { policy.Requirements.Add(new ResOperationRequirement()); });
-                });
-            }
-
+            //资源授权，对应MyActionFilter中的逻辑
+            services.AddSingleton<IAuthorizationHandler, ResAuthorizationHandler>();
             return services;
         }
     }

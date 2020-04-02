@@ -11,7 +11,6 @@ namespace project.backsite.Controllers
     /// <summary>
     /// 内容
     /// </summary>
-    [Authorize("res")]
     public class ContentController : MvcController
     {
         [Autowired] private AdService _adService;
@@ -26,6 +25,7 @@ namespace project.backsite.Controllers
 
         #region 广告
 
+        [ResItem("列表")]
         public ActionResult AdList(string title, int? typeId, DateTime? start, DateTime? end, int page = 1)
         {
             var pageSize = 10;
@@ -37,8 +37,7 @@ namespace project.backsite.Controllers
 
             return View();
         }
-
-
+        
         public ActionResult AdEdit(int id = 0)
         {
             var m = _adService.SingleById(id);
@@ -61,7 +60,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
-        [ResItem("/content/AdEdit")]
+        [ResItem("编辑","/content/AdList")]
         public ActionResult AdSave(Ad m)
         {
             var ro = _adService.Edit(m);

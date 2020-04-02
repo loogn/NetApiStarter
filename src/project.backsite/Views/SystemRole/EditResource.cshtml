@@ -1,80 +1,114 @@
-﻿@{
+﻿@using CoreHelper
+
+@{
     ViewData["Title"] = "编辑资源";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    
     var roleId = long.Parse(Context.Request.Query["roleId"]);
+    List<SystemRes> resList = ViewBag.resList as List<SystemRes>;
 }
 
 @section Styles{
-    <link rel="stylesheet" href="~/lib/ztree/css/zTreeStyle/zTreeStyle.css"/>
     <style>
-        #tree {
-            font-size: 16px;
-            max-height: 200px;
-        }
            #btn{
                 position: fixed;
                 top:100px;
                 right:100px;
                 }
+                label{
+                font-size: 14px;
+                }
     </style>
 }
 
 <div class="layui-fluid">
-    <div class="layui-card">
-        <div class="layui-card-body">
-            <ul id="tree" class="ztree"></ul>
-        </div>
-    </div>
-    <input type="button" id="btn" class="layui-btn" value="保存" onclick="saveResource()"/>
+    <form id="frm" lay-ignore>
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <input type="hidden" name="roleId" value="@roleId"/>
+                <div class="layui-collapse">
 
+                    @foreach (var nav1 in resList.Where(x => x.ParentId == 0).OrderBy(y => y.OrderNum))
+                    {
+                        <div class="layui-colla-item">
+                            <h2 class="layui-colla-title">
+                                @nav1.Name @nav1.Url
+                            </h2>
+                            <div class="layui-colla-content layui-show">
+                                @foreach (var opt in StringHelper.Split(nav1.Operations, ',', '，'))
+                                {
+                                    <label>
+                                        <input type="checkbox" name="res_@(nav1.Id)" value="@opt" @(nav1.HadOperations.Contains(opt) ? "checked" : "")>
+                                        @opt &nbsp;&nbsp;
+                                    </label>
+                                }
+                                <div class="layui-collapse">
+                                    @foreach (var nav2 in resList.Where(x => x.ParentId == nav1.Id).OrderBy(y => y.OrderNum))
+                                    {
+                                        <div class="layui-colla-item">
+                                            <h2 class="layui-colla-title">
+                                                @nav2.Name @nav2.Url
+                                            </h2>
+                                            <div class="layui-colla-content layui-show">
+                                                @foreach (var opt in StringHelper.Split(nav2.Operations, ',', '，'))
+                                                {
+                                                    <label>
+                                                        <input type="checkbox" name="res_@(nav1.Id + "-" + nav2.Id)" value="@opt" @(nav2.HadOperations.Contains(opt) ? "checked" : "")>
+                                                        @opt &nbsp;&nbsp;
+                                                    </label>
+                                                }
+                                                @{ var nav3List = resList.Where(x => x.ParentId == nav2.Id).OrderBy(y => y.OrderNum).ToList(); }
+                                                @if (nav3List.Count > 0)
+                                                {
+                                                    <div class="layui-collapse">
+                                                        @foreach (var nav3 in nav3List)
+                                                        {
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">
+                                                                    @nav3.Name @nav3.Url
+                                                                </h2>
+                                                                <div class="layui-colla-content">
+                                                                    @foreach (var opt in StringHelper.Split(nav3.Operations, ',', '，'))
+                                                                    {
+                                                                        <label>
+                                                                            <input type="checkbox" name="res_@(nav1.Id + "-" + nav2.Id + "-" + nav3.Id)" value="@opt" @(nav3.HadOperations.Contains(opt) ? "checked" : "")>
+                                                                            @opt &nbsp;&nbsp;
+                                                                        </label>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        }
+
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+        @* <input type="button" id="btn" class="layui-btn" value="保存" onclick="saveResource()"/> *@
+        <button id="btn" type="button" class="layui-btn" >保存</button>
+    </form>
 </div>
 
 @section Scripts{
-    <script src="~/lib/ztree/jquery.ztree.all.min.js"></script>
+
     <script>
-        var roleId = @roleId;
-        var zTreeObj;
+    $("#btn").click(function(){
+       var data= $("#frm").serialize();
+       $.post("@Url.Action("SaveRes")",data,function(ro){
+           layer.msg(ro.msg,{time:500},function(){ 
+               if (ro.success)closeXWindow(); 
+           })
+       })
+       
+    });
 
-        $.post("@Url.Action("treeNodes", "systemRes")",
-            function(list) {
-                var setting = {
-                    check: {
-                        enable: true,
-                        chkboxType: { "Y": "p", "N": "ps" }
-                    }
-                };
-                zTreeObj = $.fn.zTree.init($("#tree"), setting, list);
-                $.post('@Url.Action("getResourceIds")',
-                    { roleId: roleId },
-                    function(ids) {
-
-                        for (var i = 0; i < ids.length; i++) {
-                            var id = ids[i];
-                            var node = zTreeObj.getNodeByParam("id", id);
-                            zTreeObj.checkNode(node, true, false);
-                        }
-                    });
-                zTreeObj.expandAll(true);
-            });
-
-        function saveResource() {
-            var nodes = zTreeObj.getCheckedNodes(true);
-            var data = { roleId: roleId, resourceIds: [] };
-            for (var i = 0; i < nodes.length; i++) {
-                var node = nodes[i];
-                data.resourceIds.push(node.id);
-            }
-            $.post('@Url.Action("saveResourceIds")',
-                data,
-                function(ro) {
-                    layer.msg(ro.msg,
-                        { time: 1000 },
-                        function() {
-                            if (ro.success) {
-                                closeXWindow(true);
-                            }
-                        });
-                });
-        }
     </script>
 }

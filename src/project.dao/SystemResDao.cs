@@ -7,8 +7,6 @@ namespace project.dao
     [AppService]
     public class SystemResDao : BaseDao<SystemRes>
     {
-
-
         public OrmLitePageResult<SystemRes> SelectList(string name, int pageIndex, int pageSize)
         {
             name = SqlInjection.Filter(name);

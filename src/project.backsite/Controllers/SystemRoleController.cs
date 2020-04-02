@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using CoreHelper;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Mvc;
 using project.backsite.Services;
@@ -11,6 +13,7 @@ namespace project.backsite.Controllers
         [Autowired] SystemRoleService systemRoleBusiness;
         [Autowired] SystemRole_ResService systemRole_ResBusiness;
         [Autowired] SystemUser_RoleService systemUser_RoleBusincess;
+        [Autowired] private SystemResService _systemResService;
 
         public SystemRoleController(AutowiredService autowiredService)
         {
@@ -42,24 +45,36 @@ namespace project.backsite.Controllers
             var ro = systemRoleBusiness.Edit(m);
             return Json(ro);
         }
-
+        
         public IActionResult EditResource(int roleId)
         {
+            var resList = _systemResService.SelectAll();
+            var resRole = systemRole_ResBusiness.SelectByRole(roleId);
+            foreach (var res in resList)
+            {
+                var operations = resRole.SingleOrDefault(x => x.SystemResId == res.Id)?.Operations ?? string.Empty;
+                res.HadOperations = new HashSet<string>(StringHelper.Split(operations, ',', '，'));
+            }
+
+            ViewBag.resList = resList;
             return View();
         }
 
-        public IActionResult GetResourceIds(int roleId)
+        public IActionResult SaveRes(int roleId)
         {
-            var resIds = systemRole_ResBusiness.GetResourseIds(roleId);
-            return Json(resIds);
-        }
+            Dictionary<string, string> res = new Dictionary<string, string>();
+            foreach (var key in Request.Form.Keys)
+            {
+                if (key.StartsWith("res_"))
+                {
+                    res.Add(key, Request.Form[key].ToString());
+                }
+            }
 
-        public IActionResult SaveResourceIds(int roleId, List<long> resourceIds)
-        {
-            var ro = systemRole_ResBusiness.Save(roleId, resourceIds);
+            var ro = systemRole_ResBusiness.SaveRes(roleId, res);
             return Json(ro);
         }
-
+        
         public IActionResult EditEmployee([FromServices] SystemUserService systemUserBusiness, int roleId,
             string nickname, int page = 1)
         {

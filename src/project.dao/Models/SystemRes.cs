@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Loogn.OrmLite;
 
 namespace project.dao.Models
@@ -61,6 +62,10 @@ namespace project.dao.Models
         /// </summary>
         public string Icon { get; set; }
 
-
+        /// <summary>
+        /// 操作
+        /// </summary>
+        public string Operations { get; set; }
+         
     }
 }

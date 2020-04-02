@@ -33,6 +33,7 @@ namespace project.backsite
             {
                 options.Filters.Add<MyActionFilterAttribute>();
                 options.Filters.Add<MyExceptionFilterAttribute>();
+                // options.Filters.Add<MyAuthorizeFilter>();
             });
 
             //添加认证和授权

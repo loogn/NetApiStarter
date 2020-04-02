@@ -122,10 +122,10 @@ namespace project.backsite.Services
             return new ResultObject(flag > 0);
         }
 
-        public HashSet<long> GetEmployeeResourceIds(long employeeId)
-        {
-            return systemUserDao.GetEmployeeResourceIds(employeeId);
-        }
+        // public HashSet<long> GetEmployeeResourceIds(long employeeId)
+        // {
+        //     return systemUserDao.GetEmployeeResourceIds(employeeId);
+        // }
 
         public ResultObject SetAvatar(string avatar)
         {
@@ -140,7 +140,7 @@ namespace project.backsite.Services
             if (flag > 0)
             {
                 systemUser_RoleDao.DeleteByUserId(userId);
-                systemUser_ResDao.DeleteByEmployeeId(userId);
+                systemUser_ResDao.DeleteWhere("SystemUserId",userId);
             }
             return new ResultObject(flag);
         }

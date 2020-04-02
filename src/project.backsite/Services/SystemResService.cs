@@ -78,6 +78,11 @@ namespace project.backsite.Services
             return nodeList;
         }
 
+        public List<SystemRes> SelectAll()
+        {
+            return systemResDao.SelectAll();
+        }
+
         private static List<TreeNode> GetNodes(List<SystemRes> list, long parentId, byte level)
         {
             var nodeList = new List<TreeNode>();
@@ -89,6 +94,7 @@ namespace project.backsite.Services
                     name = dept.Name,
                     level = level,
                     spread = level == 1,
+                    Operations = dept.Operations,
                 };
                 if (list.Any(x => x.ParentId == node.id))
                 {
@@ -126,12 +132,24 @@ namespace project.backsite.Services
             var list = httpContextAccessor.HttpContext.Items["User_Res"] as List<SystemRes>;
             if (list == null)
             {
-                var resIds = systemUserDao.GetEmployeeResourceIds(employeeId);
-                list = systemResDao.SelectByIds(resIds);
+                var resIds = systemUserDao.GetEmployeeResources(employeeId);
+                list = systemResDao.SelectByIds(resIds.Select(x => x.SystemResId).Distinct());
+                foreach (var res in list)
+                {
+                    if (res.Status != 1) continue;
+                    res.HadOperations = new HashSet<string>();
+                    foreach (var systemUserRes in resIds.Where(x => x.SystemResId == res.Id))
+                    {
+                        foreach (var s in StringHelper.Split(systemUserRes.Operations, ',', '，'))
+                        {
+                            res.HadOperations.Add(s);
+                        }
+                    }
+                }
                 httpContextAccessor.HttpContext.Items["User_Res"] = list;
             }
 
-            return list;
+            return list.Where(x => x.Status == 1).ToList();
         }
 
         public OrmLitePageResult<SystemRes> SelectList(string name, int pageIndex, int pageSize)
@@ -149,8 +167,8 @@ namespace project.backsite.Services
             var flag = systemResDao.DeleteById(resId);
             if (flag > 0)
             {
-                systemUser_ResDao.DeleteByResId(resId);
-                systemRole_ResDao.DeleteByResId(resId);
+                systemUser_ResDao.DeleteWhere("SystemResId",resId);
+                systemRole_ResDao.DeleteWhere("SystemResId",resId);
             }
 
             return new ResultObject(flag);
