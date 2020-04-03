@@ -1,0 +1,117 @@
+@{
+    ViewBag.Title = "编辑延迟任务";
+
+    var m = ViewBag.m as DelayTask;
+}
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+
+
+            <form class="layui-form" style="margin-right: 50px;">
+                <input type="hidden" value="@m.Id" name="id"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">任务名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Name" value="@m.Name" required lay-verify="required" placeholder="任务名称" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">任务地址：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Url" value="@m.Url" required lay-verify="required" placeholder="任务地址" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请求方法：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Method" value="@m.Method" required lay-verify="required" placeholder="请求方式GET或POST" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Post数据：</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" name="PostData">@m.PostData</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">触发时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="TriggerTime" id="TriggerTime" value="@(m.TriggerTime == DateTime.MinValue ? "" : m.TriggerTime.ToString("yyyy-MM-dd HH:mm:ss"))" placeholder="触发时间" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">成功结果：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="SuccessFlag" value="@m.SuccessFlag" placeholder="返回此值表示成功" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">超时秒数：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="TimeoutSeconds" value="@m.TimeoutSeconds" required lay-verify="required" placeholder="请求超时秒数" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">重试次数：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="MaxRetryCount" value="@m.MaxRetryCount" required lay-verify="required" placeholder="最大重试次数，0无限重试，-1不重试" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">重试间隔：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="RetrySeconds" value="@m.RetrySeconds" required lay-verify="required" placeholder="不成功时，重试间隔秒数" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态：</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" @(m.Enable ? "checked" : "") name="Enable" value="true" lay-skin="switch" lay-filter="switchTest" lay-text="开启|禁用">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button lay-submit lay-filter="save" class="layui-btn">保存</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+        //监听提交
+        layui.form.on('submit(save)',
+            function(data) {
+                $.post("@Url.Action("DelaySave")",
+                    data.field,
+                    function(ro) {
+                        layer.msg(ro.msg,
+                            { anim: 0, time: 500 },
+                            function() {
+                                if (ro.success) {
+                                    closeXWindow();
+                                }
+                            });
+                    });
+                return false;
+            });
+
+
+    </script>
+}

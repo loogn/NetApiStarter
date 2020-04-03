@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "编辑资源";
-    
+
     var roleId = long.Parse(Context.Request.Query["roleId"]);
     List<SystemRes> resList = ViewBag.resList as List<SystemRes>;
 }
@@ -34,12 +34,15 @@
                                 @nav1.Name @nav1.Url
                             </h2>
                             <div class="layui-colla-content layui-show">
-                                @foreach (var opt in StringHelper.Split(nav1.Operations, ',', '，'))
+                                @if (!string.IsNullOrEmpty(nav1.Url))
                                 {
-                                    <label>
-                                        <input type="checkbox" name="res_@(nav1.Id)" value="@opt" @(nav1.HadOperations.Contains(opt) ? "checked" : "")>
-                                        @opt &nbsp;&nbsp;
-                                    </label>
+                                    foreach (var opt in StringHelper.Split(nav1.Operations, ',', '，'))
+                                    {
+                                        <label>
+                                            <input type="checkbox" name="res_@(nav1.Id)" value="@opt" @(nav1.HadOperations.Contains(opt) ? "checked" : "")>
+                                            @opt &nbsp;&nbsp;
+                                        </label>
+                                    }
                                 }
                                 <div class="layui-collapse">
                                     @foreach (var nav2 in resList.Where(x => x.ParentId == nav1.Id).OrderBy(y => y.OrderNum))
@@ -49,12 +52,15 @@
                                                 @nav2.Name @nav2.Url
                                             </h2>
                                             <div class="layui-colla-content layui-show">
-                                                @foreach (var opt in StringHelper.Split(nav2.Operations, ',', '，'))
+                                                @if (!string.IsNullOrEmpty(nav2.Url))
                                                 {
-                                                    <label>
-                                                        <input type="checkbox" name="res_@(nav1.Id + "-" + nav2.Id)" value="@opt" @(nav2.HadOperations.Contains(opt) ? "checked" : "")>
-                                                        @opt &nbsp;&nbsp;
-                                                    </label>
+                                                    @foreach (var opt in StringHelper.Split(nav2.Operations, ',', '，'))
+                                                    {
+                                                        <label>
+                                                            <input type="checkbox" name="res_@(nav1.Id + "-" + nav2.Id)" value="@opt" @(nav2.HadOperations.Contains(opt) ? "checked" : "")>
+                                                            @opt &nbsp;&nbsp;
+                                                        </label>
+                                                    }
                                                 }
                                                 @{ var nav3List = resList.Where(x => x.ParentId == nav2.Id).OrderBy(y => y.OrderNum).ToList(); }
                                                 @if (nav3List.Count > 0)
@@ -67,12 +73,15 @@
                                                                     @nav3.Name @nav3.Url
                                                                 </h2>
                                                                 <div class="layui-colla-content">
-                                                                    @foreach (var opt in StringHelper.Split(nav3.Operations, ',', '，'))
+                                                                    @if (!string.IsNullOrEmpty(nav3.Url))
                                                                     {
-                                                                        <label>
-                                                                            <input type="checkbox" name="res_@(nav1.Id + "-" + nav2.Id + "-" + nav3.Id)" value="@opt" @(nav3.HadOperations.Contains(opt) ? "checked" : "")>
-                                                                            @opt &nbsp;&nbsp;
-                                                                        </label>
+                                                                        @foreach (var opt in StringHelper.Split(nav3.Operations, ',', '，'))
+                                                                        {
+                                                                            <label>
+                                                                                <input type="checkbox" name="res_@(nav1.Id + "-" + nav2.Id + "-" + nav3.Id)" value="@opt" @(nav3.HadOperations.Contains(opt) ? "checked" : "")>
+                                                                                @opt &nbsp;&nbsp;
+                                                                            </label>
+                                                                        }
                                                                     }
                                                                 </div>
                                                             </div>
@@ -93,7 +102,7 @@
             </div>
         </div>
         @* <input type="button" id="btn" class="layui-btn" value="保存" onclick="saveResource()"/> *@
-        <button id="btn" type="button" class="layui-btn" >保存</button>
+        <button id="btn" type="button" class="layui-btn">保存</button>
     </form>
 </div>
 
