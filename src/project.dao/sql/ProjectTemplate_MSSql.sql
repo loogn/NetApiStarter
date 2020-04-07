@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 110sqlserver
+ Source Server         : 190sqlserver
  Source Server Type    : SQL Server
- Source Server Version : 10501600
- Source Host           : 192.168.1.110:1433
+ Source Server Version : 14001000
+ Source Host           : 192.168.1.190:1433
  Source Catalog        : ProjectTemplate
  Source Schema         : dbo
 
  Target Server Type    : SQL Server
- Target Server Version : 10501600
+ Target Server Version : 14001000
  File Encoding         : 65001
 
- Date: 07/08/2019 09:25:18
+ Date: 07/04/2020 17:16:18
 */
 
 
@@ -26,7 +26,7 @@ GO
 CREATE TABLE [dbo].[Ad] (
   [Id] bigint  IDENTITY(1,1) NOT NULL,
   [Title] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [AdTypeId] bigint DEFAULT ((0)) NOT NULL,
+  [TypeId] int DEFAULT ((0)) NOT NULL,
   [ImageUrl] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [LinkUrl] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Status] int DEFAULT ((0)) NOT NULL,
@@ -35,7 +35,10 @@ CREATE TABLE [dbo].[Ad] (
   [ObjectType] int DEFAULT ((0)) NOT NULL,
   [ObjectId] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [OrderNum] int DEFAULT ((0)) NOT NULL,
-  [AddTime] datetime DEFAULT (getdate()) NOT NULL
+  [AddTime] datetime DEFAULT (getdate()) NOT NULL,
+  [SubTitle] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
+  [VideoUrl] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL,
+  [Intro] varchar(2000) COLLATE Chinese_PRC_CI_AS DEFAULT '' NULL
 )
 GO
 
@@ -53,7 +56,7 @@ EXEC sp_addextendedproperty
 'MS_Description', N'广告位编号',
 'SCHEMA', N'dbo',
 'TABLE', N'Ad',
-'COLUMN', N'AdTypeId'
+'COLUMN', N'TypeId'
 GO
 
 EXEC sp_addextendedproperty
@@ -106,6 +109,27 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
+'MS_Description', N'副标题',
+'SCHEMA', N'dbo',
+'TABLE', N'Ad',
+'COLUMN', N'SubTitle'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'视频地址',
+'SCHEMA', N'dbo',
+'TABLE', N'Ad',
+'COLUMN', N'VideoUrl'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'介绍',
+'SCHEMA', N'dbo',
+'TABLE', N'Ad',
+'COLUMN', N'Intro'
+GO
+
+EXEC sp_addextendedproperty
 'MS_Description', N'广告',
 'SCHEMA', N'dbo',
 'TABLE', N'Ad'
@@ -121,16 +145,64 @@ GO
 SET IDENTITY_INSERT [dbo].[Ad] ON
 GO
 
-INSERT INTO [dbo].[Ad] ([Id], [Title], [AdTypeId], [ImageUrl], [LinkUrl], [Status], [BeginTime], [EndTime], [ObjectType], [ObjectId], [OrderNum], [AddTime]) VALUES (N'3', N'sdfvv', N'1', N'/sf/20190715/20190715113050_4PSUTR.png', N'', N'1', N'2019-07-15 00:00:00.000', N'2020-07-15 00:00:00.000', N'0', N'', N'0', N'2019-07-15 11:30:51.296')
+INSERT INTO [dbo].[Ad] ([Id], [Title], [TypeId], [ImageUrl], [LinkUrl], [Status], [BeginTime], [EndTime], [ObjectType], [ObjectId], [OrderNum], [AddTime], [SubTitle], [VideoUrl], [Intro]) VALUES (N'3', N'sdfvv', N'1', N'/sf/20190715/20190715113050_4PSUTR.png', N'', N'1', N'2019-07-15 00:00:00.000', N'2020-07-15 00:00:00.000', N'0', N'', N'0', N'2019-07-15 11:30:51.296', NULL, NULL, NULL)
 GO
 
-INSERT INTO [dbo].[Ad] ([Id], [Title], [AdTypeId], [ImageUrl], [LinkUrl], [Status], [BeginTime], [EndTime], [ObjectType], [ObjectId], [OrderNum], [AddTime]) VALUES (N'4', N'首页广告', N'1', N'/sf/20190715/20190715113427_czWbPw.png', N'http://www.baidu.com', N'1', N'2019-07-15 00:00:00.000', N'2020-07-15 00:00:00.000', N'0', N'', N'0', N'2019-07-15 11:34:28.800')
+INSERT INTO [dbo].[Ad] ([Id], [Title], [TypeId], [ImageUrl], [LinkUrl], [Status], [BeginTime], [EndTime], [ObjectType], [ObjectId], [OrderNum], [AddTime], [SubTitle], [VideoUrl], [Intro]) VALUES (N'4', N'首页广告', N'1', N'/sf/20190715/20190715113427_czWbPw.png', N'http://www.baidu.com', N'1', N'2019-07-15 00:00:00.000', N'2020-07-15 00:00:00.000', N'0', N'', N'0', N'2019-07-15 11:34:28.800', N'', N'', N'')
 GO
 
 SET IDENTITY_INSERT [dbo].[Ad] OFF
 GO
 
 COMMIT
+GO
+
+
+-- ----------------------------
+-- Table structure for Announcement
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Announcement]') AND type IN ('U'))
+	DROP TABLE [dbo].[Announcement]
+GO
+
+CREATE TABLE [dbo].[Announcement] (
+  [Id] bigint  IDENTITY(1,1) NOT NULL,
+  [Title] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [Body] varchar(max) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [Status] int  NOT NULL,
+  [AddTime] datetime DEFAULT (getdate()) NOT NULL
+)
+GO
+
+ALTER TABLE [dbo].[Announcement] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'标题',
+'SCHEMA', N'dbo',
+'TABLE', N'Announcement',
+'COLUMN', N'Title'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'内容',
+'SCHEMA', N'dbo',
+'TABLE', N'Announcement',
+'COLUMN', N'Body'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'状态，1-显示，2-隐藏',
+'SCHEMA', N'dbo',
+'TABLE', N'Announcement',
+'COLUMN', N'Status'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'添加时间',
+'SCHEMA', N'dbo',
+'TABLE', N'Announcement',
+'COLUMN', N'AddTime'
 GO
 
 
@@ -185,6 +257,102 @@ EXEC sp_addextendedproperty
 'MS_Description', N'APP版本',
 'SCHEMA', N'dbo',
 'TABLE', N'AppVersion'
+GO
+
+
+-- ----------------------------
+-- Table structure for Article
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Article]') AND type IN ('U'))
+	DROP TABLE [dbo].[Article]
+GO
+
+CREATE TABLE [dbo].[Article] (
+  [Id] bigint  IDENTITY(1,1) NOT NULL,
+  [Title] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [CoverImage] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [TypeId] int  NOT NULL,
+  [VirtualRead] int  NOT NULL,
+  [RealRead] int  NOT NULL,
+  [Status] int  NOT NULL,
+  [OrderNum] int DEFAULT ((0)) NOT NULL,
+  [AddTime] datetime DEFAULT (getdate()) NOT NULL,
+  [UpdateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [Body] varchar(max) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
+)
+GO
+
+ALTER TABLE [dbo].[Article] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文章标题',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'Title'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'封面图',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'CoverImage'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文章分类DictType=2',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'TypeId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'虚拟阅读量',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'VirtualRead'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'阅读量',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'RealRead'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'1-显示，2-隐藏',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'Status'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'排序号，越小越靠前',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'OrderNum'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'添加时间',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'AddTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改时间',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'UpdateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'文章内容',
+'SCHEMA', N'dbo',
+'TABLE', N'Article',
+'COLUMN', N'Body'
 GO
 
 
@@ -248,8 +416,10 @@ CREATE TABLE [dbo].[DataDict] (
   [Name] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
   [OrderNum] int  NOT NULL,
   [AddTime] datetime DEFAULT (getdate()) NOT NULL,
-  [ParentId] bigint  NOT NULL,
-  [Remark] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL
+  [ParentId] int  NOT NULL,
+  [Remark] varchar(200) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
+  [ImageUrl] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
 )
 GO
 
@@ -298,6 +468,20 @@ EXEC sp_addextendedproperty
 'COLUMN', N'Remark'
 GO
 
+EXEC sp_addextendedproperty
+'MS_Description', N'状态，1-启用，2-禁用',
+'SCHEMA', N'dbo',
+'TABLE', N'DataDict',
+'COLUMN', N'Status'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'图片地址',
+'SCHEMA', N'dbo',
+'TABLE', N'DataDict',
+'COLUMN', N'ImageUrl'
+GO
+
 
 -- ----------------------------
 -- Records of DataDict
@@ -308,13 +492,232 @@ GO
 SET IDENTITY_INSERT [dbo].[DataDict] ON
 GO
 
-INSERT INTO [dbo].[DataDict] ([Id], [DictId], [DictType], [Name], [OrderNum], [AddTime], [ParentId], [Remark]) VALUES (N'1', N'1', N'1', N'首页广告', N'0', N'2019-07-25 14:01:33.900', N'0', N'sd')
+INSERT INTO [dbo].[DataDict] ([Id], [DictId], [DictType], [Name], [OrderNum], [AddTime], [ParentId], [Remark], [Status], [ImageUrl]) VALUES (N'1', N'1', N'1', N'首页广告', N'0', N'2019-07-25 14:01:33.900', N'0', N'sd', N'0', N'')
 GO
 
 SET IDENTITY_INSERT [dbo].[DataDict] OFF
 GO
 
 COMMIT
+GO
+
+
+-- ----------------------------
+-- Table structure for DelayTask
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[DelayTask]') AND type IN ('U'))
+	DROP TABLE [dbo].[DelayTask]
+GO
+
+CREATE TABLE [dbo].[DelayTask] (
+  [Id] bigint  IDENTITY(1,1) NOT NULL,
+  [Name] varchar(100) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Url] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Method] varchar(10) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [PostData] varchar(max) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [TriggerTime] datetime DEFAULT ('1900-1-1') NOT NULL,
+  [MaxRetryCount] int DEFAULT ((0)) NOT NULL,
+  [RetrySeconds] int DEFAULT ((0)) NOT NULL,
+  [ExecCount] bigint DEFAULT ((0)) NOT NULL,
+  [TimeoutSeconds] int DEFAULT ((0)) NOT NULL,
+  [SuccessFlag] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [AddTime] datetime DEFAULT (getdate()) NOT NULL,
+  [Enable] bit DEFAULT ((0)) NOT NULL
+)
+GO
+
+ALTER TABLE [dbo].[DelayTask] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务名称',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'Name'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'请求地址',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'Url'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'POST/GET',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'Method'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'post数据',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'PostData'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'触发时间',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'TriggerTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最大重试次数，0无限，-1不重试',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'MaxRetryCount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'不成功时，重试间隔秒数',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'RetrySeconds'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'执行次数',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'ExecCount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'超时秒数',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'TimeoutSeconds'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'成功标识',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'SuccessFlag'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'添加时间',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'AddTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否启用',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask',
+'COLUMN', N'Enable'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'延迟任务',
+'SCHEMA', N'dbo',
+'TABLE', N'DelayTask'
+GO
+
+
+-- ----------------------------
+-- Table structure for ExecuteLog
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[ExecuteLog]') AND type IN ('U'))
+	DROP TABLE [dbo].[ExecuteLog]
+GO
+
+CREATE TABLE [dbo].[ExecuteLog] (
+  [Id] bigint  IDENTITY(1,1) NOT NULL,
+  [TaskId] bigint DEFAULT ((0)) NOT NULL,
+  [TaskName] varchar(100) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [TaskUrl] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [TaskType] int DEFAULT ((0)) NOT NULL,
+  [TaskMethod] varchar(10) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [PostData] varchar(max) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Status] int DEFAULT ((0)) NOT NULL,
+  [Message] varchar(max) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [AddTime] datetime DEFAULT (getdate()) NOT NULL
+)
+GO
+
+ALTER TABLE [dbo].[ExecuteLog] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'日志名称',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'Id'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务编号',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'TaskId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务名称',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'TaskName'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务地址',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'TaskUrl'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'1-定时任务，2-延迟任务',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'TaskType'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'方法',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'TaskMethod'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'投递的数据',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'PostData'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'1成功，2失败，3超时',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'Status'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'信息',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'Message'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'添加时间',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog',
+'COLUMN', N'AddTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'执行日志',
+'SCHEMA', N'dbo',
+'TABLE', N'ExecuteLog'
 GO
 
 
@@ -355,6 +758,116 @@ EXEC sp_addextendedproperty
 'SCHEMA', N'dbo',
 'TABLE', N'Feedback',
 'COLUMN', N'AddTime'
+GO
+
+
+-- ----------------------------
+-- Table structure for PayOrder
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[PayOrder]') AND type IN ('U'))
+	DROP TABLE [dbo].[PayOrder]
+GO
+
+CREATE TABLE [dbo].[PayOrder] (
+  [Id] bigint  IDENTITY(1,1) NOT NULL,
+  [Type] int DEFAULT ((0)) NOT NULL,
+  [UserId] bigint DEFAULT ((0)) NOT NULL,
+  [OrderNO] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [TransactionId] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [AddTime] datetime DEFAULT (getdate()) NOT NULL,
+  [PayNO] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Remark] varchar(300) COLLATE Chinese_PRC_CI_AS  NOT NULL,
+  [PayTime] datetime  NOT NULL,
+  [PayStatus] int  NOT NULL,
+  [PayMethod] int  NOT NULL,
+  [Amount] decimal(18,2)  NOT NULL
+)
+GO
+
+ALTER TABLE [dbo].[PayOrder] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'订单类型',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'Type'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'用户编号',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'UserId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'订单号，out_trade_no',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'OrderNO'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'微信支付订单号',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'TransactionId'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'添加时间',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'AddTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'支付单号',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'PayNO'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'备注',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'Remark'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'支付时间',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'PayTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'支付状态，1-已支付，2-未支付',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'PayStatus'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'支付方式，1-微信，2-支付宝',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'PayMethod'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'支付金额',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder',
+'COLUMN', N'Amount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'订单表',
+'SCHEMA', N'dbo',
+'TABLE', N'PayOrder'
 GO
 
 
@@ -9469,8 +9982,8 @@ INSERT INTO [dbo].[Region] ([Id], [Code], [Level], [PostCode], [Name], [Pinyin])
 GO
 
 INSERT INTO [dbo].[Region] ([Id], [Code], [Level], [PostCode], [Name], [Pinyin]) VALUES (N'3014', N'620000', N'1', N'0', N'甘肃省', N'GAN1 SU4 SHENG3')
-GO
 
+GO
 INSERT INTO [dbo].[Region] ([Id], [Code], [Level], [PostCode], [Name], [Pinyin]) VALUES (N'3015', N'620100', N'2', N'730000', N'兰州市', N'LAN2 ZHOU1 SHI4')
 GO
 
@@ -11615,100 +12128,6 @@ GO
 
 
 -- ----------------------------
--- Table structure for SimpleOrder
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SimpleOrder]') AND type IN ('U'))
-	DROP TABLE [dbo].[SimpleOrder]
-GO
-
-CREATE TABLE [dbo].[SimpleOrder] (
-  [Id] bigint  IDENTITY(1,1) NOT NULL,
-  [Type] int DEFAULT ((0)) NOT NULL,
-  [UserId] bigint DEFAULT ((0)) NOT NULL,
-  [OrderNO] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [transaction_id] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [time_end] varchar(20) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [total_fee] int DEFAULT ((0)) NOT NULL,
-  [body] varchar(256) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
-  [Status] int DEFAULT ((0)) NOT NULL,
-  [AddTime] datetime DEFAULT (getdate()) NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[SimpleOrder] SET (LOCK_ESCALATION = TABLE)
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'订单类型',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'Type'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'用户编号',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'UserId'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'订单号，out_trade_no',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'OrderNO'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'微信支付订单号',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'transaction_id'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'支付完成时间',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'time_end'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'订单金额（分）',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'total_fee'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'商品描述',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'body'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'订单状态，0-未支付，1-已支付，2-已取消，3-支付失败',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'Status'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'添加时间',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder',
-'COLUMN', N'AddTime'
-GO
-
-EXEC sp_addextendedproperty
-'MS_Description', N'订单表',
-'SCHEMA', N'dbo',
-'TABLE', N'SimpleOrder'
-GO
-
-
--- ----------------------------
 -- Table structure for SmsCode
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[SmsCode]') AND type IN ('U'))
@@ -11796,7 +12215,8 @@ CREATE TABLE [dbo].[SystemRes] (
   [ParentId] bigint DEFAULT ((0)) NOT NULL,
   [Remark] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [AddTime] datetime DEFAULT (getdate()) NOT NULL,
-  [Icon] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
+  [Icon] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Operations] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
 )
 GO
 
@@ -11874,6 +12294,13 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
+'MS_Description', N'操作',
+'SCHEMA', N'dbo',
+'TABLE', N'SystemRes',
+'COLUMN', N'Operations'
+GO
+
+EXEC sp_addextendedproperty
 'MS_Description', N'菜单权限资源表',
 'SCHEMA', N'dbo',
 'TABLE', N'SystemRes'
@@ -11889,25 +12316,49 @@ GO
 SET IDENTITY_INSERT [dbo].[SystemRes] ON
 GO
 
-INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon]) VALUES (N'1', N'权限', N'11', N'22', N'1', N'2', N'999', N'0', N'sdsd', N'2018-04-21 10:27:59.000', N'123')
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'1', N'权限', N'', N'', N'1', N'1', N'999', N'0', N'', N'2019-07-18 13:42:02.000', N'', N'')
 GO
 
-INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon]) VALUES (N'2', N'用户管理', N'/systemuser/list', N'', N'1', N'1', N'1', N'1', N'', N'2018-04-21 10:39:06.993', N'')
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'2', N'用户管理', N'/systemuser/list', N'', N'1', N'1', N'1', N'1', N'', N'2019-07-18 13:42:08.000', N'', N'查看，编辑，删除')
 GO
 
-INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon]) VALUES (N'3', N'角色管理', N'/systemrole/list', N'', N'1', N'1', N'2', N'1', N'', N'2018-04-21 10:39:52.286', N'')
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'3', N'角色管理', N'/systemrole/list', N'', N'1', N'1', N'2', N'1', N'', N'2019-07-18 13:43:02.000', N'', N'查看，编辑，删除')
 GO
 
-INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon]) VALUES (N'4', N'资源管理', N'/systemres/list', N'', N'1', N'1', N'3', N'1', N'', N'2018-04-21 10:40:23.290', N'')
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'4', N'资源管理', N'/systemres/list', N'', N'1', N'1', N'3', N'1', N'', N'2019-07-18 13:43:34.000', N'', N'查看，编辑，删除')
 GO
 
-INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon]) VALUES (N'6', N'内容管理', N'', N'', N'1', N'1', N'0', N'0', N'', N'2018-05-25 15:59:24.870', N'')
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'5', N'内容管理', N'', N'', N'1', N'1', N'0', N'0', N'', N'2019-07-18 13:44:02.000', N'', N'')
 GO
 
-INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon]) VALUES (N'7', N'数据字典', N'/datadict/list', N'', N'1', N'1', N'0', N'6', N'', N'2018-05-25 15:59:52.073', N'')
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'6', N'数据字典', N'/datadict/list', N'', N'2', N'1', N'0', N'5', N'', N'2019-07-18 13:44:33.000', N'', N'查看，编辑，删除')
 GO
 
-INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon]) VALUES (N'8', N'广告管理', N'/ad/list', N'', N'1', N'1', N'0', N'6', N'', N'2018-05-25 16:00:06.886', N'')
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'7', N'广告管理', N'/Content/AdList', N'', N'1', N'1', N'1', N'5', N'', N'2020-03-25 10:50:58.000', N'', N'查看，编辑，删除')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'8', N'广告类型', N'/Content/AdTypeList', N'', N'1', N'1', N'2', N'5', N'', N'2020-03-25 10:51:53.000', N'', N'查看，编辑，删除')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'9', N'公告管理', N'/Content/AnnList', N'', N'1', N'1', N'5', N'5', N'', N'2020-03-25 11:42:01.000', N'', N'查看，编辑，删除')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'10', N'文章管理', N'/Content/articleList', N'', N'1', N'1', N'3', N'5', N'', N'2020-03-25 14:16:47.000', N'', N'查看，编辑，删除')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'11', N'文章分类', N'/content/articleTypeList', N'', N'1', N'1', N'4', N'5', N'', N'2020-03-25 14:17:12.000', N'', N'查看，编辑，删除')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'12', N'任务调度', N'', N'', N'1', N'1', N'998', N'0', N'', N'2020-04-03 11:12:53.000', N'', N'')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'13', N'定时任务', N'/taskcaller/timedlist', N'', N'1', N'1', N'1', N'12', N'', N'2020-04-03 11:13:52.000', N'', N'查看')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'14', N'延迟任务', N'/taskcaller/delaylist', N'', N'1', N'1', N'2', N'12', N'', N'2020-04-03 11:14:19.000', N'', N'查看')
+GO
+
+INSERT INTO [dbo].[SystemRes] ([Id], [Name], [Url], [Target], [Type], [Status], [OrderNum], [ParentId], [Remark], [AddTime], [Icon], [Operations]) VALUES (N'15', N'调用日志', N'/taskcaller/loglist', N'', N'1', N'1', N'3', N'12', N'', N'2020-04-03 11:14:40.000', N'', N'查看')
 GO
 
 SET IDENTITY_INSERT [dbo].[SystemRes] OFF
@@ -11956,7 +12407,7 @@ GO
 SET IDENTITY_INSERT [dbo].[SystemRole] ON
 GO
 
-INSERT INTO [dbo].[SystemRole] ([Id], [Name]) VALUES (N'1', N'管理员1')
+INSERT INTO [dbo].[SystemRole] ([Id], [Name]) VALUES (N'1', N'管理员')
 GO
 
 INSERT INTO [dbo].[SystemRole] ([Id], [Name]) VALUES (N'4', N'角色1')
@@ -11979,11 +12430,19 @@ GO
 CREATE TABLE [dbo].[SystemRole_Res] (
   [Id] bigint  IDENTITY(1,1) NOT NULL,
   [SystemRoleId] bigint  NOT NULL,
-  [SystemResId] bigint  NOT NULL
+  [SystemResId] bigint  NOT NULL,
+  [Operations] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
 )
 GO
 
 ALTER TABLE [dbo].[SystemRole_Res] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作',
+'SCHEMA', N'dbo',
+'TABLE', N'SystemRole_Res',
+'COLUMN', N'Operations'
 GO
 
 EXEC sp_addextendedproperty
@@ -12002,25 +12461,49 @@ GO
 SET IDENTITY_INSERT [dbo].[SystemRole_Res] ON
 GO
 
-INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId]) VALUES (N'42', N'1', N'6')
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'64', N'1', N'5', N'')
 GO
 
-INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId]) VALUES (N'43', N'1', N'7')
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'65', N'1', N'6', N'查看,编辑,删除')
 GO
 
-INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId]) VALUES (N'44', N'1', N'8')
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'66', N'1', N'7', N'查看,编辑,删除')
 GO
 
-INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId]) VALUES (N'45', N'1', N'1')
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'67', N'1', N'8', N'查看,编辑,删除')
 GO
 
-INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId]) VALUES (N'46', N'1', N'2')
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'68', N'1', N'10', N'查看,编辑,删除')
 GO
 
-INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId]) VALUES (N'47', N'1', N'3')
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'69', N'1', N'11', N'查看,编辑,删除')
 GO
 
-INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId]) VALUES (N'48', N'1', N'4')
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'70', N'1', N'9', N'查看,编辑,删除')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'71', N'1', N'12', N'')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'72', N'1', N'13', N'查看')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'73', N'1', N'14', N'查看')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'74', N'1', N'15', N'查看')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'75', N'1', N'1', N'')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'76', N'1', N'2', N'查看,编辑,删除')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'77', N'1', N'3', N'查看,编辑,删除')
+GO
+
+INSERT INTO [dbo].[SystemRole_Res] ([Id], [SystemRoleId], [SystemResId], [Operations]) VALUES (N'78', N'1', N'4', N'查看,编辑,删除')
 GO
 
 SET IDENTITY_INSERT [dbo].[SystemRole_Res] OFF
@@ -12120,9 +12603,6 @@ GO
 INSERT INTO [dbo].[SystemUser] ([Id], [Username], [Password], [Nickname], [Gender], [Status], [avatar], [AddTime]) VALUES (N'1', N'loogn', N'E10ADC3949BA59ABBE56E057F20F883E', N'王小龙', N'1', N'1', N'', N'2018-04-19 16:58:05.770')
 GO
 
-INSERT INTO [dbo].[SystemUser] ([Id], [Username], [Password], [Nickname], [Gender], [Status], [avatar], [AddTime]) VALUES (N'15', N'abc', N'E10ADC3949BA59ABBE56E057F20F883E', N'sd', N'1', N'1', N'', N'2019-07-15 15:41:50.603')
-GO
-
 SET IDENTITY_INSERT [dbo].[SystemUser] OFF
 GO
 
@@ -12140,11 +12620,19 @@ GO
 CREATE TABLE [dbo].[SystemUser_Res] (
   [Id] bigint  IDENTITY(1,1) NOT NULL,
   [SystemUserId] bigint  NOT NULL,
-  [SystemResId] bigint  NOT NULL
+  [SystemResId] bigint  NOT NULL,
+  [Operations] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
 )
 GO
 
 ALTER TABLE [dbo].[SystemUser_Res] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'操作',
+'SCHEMA', N'dbo',
+'TABLE', N'SystemUser_Res',
+'COLUMN', N'Operations'
 GO
 
 EXEC sp_addextendedproperty
@@ -12163,16 +12651,16 @@ GO
 SET IDENTITY_INSERT [dbo].[SystemUser_Res] ON
 GO
 
-INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId]) VALUES (N'11', N'1', N'1')
+INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId], [Operations]) VALUES (N'11', N'1', N'1', N'')
 GO
 
-INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId]) VALUES (N'12', N'1', N'2')
+INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId], [Operations]) VALUES (N'12', N'1', N'2', N'')
 GO
 
-INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId]) VALUES (N'13', N'1', N'3')
+INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId], [Operations]) VALUES (N'13', N'1', N'3', N'')
 GO
 
-INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId]) VALUES (N'14', N'1', N'4')
+INSERT INTO [dbo].[SystemUser_Res] ([Id], [SystemUserId], [SystemResId], [Operations]) VALUES (N'14', N'1', N'4', N'')
 GO
 
 SET IDENTITY_INSERT [dbo].[SystemUser_Res] OFF
@@ -12221,13 +12709,136 @@ GO
 INSERT INTO [dbo].[SystemUser_Role] ([Id], [SystemUserId], [SystemRoleId]) VALUES (N'22', N'1', N'4')
 GO
 
-INSERT INTO [dbo].[SystemUser_Role] ([Id], [SystemUserId], [SystemRoleId]) VALUES (N'23', N'15', N'4')
-GO
-
 SET IDENTITY_INSERT [dbo].[SystemUser_Role] OFF
 GO
 
 COMMIT
+GO
+
+
+-- ----------------------------
+-- Table structure for TimedTask
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[TimedTask]') AND type IN ('U'))
+	DROP TABLE [dbo].[TimedTask]
+GO
+
+CREATE TABLE [dbo].[TimedTask] (
+  [Id] bigint  IDENTITY(1,1) NOT NULL,
+  [Name] varchar(100) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Cron] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Url] varchar(500) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Method] varchar(10) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [PostData] varchar(max) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [ExecCount] bigint DEFAULT ((0)) NOT NULL,
+  [LastExecTime] datetime DEFAULT ('1900-1-1') NOT NULL,
+  [LastStatus] int DEFAULT ((0)) NOT NULL,
+  [TimeoutSeconds] int DEFAULT ((0)) NOT NULL,
+  [Enable] bit DEFAULT ((0)) NOT NULL,
+  [AddTime] datetime DEFAULT (getdate()) NOT NULL,
+  [UpdateTime] datetime DEFAULT (getdate()) NOT NULL,
+  [SuccessFlag] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
+)
+GO
+
+ALTER TABLE [dbo].[TimedTask] SET (LOCK_ESCALATION = TABLE)
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务名称',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'Name'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'cron表达式',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'Cron'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'任务地址',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'Url'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'POST/GET',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'Method'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'POST数据',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'PostData'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'执行次数',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'ExecCount'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后执行时间',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'LastExecTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'最后执行的状态1成功，2失败，3超时',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'LastStatus'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'超时秒数',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'TimeoutSeconds'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'是否启用',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'Enable'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'添加时间',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'AddTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'修改时间',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'UpdateTime'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'成功标识',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask',
+'COLUMN', N'SuccessFlag'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'定时任务',
+'SCHEMA', N'dbo',
+'TABLE', N'TimedTask'
 GO
 
 
@@ -12240,7 +12851,7 @@ GO
 
 CREATE TABLE [dbo].[User] (
   [Id] bigint  IDENTITY(1,1) NOT NULL,
-  [Username] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
+  [Account] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Password] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
   [Gender] int DEFAULT ((0)) NOT NULL,
   [Avatar] varchar(200) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL,
@@ -12248,7 +12859,7 @@ CREATE TABLE [dbo].[User] (
   [Status] int DEFAULT ((0)) NOT NULL,
   [AddTime] datetime DEFAULT (getdate()) NOT NULL,
   [Birthday] date DEFAULT ('1900-1-1') NOT NULL,
-  [RegistrationId] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
+  [Nickname] varchar(50) COLLATE Chinese_PRC_CI_AS DEFAULT '' NOT NULL
 )
 GO
 
@@ -12256,10 +12867,10 @@ ALTER TABLE [dbo].[User] SET (LOCK_ESCALATION = TABLE)
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'用户名',
+'MS_Description', N'账号',
 'SCHEMA', N'dbo',
 'TABLE', N'User',
-'COLUMN', N'Username'
+'COLUMN', N'Account'
 GO
 
 EXEC sp_addextendedproperty
@@ -12312,10 +12923,10 @@ EXEC sp_addextendedproperty
 GO
 
 EXEC sp_addextendedproperty
-'MS_Description', N'设备注册编号',
+'MS_Description', N'昵称',
 'SCHEMA', N'dbo',
 'TABLE', N'User',
-'COLUMN', N'RegistrationId'
+'COLUMN', N'Nickname'
 GO
 
 EXEC sp_addextendedproperty
@@ -12334,7 +12945,7 @@ GO
 SET IDENTITY_INSERT [dbo].[User] ON
 GO
 
-INSERT INTO [dbo].[User] ([Id], [Username], [Password], [Gender], [Avatar], [Mobile], [Status], [AddTime], [Birthday], [RegistrationId]) VALUES (N'1', N'loogn', N'123', N'0', N'', N'', N'0', N'2019-03-15 11:42:13.830', N'2019-03-15', N'')
+INSERT INTO [dbo].[User] ([Id], [Account], [Password], [Gender], [Avatar], [Mobile], [Status], [AddTime], [Birthday], [Nickname]) VALUES (N'1', N'loogn', N'123', N'0', N'', N'', N'0', N'2019-03-15 11:42:13.830', N'2019-03-15', N'')
 GO
 
 SET IDENTITY_INSERT [dbo].[User] OFF
@@ -12354,9 +12965,27 @@ GO
 
 
 -- ----------------------------
+-- Primary Key structure for table Announcement
+-- ----------------------------
+ALTER TABLE [dbo].[Announcement] ADD CONSTRAINT [PK__Announce__3214EC07D717DC79] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
 -- Primary Key structure for table AppVersion
 -- ----------------------------
 ALTER TABLE [dbo].[AppVersion] ADD CONSTRAINT [PK_AppVersion] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table Article
+-- ----------------------------
+ALTER TABLE [dbo].[Article] ADD CONSTRAINT [PK__Article__3214EC079D639AAB] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
@@ -12391,6 +13020,24 @@ GO
 
 
 -- ----------------------------
+-- Primary Key structure for table DelayTask
+-- ----------------------------
+ALTER TABLE [dbo].[DelayTask] ADD CONSTRAINT [PK_DelayTask] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table ExecuteLog
+-- ----------------------------
+ALTER TABLE [dbo].[ExecuteLog] ADD CONSTRAINT [PK_ExecuteLog] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
 -- Primary Key structure for table Feedback
 -- ----------------------------
 ALTER TABLE [dbo].[Feedback] ADD CONSTRAINT [PK_Feedback] PRIMARY KEY CLUSTERED ([ID])
@@ -12400,18 +13047,18 @@ GO
 
 
 -- ----------------------------
--- Primary Key structure for table Region
+-- Primary Key structure for table PayOrder
 -- ----------------------------
-ALTER TABLE [dbo].[Region] ADD CONSTRAINT [PK__Range__3214EC07123EB7A3] PRIMARY KEY CLUSTERED ([Id])
+ALTER TABLE [dbo].[PayOrder] ADD CONSTRAINT [PK__Order__3214EC071B9317B3] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Primary Key structure for table SimpleOrder
+-- Primary Key structure for table Region
 -- ----------------------------
-ALTER TABLE [dbo].[SimpleOrder] ADD CONSTRAINT [PK__Order__3214EC071B9317B3] PRIMARY KEY CLUSTERED ([Id])
+ALTER TABLE [dbo].[Region] ADD CONSTRAINT [PK__Range__3214EC07123EB7A3] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
@@ -12475,6 +13122,15 @@ GO
 -- Primary Key structure for table SystemUser_Role
 -- ----------------------------
 ALTER TABLE [dbo].[SystemUser_Role] ADD CONSTRAINT [PK_SystemUser_Role] PRIMARY KEY CLUSTERED ([Id])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table TimedTask
+-- ----------------------------
+ALTER TABLE [dbo].[TimedTask] ADD CONSTRAINT [PK_TimedTask] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO

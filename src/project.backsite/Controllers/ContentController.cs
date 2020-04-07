@@ -106,7 +106,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
-        [ResItem("/content/AdTypeEdit")]
+        [ResItem("编辑","/content/AdTypeList")]
         public IActionResult AdTypeSave(DataDict dataDict)
         {
             dataDict.DictType = DataDictType.广告类型;
@@ -149,7 +149,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
-        [ResItem("/content/AnnEdit")]
+        [ResItem("编辑","/content/AnnList")]
         public ActionResult AnnSave(Announcement m)
         {
             var ro = _announcementService.Edit(m);
@@ -199,7 +199,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
-        [ResItem("/content/ArticleEdit")]
+        [ResItem("编辑","/content/ArticleList")]
         public ActionResult ArticleSave(Article m)
         {
             var ro = _articleService.Edit(m);
@@ -245,7 +245,7 @@ namespace project.backsite.Controllers
             return View();
         }
 
-        [ResItem("/Content/ArticleTypeEdit")]
+        [ResItem("编辑","/Content/ArticleTypeList")]
         public IActionResult ArticleTypeSave(DataDict dataDict)
         {
             dataDict.DictType = DataDictType.文章类型;
