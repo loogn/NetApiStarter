@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WxPaySDK\WxPaySDK.csproj" />
+    <ProjectReference Include="..\WxPaySDK\WxPaySDK.csproj" />
     <ProjectReference Include="..\CoreHelper\CoreHelper.csproj" />
     <ProjectReference Include="..\project.dao\project.dao.csproj" />
   </ItemGroup>

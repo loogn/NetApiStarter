@@ -22,7 +22,7 @@ namespace project.dao
                 beginTime = DateTime.Now;
             }
 
-            var m = Single(uniqueId); //还没计数记录
+            var m = SingleByUniqueId(uniqueId); //还没计数记录
             if (m == null)
             {
                 Insert(new CountLimit
@@ -58,7 +58,7 @@ namespace project.dao
             return true;
         }
         
-        public CountLimit Single(string uniqueId)
+        public CountLimit SingleByUniqueId(string uniqueId)
         {
             using (var db = Open())
             {

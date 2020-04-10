@@ -7,7 +7,7 @@ namespace project.dao
     [AppService]
     public class ExecuteLogDao : BaseDao<ExecuteLog>
     {
-        public new long Insert(ExecuteLog m)
+        public long Insert(ExecuteLog m)
         {
             m.AddTime = DateTime.Now;
             Console.WriteLine(
