@@ -59,16 +59,16 @@ namespace project.dao
             return UpdateFieldById("avatar", avatar, id);
         }
 
-        public HashSet<long> GetEmployeeResourceIds(long systemUserId)
+        public List<SystemUser_Res> GetEmployeeResources(long systemUserId)
         {
             var sql = @"
- SELECT SystemResId FROM SystemUser_Res WHERE SystemUserId={0}
+ SELECT SystemResId,Operations FROM SystemUser_Res WHERE SystemUserId={0}
  UNION  
- SELECT SystemResId FROM SystemRole_Res WHERE SystemRoleId IN ( SELECT SystemRoleId FROM SystemUser_Role WHERE SystemUserId={0}) ";
+ SELECT SystemResId,Operations FROM SystemRole_Res WHERE SystemRoleId IN ( SELECT SystemRoleId FROM SystemUser_Role WHERE SystemUserId={0}) ";
 
             using (var db = Open())
             {
-                return db.ColumnDistinctFmt<long>(sql, systemUserId);
+                return db.SelectFmt<SystemUser_Res>(sql, systemUserId);
             }
         }
 

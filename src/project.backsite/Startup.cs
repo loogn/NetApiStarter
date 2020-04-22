@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using project.backsite.Auth;
 using project.backsite.Filters;
+using project.backsite.TaskCaller;
 using project.dao;
 
 namespace project.backsite
@@ -31,20 +34,20 @@ namespace project.backsite
             {
                 options.Filters.Add<MyActionFilterAttribute>();
                 options.Filters.Add<MyExceptionFilterAttribute>();
+                // options.Filters.Add<MyAuthorizeFilter>();
             });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-               .AddCookie(cookieOptions =>
-               {
-                   cookieOptions.LoginPath = new PathString("/account/login");
-                   cookieOptions.LogoutPath = new PathString("/account/logout");
-                   cookieOptions.SlidingExpiration = true;
-                   cookieOptions.ExpireTimeSpan = TimeSpan.FromHours(1);
-               });
+
+            //添加认证和授权
+            services.AddAuth();
+
             services.AddAppServices(Configuration);
             services.AddHttpClient();
-            
+
             services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            //任务调用服务
+            // services.AddTaskCaller();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +65,6 @@ namespace project.backsite
             }
 
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             //上传路径
             var uploadFullPath = Path.GetFullPath(settings.Upload.UploadPath);
@@ -75,14 +77,14 @@ namespace project.backsite
             app.UseCookiePolicy();
 
             app.UseRouting();
-            app.UseAuthentication(); //开启验证
-            app.UseAuthorization();
+            app.UseAuthentication(); //认证
+            app.UseAuthorization(); //授权
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
             });
         }
     }

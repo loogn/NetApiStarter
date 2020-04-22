@@ -17,6 +17,8 @@ namespace project.backsite.Models
         /// 是否展开
         /// </summary>
         public bool spread { get; set; }
+        
+        public string Operations { get; set; }
 
         public List<TreeNode> children { get; set; }
 

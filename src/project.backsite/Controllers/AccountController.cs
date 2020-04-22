@@ -56,5 +56,10 @@ namespace project.backsite.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
+
+        public string AccessDenied()
+        {
+            return "无权访问";
+        }
     }
 }

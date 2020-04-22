@@ -60,7 +60,7 @@ namespace project.backsite.Services
             if (flag > 0)
             {
                 systemUser_RoleDao.DeleteByRoleId(roleId);
-                systemRole_ResDao.DeleteByRoleId(roleId);
+                systemRole_ResDao.DeleteWhere("SystemRoleId",roleId);
             }
 
             return new ResultObject(flag);

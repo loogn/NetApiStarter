@@ -99,10 +99,31 @@
                             @foreach (var nav2 in list.Where(x => x.ParentId == nav1.Id).OrderBy(x => x.OrderNum))
                             {
                                 <li>
-                                    <a onclick="xadmin.add_tab('@nav2.Name', '@nav2.Url',true)">
-                                        <i class="iconfont">&#xe6a7;</i>
-                                        <cite>@nav2.Name</cite>
-                                    </a>
+                                    @if (!string.IsNullOrEmpty(nav2.Url))
+                                    {
+                                        <a onclick="xadmin.add_tab('@nav2.Name', '@nav2.Url',true)">
+                                            <i class="iconfont">&#xe6a7;</i>
+                                            <cite>@nav2.Name</cite>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:;">
+                                            <i class="iconfont left-nav-li" lay-tips="@nav1.Name">&#xe6a7;</i>
+                                            <cite>@nav1.Name</cite>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            @foreach (var nav3 in list.Where(x => x.ParentId == nav2.Id).OrderBy(x => x.OrderNum))
+                                            {
+                                                <li>
+                                                    <a onclick="xadmin.add_tab('@nav3.Name', '@nav3.Url',true)">
+                                                        <i class="iconfont">&#xe6a7;</i>
+                                                        <cite>@nav3.Name</cite>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
                                 </li>
                             }
                         </ul>

@@ -1,8 +1,9 @@
 ﻿@{
     ViewData["Title"] = "资源管理";
     var list = ViewBag.list as List<SystemRes>;
-    var parent = ViewBag.parent as SystemRes;
-
+    var parentList = ViewBag.parent as List<SystemRes>;
+    long parentId = ViewBag.parentId;
+    int maxLevel = ViewBag.maxLevel;
 
 }
 
@@ -15,15 +16,16 @@
         <div class="layui-card-body">
             <span class="layui-breadcrumb">
                 <a href='@Url.Action("List")'>根目录</a>
-                @if (parent != null)
+                @foreach (var item in parentList)
                 {
-                    <a href='@Url.Action("List", new {parentId = parent.Id})'>@parent.Name</a>
+                    <a href='@Url.Action("List", new {parentId = @item.Id})'>@item.Name</a>
                 }
+
             </span>
         </div>
 
         <div class="layui-card-header ">
-            <button class="layui-btn layui-btn-normal" onclick="xadmin.open('添加资源', '@Url.Action("Edit",new{parentId=parent?.Id??0})', 800, 600)">
+            <button class="layui-btn layui-btn-normal" onclick="xadmin.open('添加资源', '@Url.Action("Edit", new {parentId = parentId})', 800, 600)">
                 <i class="layui-icon layui-icon-add-circle-fine"></i>添加
             </button>
         </div>
@@ -35,6 +37,7 @@
                     <th>编号</th>
                     <th>名称</th>
                     <th>地址</th>
+                    <th>允许的操作</th>
                     <th>菜单显示</th>
                     <th>排序号</th>
                     <th>状态</th>
@@ -48,7 +51,7 @@
                     <tr>
                         <td>@item.Id</td>
                         <td>
-                            @if (parent == null)
+                            @if (parentList.Count < maxLevel - 1)
                             {
                                 <a href='@Url.Action("List", new {parentId = @item.Id})'>@item.Name</a>
                             }
@@ -58,6 +61,7 @@
                             }
                         </td>
                         <td>@item.Url</td>
+                        <td>@item.Operations</td>
                         <td>@item.GetType()</td>
                         <td>@item.OrderNum</td>
                         <td>@item.GetStatus()</td>

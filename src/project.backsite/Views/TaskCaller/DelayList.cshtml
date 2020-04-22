@@ -1,0 +1,115 @@
+@{
+    ViewData["Title"] = "延迟任务";
+    var plist = ViewBag.plist as StaticPagedList<DelayTask>;
+}
+<partial name="breadcrumb"/>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form">
+                <div class="layui-input-inline">
+                    <input class="layui-input" placeholder="名称" name="name" value="@Context.Request.Query["name"]" id="title">
+                </div>
+
+                <div class="layui-input-inline layui-show-xs-block">
+
+                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                        <i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-card-header">
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-normal" onclick="xadmin.open('添加任务', '@Url.Action("DelayEdit")', 800, 600)">
+                    <i class="layui-icon layui-icon-add-circle-fine"></i>添加
+                </button>
+            </div>
+        </div>
+        <div class="layui-card-body ">
+
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>url</th>
+                    <th>触发时间</th>
+                    <th>执行次数</th>
+                    <th title="0无限，-1不重试">重试限制</th>
+                    <th>重试间隔</th>
+                    <th>超时秒数</th>
+                    <th>成功标识</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in plist)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>
+                            <span class="layui-badge @(item.Method.Equals("GET") ? "layui-bg-blue" : "layui-bg-green")">@item.Method</span>
+                            @item.Url
+                        </td>
+
+                        <td>@item.TriggerTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@item.ExecCount</td>
+                        <td>@item.MaxRetryCount</td>
+                        <td>@item.RetrySeconds</td>
+                        <td>@item.TimeoutSeconds</td>
+                        <td>@item.SuccessFlag</td>
+                        <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <a class="layui-btn layui-btn-sm  layui-btn-primary" href="@Url.Action("LogList", new {taskType = 2, taskId = item.Id})">日志</a>
+
+                                <button class="layui-btn layui-btn-sm" title="编辑" onclick="xadmin.open('编辑任务', '@Url.Action("DelayEdit", new {id = item.Id})', 800, 600)">
+                                    编辑
+                                </button>
+                                <button class="layui-btn layui-btn-sm layui-btn-danger" onclick="del(@item.Id)">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="layui-card-body">
+            <div class="page">
+                <my-pager list="plist"></my-pager>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+       
+
+        function del(id) {
+            layer.confirm('确定要删除吗？',
+                function() {
+                    $.post('@Url.Action("DelayDelete")',
+                        { id: id },
+                        function(ro) {
+                            layer.msg(ro.msg,
+                                { time: 500 },
+                                function() {
+                                    if (ro.success) {
+                                        location.reload();
+                                    }
+                                });
+                        });
+                });
+        }
+    </script>
+}

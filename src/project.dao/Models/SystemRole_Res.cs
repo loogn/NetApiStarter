@@ -14,6 +14,9 @@ namespace project.dao.Models
 
         public long SystemResId { get; set; }
 
-
+        /// <summary>
+        /// 操作
+        /// </summary>
+        public string Operations { get; set; }
     }
 }

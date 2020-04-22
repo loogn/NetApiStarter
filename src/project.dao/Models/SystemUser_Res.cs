@@ -19,7 +19,10 @@ namespace project.dao.Models
         /// 系统资源编号
         /// </summary>
         public long SystemResId { get; set; }
-
+        /// <summary>
+        /// 操作
+        /// </summary>
+        public string Operations { get; set; }
 
     }
 }

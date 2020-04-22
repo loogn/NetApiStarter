@@ -29,6 +29,51 @@
 <script src="~/js/xadmin.js"></script>
 <script src="~/js/ajaxfileupload.js"></script>
 <script src="~/js/site.js"></script>
+<script>
+$.ajaxSetup({
+    // complete: function (request, status) {
+    //     if (typeof (request) != 'undefined') {
+    //         var responseText = request.getResponseHeader("X-Responded-JSON");
+    //         if (responseText != null) {
+    //             window.tipError('系统提示', '登录超时，请重新登录', null, null, function () {
+    //                 window.location.href = window.location.href;
+    //             });
+    //         }
+    //     }
+    // },
+    error: function (jqXHR, textStatus, errorThrown) {
+        var status = 0;
+        var msg="";
+        switch (jqXHR.status) {
+            case (500):
+                msg= "服务器系统内部错误";
+                status = 500;
+                break;
+            case (401):
+                msg="未登录";
+                status = 401;
+                break;
+            case (403):
+                msg="无权限执行此操作"; 
+                status = 403;
+                break;
+            case (408):
+                msg="请求超时";
+                status = 408;
+                break;
+            case (0):
+                msg="cancel";
+                break;
+            default:
+                status = 1;
+                msg="未知错误";
+        }
+        if (status > 0)
+            layer.msg(msg);
+    }
+});
+
+</script>
 @RenderSection("Scripts", required: false)
 </body>
 </html>

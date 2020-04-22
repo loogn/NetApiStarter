@@ -113,6 +113,15 @@
             json web token
             </summary>
         </member>
+        <member name="M:project.api.Services.OrderService.SetPay(System.Int64,System.Int32,System.DateTime)">
+            <summary>
+            收到通知，设置状态，成功锁死
+            </summary>
+            <param name="id"></param>
+            <param name="payStatus"></param>
+            <param name="payTime"></param>
+            <returns></returns>
+        </member>
         <member name="M:project.api.Services.UploadService.Uploadfile(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             上传文件
@@ -152,6 +161,44 @@
             打招呼
             </summary>
             <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.WxPayHelper.JSAPIOrderAndGetParams(WxPaySDK.WxPayConfig,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            发起统一支付,并且获取js参数
+            </summary>
+            <param name="wxPayConfig">商户订单号</param>
+            <param name="out_trade_no">商户订单号</param>
+            <param name="body">标题</param>
+            <param name="total_fee">金额（分）</param>
+            <param name="openid">wx openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.WxPayHelper.JSAPIOrder(WxPaySDK.WxPayConfig,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            发起统一支付(Demo）
+            </summary>
+            <param name="wxPayConfig"></param>
+            <param name="out_trade_no">商户订单号</param>
+            <param name="body">标题</param>
+            <param name="total_fee">金额（分）</param>
+            <param name="openid">wx openid</param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.WxPayHelper.GetJSApiParameters(WxPaySDK.WxPayConfig,System.Object)">
+            <summary>
+            wx.requestPayment的参数
+            </summary>
+            <param name="wxPayConfig"></param>
+            <param name="prepay_id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:project.api.Services.WxPayHelper.QueryOrder(WxPaySDK.WxPayConfig,System.String)">
+            <summary>
+            查询订单
+            </summary>
+            <param name="wxPayConfig"></param>
+            <param name="transaction_id"></param>
             <returns></returns>
         </member>
         <member name="T:project.api.SwaggerServiceExtensions.SwaggerDocumentFilter">

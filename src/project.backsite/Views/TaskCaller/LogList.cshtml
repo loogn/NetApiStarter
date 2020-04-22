@@ -1,0 +1,113 @@
+@{
+    ViewData["Title"] = "日志";
+    var plist = ViewBag.plist as StaticPagedList<ExecuteLog>;
+}
+<partial name="breadcrumb"/>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form">
+                 <label>任务编号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="taskId" id="taskId" value="@Context.Request.Query["taskId"]" class="layui-input" />
+                    </div>
+                    <div class="layui-input-inline">
+                        <select class="sel" name="taskType">
+                            <option value="">-任务类型-</option>
+                            <option selected="@("1".Equals(Context.Request.Query["taskType"]))" value="1">定时任务</option>
+                            <option selected="@("2".Equals(Context.Request.Query["taskType"]))" value="2">延迟任务</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline">
+                        <select class="sel" name="status">
+                            <option value="">-状态-</option>
+                            <option selected="@("1".Equals(Context.Request.Query["status"]))" value="1">成功</option>
+                            <option selected="@("2".Equals(Context.Request.Query["status"]))" value="2">失败</option>
+                            <option selected="@("3".Equals(Context.Request.Query["status"]))" value="3">超时</option>
+                        </select>
+                    </div>
+
+                <div class="layui-input-inline layui-show-xs-block">
+
+                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                        <i class="layui-icon">&#xe615;</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="layui-card-body ">
+
+            <table class="layui-table layui-form">
+                <thead>
+                <tr>
+                        <th>编号</th>
+                              <th>任务编号</th>
+                              <th>名称</th>
+                              <th>类型</th>
+                              <th>任务url</th>
+                              <th>方法</th>
+                              <th>请求数据</th>
+                              <th>执行状态</th>
+                              <th>详细</th>
+                              <th>添加时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in plist)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.TaskId</td>
+                        <td>@item.TaskName</td>
+                        <td>@item.TaskType</td>
+                        <td>@item.TaskUrl</td>
+                        <td>@item.TaskMethod</td>
+                        <td>@item.PostData</td>
+                        <td>@item.GetStatus()</td>
+                        <td>
+                            <div style="max-width:400px; max-height:200px; overflow:auto;">
+                                @item.Message
+                            </div>
+                        </td>
+                        <td>@item.AddTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                }
+
+
+
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="layui-card-body">
+            <div class="page">
+                <my-pager list="plist"></my-pager>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+       
+        function del(id) {
+            layer.confirm('确定要删除吗？',
+                function() {
+                    $.post('@Url.Action("DelayDelete")',
+                        { id: id },
+                        function(ro) {
+                            layer.msg(ro.msg,
+                                { time: 500 },
+                                function() {
+                                    if (ro.success) {
+                                        location.reload();
+                                    }
+                                });
+                        });
+                });
+        }
+    </script>
+}

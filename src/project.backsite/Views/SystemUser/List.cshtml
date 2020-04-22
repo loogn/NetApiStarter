@@ -53,7 +53,7 @@
                         <td>
                             <div class="layui-btn-group">
                                 <button class="layui-btn  layui-btn-sm" onclick="xadmin.open('编辑用户', '@Url.Action("Edit", new {id = item.Id})', 800, 600)">编辑</button>
-                                <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xadmin.open('@(item.Nickname)-权限设置', '@Url.Action("EditResource", new {employeeId = item.Id})', 500, 600)">权限</button>
+                                <button class="layui-btn layui-btn-warm layui-btn-sm" onclick="xadmin.open('@(item.Nickname)-权限设置', '@Url.Action("EditResource", new {employeeId = item.Id})', 800, 600)">权限</button>
                                 <button class="layui-btn layui-btn-normal layui-bg-cyan" onclick="xadmin.open('@(item.Nickname)-角色设置', '@Url.Action("editRole", new {employeeId = item.Id})',530, 600)">角色</button>
                                 <button class="layui-btn layui-btn-danger layui-btn-sm" onclick="del_user(@item.Id)">删除</button>
 

@@ -11,11 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="project.api.xml" />
-    <None Remove="up\EmptyTextFile.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
@@ -35,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WxPaySDK\WxPaySDK.csproj" />
     <ProjectReference Include="..\CoreHelper\CoreHelper.csproj" />
     <ProjectReference Include="..\project.dao\project.dao.csproj" />
   </ItemGroup>

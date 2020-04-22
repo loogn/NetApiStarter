@@ -1,0 +1,109 @@
+@{
+    ViewBag.Title = "编辑定时任务";
+
+    var m = ViewBag.m as TimedTask;
+}
+
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+
+
+            <form class="layui-form" style="margin-right: 50px;">
+                <input type="hidden" value="@m.Id" name="id"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">任务名称：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Name" value="@m.Name" required lay-verify="required" placeholder="任务名称" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">
+                        <a href="http://www.pppet.net/" target="_blank" style="color:blue;font-weight:bold;">
+                            cron：
+                        </a>
+                    </label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Cron" value="@m.Cron" required lay-verify="required" placeholder="cron表达式" class="layui-input"/>
+
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">任务地址：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Url" value="@m.Url" required lay-verify="required" placeholder="任务地址" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请求方法：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="Method" value="@m.Method" required lay-verify="required" placeholder="请求方式GET或POST" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">Post数据：</label>
+                    <div class="layui-input-block">
+                        <textarea class="layui-textarea" name="PostData">@m.PostData</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">成功标识：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="SuccessFlag" value="@m.SuccessFlag" placeholder="成功标识" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">超时秒数：</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="TimeoutSeconds" value="@m.TimeoutSeconds" required lay-verify="required" placeholder="请求超时秒数" class="layui-input"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态：</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" @(m.Enable ? "checked" : "") name="Enable" value="true" lay-skin="switch" lay-filter="switchTest" lay-text="开启|禁用">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button lay-submit lay-filter="save" class="layui-btn">保存</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+        //监听提交
+        layui.form.on('submit(save)',
+            function(data) {
+                $.post("@Url.Action("TimedSave")",
+                    data.field,
+                    function(ro) {
+                        layer.msg(ro.msg,
+                            { anim: 0, time: 500 },
+                            function() {
+                                if (ro.success) {
+                                    closeXWindow();
+                                }
+                            });
+                    });
+                return false;
+            });
+
+
+    </script>
+}
