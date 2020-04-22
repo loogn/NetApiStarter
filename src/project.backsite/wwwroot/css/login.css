@@ -32,7 +32,7 @@
 .login .message {
     margin: 10px 0 0 -58px;
     padding: 18px 10px 18px 60px;
-    background: #189F92;
+    background: #0f2b46;
     position: relative;
     color: #fff;
     font-size: 16px;
@@ -79,7 +79,7 @@
     vertical-align: middle;
     cursor: pointer;
     color: #ffffff;
-    background-color: #189F92;
+    background-color: #0f2b46;
     border-radius: 3px;
     border: none;
     -webkit-appearance: none;
