@@ -23,6 +23,7 @@
 
     for(var i in cate_list){
       if(cate_list[i]!=null){
+          console.log('end');
         $('.left-nav #nav li').eq(cate_list[i]).click();
       }
     }
