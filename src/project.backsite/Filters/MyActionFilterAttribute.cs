@@ -75,7 +75,7 @@ namespace project.backsite.Filters
                 {
                     var validationResults = new List<ValidationResult>();
                     var validationFlag = Validator.TryValidateObject(firstParam, new ValidationContext(firstParam),
-                        validationResults, false);
+                        validationResults, true);
 
                     if (!validationFlag)
                     {
