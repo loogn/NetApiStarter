@@ -4,38 +4,99 @@ body.index {
 
 .container {
     /*background: #1a1b20 !important;*/
-    background:#474848 !important;
+    background: #FFF !important;
 }
 
 
-.container .layui-nav-bar {
-    background: rgb(95, 184, 120) !important;
-}
+    .container .layui-nav-bar {
+        background: rgb(95, 184, 120) !important;
+    }
 
-.container .logo a {
-    background: rgba(0, 0, 0, 0) !important;
-}
-
-.container .logo a {
-    color: rgb(255, 255, 255) !important;
+.left-nav .logo {
+    margin: 15px 20px 20px 20px;
+    font-size: 18px;
+    color:#fff;
 }
 
 .left-nav {
     /*background: #1a1b20 !important;*/
-    background:#474848 !important;
+    background: #20222A !important;
 }
 
-.left-nav a {
-    color: rgba(255, 255, 255, 0.74) !important;
-}
+    .left-nav a {
+        color: rgba(255, 255, 255, 0.74) !important;
+    }
 
-.left-nav a:hover, .left-nav a.active {
-    background: #0f2b46 !important;
-    color: #fff !important;
-    border-color: #fff !important;
-}
+        .left-nav a:hover, .left-nav a.active {
+            background: #009688 !important;
+            color: #fff !important;
+            border-color: #009688 !important;
+        }
 
 
 body {
     background: rgb(241, 241, 241) !important;
 }
+
+.layui-nav-child {
+    z-index: 101;
+}
+
+.page-content .layui-tab-title {
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+    .page-content .layui-tab-title .layui-this {
+        background: #f6f6f6;
+        border-bottom: 2px solid #20222a;
+    }
+
+    .page-content .layui-tab-title li {
+        border-left: 1px solid #eee;
+        height:100%;
+        box-sizing:border-box;
+    }
+
+
+    .page-content .layui-tab-title .layui-this:after {
+        content: '';
+        width: 0;
+        height: 0;
+    }
+
+
+.container .left_open i {
+    background: #fff;
+    color: #20222A;
+}
+
+    .container .left_open i:hover {
+        background: #fff;
+    }
+
+.container a, .layui-nav .layui-nav-item a {
+    color: #20222a;
+}
+
+    .container a:hover, .layui-nav .layui-nav-item a:hover {
+        color: #20222a;
+    }
+
+.container .top_icon {
+    height: 45px;
+    float: left;
+    margin-left: 10px;
+}
+    .container .top_icon i {
+        display: block;
+        background: rgba(255,255,255,0.1);
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        border-radius: 3px;
+        text-align: center;
+        margin-top: 7px;
+        cursor: pointer;
+        font-size:16px;
+    }
