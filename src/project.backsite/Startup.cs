@@ -11,9 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using project.backsite.Auth;
-using project.backsite.Filters;
-using project.backsite.TaskCaller;
+using project.backsite.BgServices.TaskCaller;
+using project.backsite.Models;
+using project.backsite.Tools.Auth;
+using project.backsite.Tools.Filters;
 using project.dao;
 
 namespace project.backsite
@@ -47,7 +48,7 @@ namespace project.backsite
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             //任务调用服务
-            // services.AddTaskCaller();
+             //services.AddTaskCaller();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

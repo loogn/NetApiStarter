@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CoreHelper;
 using CoreHelper.Ioc;
 using Loogn.OrmLite;
-using project.backsite.TaskCaller.Quartz;
+using project.backsite.BgServices.TaskCaller.Quartz;
 using project.dao;
 using project.dao.Models;
 

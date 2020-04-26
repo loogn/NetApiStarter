@@ -4,31 +4,6 @@
         <name>project.api</name>
     </assembly>
     <members>
-        <member name="T:project.api.AppSettings">
-            <summary>
-            对应 appsettings.json
-            </summary>
-        </member>
-        <member name="P:project.api.AppSettings.RootUrl">
-            <summary>
-            网站根目录
-            </summary>
-        </member>
-        <member name="P:project.api.UploadSection.LimitSize">
-            <summary>
-            单文件大小，分片大小限制，默认4M
-            </summary>
-        </member>
-        <member name="P:project.api.UploadSection.TotalLimitSize">
-            <summary>
-            分片上传总大小，默认2G
-            </summary>
-        </member>
-        <member name="P:project.api.UploadSection.AllowExts">
-            <summary>
-            允许上传的后缀
-            </summary>
-        </member>
         <member name="T:project.api.Controllers.apis.UploadController">
             <summary>
             上传相关
@@ -73,9 +48,29 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="P:project.api.Filters.MyActionFilterAttribute.ValidParams">
+        <member name="T:project.api.Models.AppSettings">
             <summary>
-            是否验证参数有效性
+            对应 appsettings.json
+            </summary>
+        </member>
+        <member name="P:project.api.Models.AppSettings.RootUrl">
+            <summary>
+            网站根目录
+            </summary>
+        </member>
+        <member name="P:project.api.Models.UploadSection.LimitSize">
+            <summary>
+            单文件大小，分片大小限制，默认4M
+            </summary>
+        </member>
+        <member name="P:project.api.Models.UploadSection.TotalLimitSize">
+            <summary>
+            分片上传总大小，默认2G
+            </summary>
+        </member>
+        <member name="P:project.api.Models.UploadSection.AllowExts">
+            <summary>
+            允许上传的后缀
             </summary>
         </member>
         <member name="T:project.api.Models.LoginedRequest">
@@ -201,7 +196,12 @@
             <param name="transaction_id"></param>
             <returns></returns>
         </member>
-        <member name="T:project.api.SwaggerServiceExtensions.SwaggerDocumentFilter">
+        <member name="P:project.api.Tools.Filters.MyActionFilterAttribute.ValidParams">
+            <summary>
+            是否验证参数有效性
+            </summary>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.SwaggerServiceExtensions.SwaggerDocumentFilter">
             <summary>
             Swagger控制器描述文字
             </summary>

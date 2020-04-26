@@ -2,8 +2,9 @@ using System;
 using CoreHelper.Ioc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using project.backsite.Auth;
 using project.backsite.Services;
+using project.backsite.Tools;
+using project.backsite.Tools.Auth;
 using project.dao.Models;
 
 namespace project.backsite.Controllers

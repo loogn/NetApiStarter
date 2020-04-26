@@ -11,8 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using project.api.Filters;
+using project.api.Models;
 using project.api.Services;
+using project.api.Tools.Filters;
 using project.dao;
 using Swashbuckle.AspNetCore.SwaggerUI;
 

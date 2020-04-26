@@ -1,0 +1,2 @@
+﻿后台服务文件夹
+继承BackgroundService或者IHostedService来运行后台服务
